@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.opengamma.tools</groupId>
+  <artifactId>build-tools</artifactId>
+  <packaging>jar</packaging>
+  <name>Build-Tools</name>
+  <version>1.0.0</version>
+  <description>OpenGamma build tools</description>
+  <url>https://github.com/OpenGamma/OG-Tools</url>
+
+  <!-- ==================================================================== -->
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git:git://github.com/OpenGamma/OG-Tools.git</connection>
+    <developerConnection>scm:git:https://github.com/OpenGamma/OG-Tools.git</developerConnection>
+    <url>https://github.com/OpenGamma/OG-Tools</url>
+  </scm>
+  <organization>
+    <name>OpenGamma</name>
+    <url>http://www.opengamma.com</url>
+  </organization>
+
+  <!-- ==================================================================== -->
+  <!-- OpenGamma public repositories -->
+  <repositories>
+    <repository>
+      <id>og-public</id>
+      <name>OG Public</name>
+      <url>http://maven.opengamma.com/nexus/content/groups/public</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>og-public</id>
+      <name>OG Public</name>
+      <url>http://maven.opengamma.com/nexus/content/groups/public</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <!-- ==================================================================== -->
+  <distributionManagement>
+    <repository>
+      <id>og-public-release</id>
+      <name>OpenGamma public maven repository</name>
+      <url>${og-public-release.url}</url>
+      <layout>default</layout>
+    </repository>
+  </distributionManagement>
+
+  <!-- ==================================================================== -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
+</project>
