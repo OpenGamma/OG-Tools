@@ -8,7 +8,7 @@
   <artifactId>build-tools</artifactId>
   <packaging>jar</packaging>
   <name>Build-Tools</name>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <description>OpenGamma build tools</description>
   <url>https://github.com/OpenGamma/OG-Tools</url>
 
