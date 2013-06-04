@@ -64,7 +64,9 @@
       <property name="max" value="300"/>
     </module>
     <module name="MethodName"/>
-    <module name="ModifierOrder"/>
+    <module name="ModifierOrder">
+      <property name="severity" value="error"/>
+    </module>
     <module name="NeedBraces"/>
     <module name="NoWhitespaceAfter"/>
     <module name="NoWhitespaceBefore">
@@ -89,7 +91,9 @@
     </module>
     <module name="TypeName"/>
     <module name="TypecastParenPad"/>
-    <module name="UpperEll"/>
+    <module name="UpperEll">
+      <property name="severity" value="error"/>
+    </module>
     <module name="VisibilityModifier"/>
     <module name="WhitespaceAfter"/>
     <module name="WhitespaceAround">
