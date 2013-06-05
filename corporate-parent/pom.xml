@@ -134,6 +134,15 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <version>${maven-jar-plugin.version}</version>
+          <!-- add standard entries to jar manifest -->
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+            </archive>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -313,6 +322,80 @@
   </prerequisites>
 
   <!-- ==================================================================== -->
+  <!-- Avoid generating test-javadoc and test-jxr, but do generate surefire and checkstyle -->
+  <!-- Turn off checkstyle with 'checkstyle.skip' property -->
+  <!-- Override checksyle config with 'checkstyle.config.location' property -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>${maven-project-info-reports-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>dependency-management</report>
+              <report>dependencies</report>
+              <report>dependency-convergence</report>
+              <report>scm</report>
+              <report>summary</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${maven-checkstyle-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>checkstyle</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${maven-surefire-report-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report-only</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>${maven-jxr-plugin.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>jxr</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <!-- ==================================================================== -->
   <properties>
     <!-- Plugin version numbers -->
     <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
@@ -346,11 +429,28 @@
     <joda-beans.version>0.7</joda-beans.version>
     <fudge-java.version>0.3.9.8</fudge-java.version>
     <fudge-proto.version>0.3.9.6</fudge-proto.version>
-    <!-- Properties named by plugins -->
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- Properties for maven-compiler-plugin -->
+    <maven.compiler.compilerVersion>1.7</maven.compiler.compilerVersion>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.fork>true</maven.compiler.fork>
+    <maven.compiler.verbose>true</maven.compiler.verbose>
+    <!-- Properties for maven-javadoc-plugin -->
     <minmemory>512m</minmemory>
     <maxmemory>2048m</maxmemory>
+    <!-- Properties for maven-checkstyle-plugin -->
+    <checkstyle.config.location>checkstyle/checkstyle.xml</checkstyle.config.location>
+    <checkstyle.enable.rss>false</checkstyle.enable.rss>
+    <!-- Properties for maven-joda-bean-plugin -->
+    <joda.beans.indent>2</joda.beans.indent>
+    <joda.beans.prefix>_</joda.beans.prefix>
+    <joda.beans.stopOnError>false</joda.beans.stopOnError>
+    <!-- Properties for maven-surefire-report-plugin -->
+    <alwaysGenerateSurefireReport>false</alwaysGenerateSurefireReport>
+    <!-- Other properties -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 
 </project>
