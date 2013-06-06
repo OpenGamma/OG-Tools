@@ -9,7 +9,7 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>1.0.2</version>
+  <version>1.0.3-SNAPSHOT</version>
   <description>OpenGamma maven corporate parent project</description>
   <url>http://developers.opengamma.com/</url>
   <organization>
@@ -439,6 +439,7 @@
     <!-- Properties for maven-javadoc-plugin -->
     <minmemory>512m</minmemory>
     <maxmemory>2048m</maxmemory>
+    <author>false</author>
     <!-- Properties for maven-checkstyle-plugin -->
     <checkstyle.config.location>checkstyle/checkstyle.xml</checkstyle.config.location>
     <checkstyle.enable.rss>false</checkstyle.enable.rss>
