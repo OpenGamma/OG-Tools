@@ -49,7 +49,9 @@
     <module name="JavadocVariable">
       <property name="scope" value="protected"/>
     </module>
-    <module name="LeftCurly"/>
+    <module name="LeftCurly">
+      <property name="severity" value="error"/>
+    </module>
     <module name="LineLength">
       <property name="ignorePattern" value="^ *\* *[^ ]+$"/>
       <property name="max" value="200"/>
@@ -67,7 +69,9 @@
     <module name="ModifierOrder">
       <property name="severity" value="error"/>
     </module>
-    <module name="NeedBraces"/>
+    <module name="NeedBraces">
+      <property name="severity" value="error"/>
+    </module>
     <module name="NoWhitespaceAfter"/>
     <module name="NoWhitespaceBefore">
       <property name="allowLineBreaks" value="true"/>
@@ -85,7 +89,9 @@
     <module name="ParenPad"/>
     <module name="RedundantImport"/>
     <module name="RedundantModifier"/>
-    <module name="RightCurly"/>
+    <module name="RightCurly">
+      <property name="severity" value="error"/>
+    </module>
     <module name="StaticVariableName">
       <property name="format" value="^s_[a-z][a-zA-Z0-9]*$"/>
     </module>
@@ -114,12 +120,13 @@
     <module name="MethodParamPad"/>
     <module name="FinalClass"/>
     <module name="MutableException"/>
-    <module name="ArrayTypeStyle"/>
+    <module name="ArrayTypeStyle">
+      <property name="severity" value="error"/>
+    </module>
     <module name="Indentation">
       <property name="basicOffset" value="2"/>
       <property name="caseIndent" value="2"/>
     </module>
-    <module name="UncommentedMain"/>
   </module>
   <!-- Header inlined due to m2e -->
   <module name="RegexpHeader">
