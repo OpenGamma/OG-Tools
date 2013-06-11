@@ -306,6 +306,7 @@
   <!-- ==================================================================== -->
   <dependencyManagement>
     <dependencies>
+      <!-- Essentials -->
       <dependency>
         <groupId>org.joda</groupId>
         <artifactId>joda-beans</artifactId>
@@ -320,6 +321,25 @@
         <groupId>org.fudgemsg</groupId>
         <artifactId>fudge-proto</artifactId>
         <version>${fudge-proto.version}</version>
+      </dependency>
+
+      <!-- Testing -->
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>${testng.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+          </exclusion>
+        </exclusions>
+        <optional>true</optional>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>${mockito.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -437,6 +457,8 @@
     <joda-beans.version>0.7</joda-beans.version>
     <fudge-java.version>0.3.9.8</fudge-java.version>
     <fudge-proto.version>0.3.9.6</fudge-proto.version>
+    <testng.version>6.8.5</testng.version>
+    <mockito.version>1.9.5</mockito.version>
 
     <!-- Properties for maven-compiler-plugin -->
     <maven.compiler.compilerVersion>1.7</maven.compiler.compilerVersion>
