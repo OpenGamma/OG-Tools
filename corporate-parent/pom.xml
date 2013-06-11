@@ -102,8 +102,10 @@
           <!-- trigger m2e to use checkstyle -->
           <executions>
             <execution>
+              <id>run-checkstyle</id>
+              <phase>process-sources</phase>
               <goals>
-                <goal>check</goal>
+                <goal>checkstyle</goal>
               </goals>
             </execution>
           </executions>
