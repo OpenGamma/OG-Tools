@@ -9,7 +9,7 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <description>OpenGamma maven corporate parent project</description>
   <url>http://developers.opengamma.com/</url>
   <organization>
@@ -227,8 +227,8 @@
         </plugin>
         <plugin>
           <groupId>org.fudgemsg</groupId>
-          <artifactId>maven-fudge-proto-plugin</artifactId>
-          <version>${maven-fudge-proto-plugin.version}</version>
+          <artifactId>fudge-proto-maven-plugin</artifactId>
+          <version>${fudge-proto-maven-plugin.version}</version>
           <dependencies>
             <dependency>
               <groupId>org.fudgemsg</groupId>
@@ -260,7 +260,7 @@
                 <pluginExecution>
                   <pluginExecutionFilter>
                     <groupId>org.fudgemsg</groupId>
-                    <artifactId>maven-fudge-proto-plugin</artifactId>
+                    <artifactId>fudge-proto-maven-plugin</artifactId>
                     <versionRange>[0.3.9.6,)</versionRange>
                     <goals>
                       <goal>generate</goal>
@@ -454,7 +454,7 @@
     <build-helper-maven-plugin.version>1.8</build-helper-maven-plugin.version>
     <exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
     <maven-joda-beans-plugin.version>0.7.1</maven-joda-beans-plugin.version>
-    <maven-fudge-proto-plugin.version>0.3.9.6</maven-fudge-proto-plugin.version>
+    <fudge-proto-maven-plugin.version>0.3.9.6</fudge-proto-maven-plugin.version>
     <!-- Dependency versions -->
     <joda-beans.version>0.7</joda-beans.version>
     <fudge-java.version>0.3.9.8</fudge-java.version>
