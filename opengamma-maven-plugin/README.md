@@ -26,19 +26,22 @@ Properties:
    Use the 'unix' and 'windows' boolean flags to control which is output.
  - Property = "opengamma.generate.scripts.type"
 - unix
- - True to generate unix scripts, default true. Used to switch Unix scripts off.
+ - Set to false to turn off generation of Unix scripts, default true.
  - Property = "opengamma.generate.scripts.unix"
 - unixTemplate
  - The basic template file name on Unix.
    This is used as the default template file name.
 - windows
- - True to generate windows scripts, default true. Used to switch Windows scripts off.
+ - Set to false to turn off generation of Windows scripts, default true.
  - Property = "opengamma.generate.scripts.windows"
 - windowsTemplate
  - The basic template file name on Windows.
    This is used as the default template file name.
 - additionalScripts
  - List of additional scripts to copy unchanged.
+- zip
+ - Set to false to turn off creation of an attached zip file, default true.
+ - Property = "opengamma.generate.scripts.zip"
 
 #### Trademarks
 

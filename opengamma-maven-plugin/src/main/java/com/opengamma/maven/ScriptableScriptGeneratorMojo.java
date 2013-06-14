@@ -3,7 +3,18 @@
  * 
  * Please see distribution for license.
  */
-package com.opengamma.maven.scripts;
+package com.opengamma.maven;
+
+import static org.twdata.maven.mojoexecutor.MojoExecutor.artifactId;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.configuration;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.element;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.executeMojo;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.executionEnvironment;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.goal;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.groupId;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.name;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.plugin;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.version;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +32,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
@@ -110,16 +123,39 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
    */
   private String[] additionalScripts;  // CSIGNORE
   /**
+   * Set to true to create an attached zip archive, default true.
+   * @parameter alias="zip" property="opengamma.generate.scripts.zip" default-value="true"
+   */
+  private boolean zip;  // CSIGNORE
+
+  /**
    * The project base directory.
    * @parameter default-value="${project.basedir}"
    * @required
+   * @readonly
    */
   private File baseDir;  // CSIGNORE
   /**
    * @parameter default-value="${project}"
    * @required
+   * @readonly
    */
   private MavenProject project;  // CSIGNORE
+  /**
+   * The current Maven session.
+   *
+   * @parameter default-value="${session}"
+   * @required
+   * @readonly
+   */
+  private MavenSession mavenSession;  // CSIGNORE
+  /**
+   * The Maven BuildPluginManager component.
+   *
+   * @component
+   * @required
+   */
+  private BuildPluginManager mavenPluginManager;  // CSIGNORE
 
   //-------------------------------------------------------------------------
   /**
@@ -167,6 +203,9 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
       getLog().info("No scripts to generate");
     }
     copyAdditionalScripts(classLoader);
+    if (zip) {
+      buildZip();
+    }
   }
 
   //-------------------------------------------------------------------------
@@ -336,6 +375,52 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
     } catch (ClassNotFoundException e) {
       throw new MojoExecutionException("Unable to resolve class " + className);
     }
+  }
+
+  //-------------------------------------------------------------------------
+  // process the zipping
+  private void buildZip() throws MojoExecutionException {
+    // pick correct assembly xml
+    String descriptorResource = "assembly-scripts.xml";
+    if (unix && !windows) {
+      descriptorResource = "assembly-unix.xml";
+    } else if (windows && !unix) {
+      descriptorResource = "assembly-windows.xml";
+    }
+    
+    // copy it to a real file location
+    File descriptorFile = new File(outputDir, new File(descriptorResource).getName());
+    try (InputStream resourceStream = getClass().getResourceAsStream(descriptorResource)) {
+      if (resourceStream == null) {
+        throw new MojoExecutionException("Assembly descriptor cannot be found: " + descriptorResource);
+      }
+      FileUtils.writeByteArrayToFile(descriptorFile, IOUtils.toByteArray(resourceStream));
+      descriptorFile.setReadable(true, false);
+      descriptorFile.setExecutable(true, false);
+    } catch (IOException ex) {
+      throw new MojoExecutionException("Unable to copy additional script: " + descriptorFile, ex);
+    }
+    
+    // run the assembly plugin
+    executeMojo(
+      plugin(
+        groupId("org.apache.maven.plugins"),
+        artifactId("maven-assembly-plugin"),
+        version("2.4")
+      ),
+      goal("single"),
+      configuration(
+        element(name("descriptors"), element(name("descriptor"), descriptorFile.getAbsolutePath()))
+      ),
+      executionEnvironment(
+        project,
+        mavenSession,
+        mavenPluginManager
+      )
+    );
+    
+    // delete the temp file
+    descriptorFile.delete();
   }
 
 }
