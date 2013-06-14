@@ -1,7 +1,10 @@
 *.class
+.checkstyle
 .classpath
 .project
 /.settings/
 /bin/
 /build/
+/dist/
 /target/
+/.settings/

@@ -31,6 +31,23 @@
   <!-- ==================================================================== -->
   <build>
     <plugins>
+      <!-- run checkstyle in the main build -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>com.opengamma.tools</groupId>
+            <artifactId>build-tools</artifactId>
+            <version>1.2.1</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <consoleOutput>true</consoleOutput>
+          <failsOnError>true</failsOnError>
+        </configuration>
+      </plugin>
+      <!-- generate help -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
@@ -49,9 +66,9 @@
   <!-- ==================================================================== -->
   <dependencies>
     <dependency>
-      <groupId>com.opengamma</groupId>
-      <artifactId>og-util</artifactId>
-      <version>2.0.0-alpha-11</version>
+      <groupId>com.opengamma.tools</groupId>
+      <artifactId>scripts</artifactId>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -75,24 +92,9 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
-    </dependency>
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.3</version>
-    </dependency>
-    <dependency>
-      <groupId>org.freemarker</groupId>
-      <artifactId>freemarker</artifactId>
-      <version>2.3.19</version>
-    </dependency>
-    <dependency>
-      <groupId>net.sf.scannotation</groupId>
-      <artifactId>scannotation</artifactId>
-      <version>1.0.2</version>
     </dependency>
   </dependencies>
 
