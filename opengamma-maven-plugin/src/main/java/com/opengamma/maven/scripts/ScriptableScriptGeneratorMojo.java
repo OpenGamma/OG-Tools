@@ -10,13 +10,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -57,8 +60,19 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
    */
   private File outputDir;  // CSIGNORE
   /**
+   * The type to generate.
+   * This is a shortcut, allowing all the files stored in the scripts project
+   * to be accessed without needing to specify lots of config everywhere.
+   * The only recognized value at present is 'tool'.
+   * If this is set, then the unixTemplate and windowsTemplate fields will be
+   * set, and a standard set of additional scripts added.
+   * Use the 'unix' and 'windows' boolean flags to control which is output.
+   * @parameter alias="type" property="opengamma.generate.scripts.type"
+   */
+  private String type;  // CSIGNORE
+  /**
    * True to generate unix scripts, default true.
-   * @parameter alias="unix" default-value="true"
+   * @parameter alias="unix" property="opengamma.generate.scripts.unix" default-value="true"
    */
   private boolean unix;  // CSIGNORE
   /**
@@ -75,7 +89,7 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
   private Map<String, String> unixTemplatesMap;  // CSIGNORE
   /**
    * True to generate windows scripts, default true.
-   * @parameter alias="windows" default-value="true"
+   * @parameter alias="windows" property="opengamma.generate.scripts.windows" default-value="true"
    */
   private boolean windows;  // CSIGNORE
   /**
@@ -122,6 +136,10 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
       return;
     }
     
+    if (type != null) {
+      processType();
+    }
+    
     // make the output directory
     try {
       FileUtils.forceMkdir(outputDir);
@@ -149,6 +167,33 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
       getLog().info("No scripts to generate");
     }
     copyAdditionalScripts(classLoader);
+  }
+
+  //-------------------------------------------------------------------------
+  // processes the type, avoiding leaking config everywhere
+  private void processType() throws MojoExecutionException {
+    if (type.equals("tool") == false) {
+      throw new MojoExecutionException("Invalid type, only 'tool' is valid: " + type);
+    }
+    if (StringUtils.isNotEmpty(unixTemplate) || StringUtils.isNotEmpty(windowsTemplate)) {
+      throw new MojoExecutionException("When type is set, unixTemplate and windowsTemplate must not be set");
+    }
+    Set<String> additional = new HashSet<>();
+    if (additionalScripts != null) {
+      additional.addAll(Arrays.asList(additionalScripts));
+    }
+    if (unix) {
+      unixTemplate = "com/opengamma/scripts/templates/tool-template-unix.ftl";
+      additional.add("com/opengamma/scripts/run-tool.sh");
+      additional.add("com/opengamma/scripts/java-utils.sh");
+      additional.add("com/opengamma/scripts/componentserver-init-utils.sh");
+    }
+    if (windows) {
+      windowsTemplate = "com/opengamma/scripts/templates/tool-template-windows.ftl";
+      additional.add("com/opengamma/scripts/run-tool.bat");
+      additional.add("com/opengamma/scripts/run-tool-deprecated.bat");
+    }
+    additionalScripts = (String[]) additional.toArray(new String[additional.size()]);
   }
 
   //-------------------------------------------------------------------------

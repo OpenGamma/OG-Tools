@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>com.opengamma</groupId>
+    <artifactId>corporate-parent</artifactId>
+    <version>1.0.5</version>
+    <relativePath></relativePath>
+  </parent>  
+  <groupId>com.opengamma.tools</groupId>
+  <artifactId>scripts</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+  <name>Scripts</name>
+  <description>Utilities for managing script files</description>
+  <url>https://github.com/OpenGamma/OG-Tools</url>
+
+  <!-- ==================================================================== -->
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <!-- ==================================================================== -->
+  <build>
+    <plugins>
+      <!-- run checkstyle in the main build -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>com.opengamma.tools</groupId>
+            <artifactId>build-tools</artifactId>
+            <version>1.2.1</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <consoleOutput>true</consoleOutput>
+          <failsOnError>true</failsOnError>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- ==================================================================== -->
+  <dependencies>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>2.3.19</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.scannotation</groupId>
+      <artifactId>scannotation</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+  </dependencies>
+
+  <!-- ==================================================================== -->
+  <distributionManagement>
+    <repository>
+      <id>og-public-release</id>
+      <name>OpenGamma public maven repository</name>
+      <url>${og-public-release.url}</url>
+      <layout>default</layout>
+    </repository>
+  </distributionManagement>
+
+  <!-- ==================================================================== -->
+  <properties>
+  </properties>
+
+</project>
