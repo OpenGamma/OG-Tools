@@ -50,7 +50,7 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
 
   /**
    * Set to true to skip all processing, default false.
-   * @parameter alias="skip"
+   * @parameter alias="skip" property="opengamma.generate.scripts.skip"
    */
   private boolean skip;  // CSIGNORE
   /**
