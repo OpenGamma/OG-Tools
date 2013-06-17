@@ -43,6 +43,57 @@ Properties:
  - Set to false to turn off creation of an attached zip file, default false.
  - Property = "opengamma.generate.scripts.zip"
 
+
+#### server-run / server-start
+
+These start and stop an OpenGamma component server.
+They are intended to be run directly from the command line.
+
+The `server-run` goal will start the server inline so it can be killed by Ctrl+C.
+
+The `server-start` goal will start the server in the background where it must be killed by `server-stop`.
+
+Properties:
+- configFile
+ - The component server properties or INI file.
+   The file or classpath prefix is optional, as it will try both.
+ - Command line property = "configFile"
+- startupLogging
+ - The level of logging during startup - ERROR, WARN, INFO or DEBUG.
+   Default WARN.
+ - Command line property = "startupLogging"
+- serverLogging
+ - The level of logging for the server in general - ERROR, WARN, INFO or DEBUG.
+   Default WARN.
+ - Command line property = "serverLogging"
+- vmMemoryArgs
+ - The memory arguments for the server.
+   Default values are chosen if not set.
+ - Command line property = "vmMemoryArgs"
+- vmArgs
+ - Any additional VM arguments for the server.
+ - Command line property = "vmArgs"
+
+Example:
+
+```
+ mvn opengamma:server-start -DconfigFile=fullstack/fullstack-example-dev.properties
+```
+
+
+#### server-stop
+
+This stops a server that was started using `server-start`.
+
+The `server-stop` goal takes no properties.
+
+Example:
+
+```
+ mvn opengamma:server-stop
+```
+
+
 #### Trademarks
 
 Maven, Apache and Apache Maven are trademarks of The Apache Software Foundation.

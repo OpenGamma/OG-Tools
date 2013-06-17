@@ -6,11 +6,17 @@
 package com.opengamma.maven;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+
+import com.google.common.base.Joiner;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * Utilities for Maven plugins.
@@ -55,6 +61,25 @@ public final class MojoUtils {
       throw new MojoExecutionException("Unable to find artifact with coordinates '" + resourceArtifact + "'");
     }
     return artifactFile;
+  }
+
+  //-------------------------------------------------------------------------
+  /**
+   * Calculates the String classpath for the project.
+   * 
+   * @param project  the project, not null
+   * @return the classpath string, not null
+   */
+  public static String calculateRuntimeClasspath(MavenProject project) {
+    @SuppressWarnings("unchecked")
+    List<Artifact> artifacts = new ArrayList<>(project.getRuntimeArtifacts());
+    List<String> cpStrs = new ArrayList<>();
+    cpStrs.add(new File(project.getBuild().getOutputDirectory()).getAbsolutePath());
+    for (Artifact artifact : artifacts) {
+      cpStrs.add(artifact.getFile().getAbsolutePath());
+    }
+    cpStrs.removeAll(Collections.singleton(""));
+    return Joiner.on(File.pathSeparator).join(cpStrs);
   }
 
 }
