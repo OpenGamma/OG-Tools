@@ -40,7 +40,7 @@ Properties:
 - additionalScripts
  - List of additional scripts to copy unchanged.
 - zip
- - Set to false to turn off creation of an attached zip file, default true.
+ - Set to false to turn off creation of an attached zip file, default false.
  - Property = "opengamma.generate.scripts.zip"
 
 #### Trademarks

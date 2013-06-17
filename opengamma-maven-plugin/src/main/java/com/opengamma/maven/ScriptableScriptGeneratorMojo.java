@@ -124,7 +124,7 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
   private String[] additionalScripts;  // CSIGNORE
   /**
    * Set to true to create an attached zip archive, default true.
-   * @parameter alias="zip" property="opengamma.generate.scripts.zip" default-value="true"
+   * @parameter alias="zip" property="opengamma.generate.scripts.zip" default-value="false"
    */
   private boolean zip;  // CSIGNORE
 
