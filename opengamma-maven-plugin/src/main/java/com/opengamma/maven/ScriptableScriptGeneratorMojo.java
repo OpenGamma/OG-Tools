@@ -12,7 +12,6 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.executeMojo;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.executionEnvironment;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.goal;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.groupId;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.name;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.plugin;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.version;
 
@@ -410,7 +409,7 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
       ),
       goal("single"),
       configuration(
-        element(name("descriptors"), element(name("descriptor"), descriptorFile.getAbsolutePath()))
+        element("descriptors", element("descriptor", descriptorFile.getAbsolutePath()))
       ),
       executionEnvironment(
         project,
