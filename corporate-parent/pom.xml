@@ -9,7 +9,7 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <description>OpenGamma maven corporate parent project</description>
   <url>http://developers.opengamma.com/</url>
   <organization>
@@ -213,6 +213,11 @@
         </plugin>
 
         <!-- Additional controlled maven plugins -->
+        <plugin>
+          <groupId>com.opengamma.tools</groupId>
+          <artifactId>opengamma-maven-plugin</artifactId>
+          <version>${opengamma-maven-plugin.version}</version>
+        </plugin>
         <plugin>
           <groupId>org.joda</groupId>
           <artifactId>maven-joda-beans-plugin</artifactId>
@@ -453,6 +458,7 @@
     <maven-war-plugin.version>2.3</maven-war-plugin.version>
     <build-helper-maven-plugin.version>1.8</build-helper-maven-plugin.version>
     <exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
+    <opengamma-maven-plugin.version>1.1.0</opengamma-maven-plugin.version>
     <maven-joda-beans-plugin.version>0.7.1</maven-joda-beans-plugin.version>
     <fudge-proto-maven-plugin.version>0.3.9.6</fudge-proto-maven-plugin.version>
     <!-- Dependency versions -->
