@@ -9,7 +9,7 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <description>OpenGamma maven corporate parent project</description>
   <url>http://developers.opengamma.com/</url>
   <organization>
