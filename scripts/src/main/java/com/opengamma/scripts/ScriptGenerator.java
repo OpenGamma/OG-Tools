@@ -26,8 +26,28 @@ import freemarker.template.TemplateException;
  * Generator that can produce command line scripts.
  * <p>
  * Scripts are normally identified based on the {@link Scriptable} annotation.
+ * <p>
+ * Current scripts use the following template data entries:
+ * <ul>
+ * <li>className
+ * <li>projectName
+ * <li>projectJar
+ * </ul>
  */
 public class ScriptGenerator {
+
+  /**
+   * Template key for the class name of the class linked to the script.
+   */
+  public static final String TEMPLATE_CLASS_NAME = "className";
+  /**
+   * Template key for the project name.
+   */
+  public static final String TEMPLATE_PROJECT_NAME = "projectName";
+  /**
+   * Template key for the project jar file.
+   */
+  public static final String TEMPLATE_PROJECT_JAR = "projectJar";
 
   /**
    * Generates the scripts.
@@ -40,8 +60,8 @@ public class ScriptGenerator {
    */
   public static void generate(String className, String projectName, File scriptDir, Template template, boolean windows) {
     Map<String, Object> templateData = new HashMap<>();
-    templateData.put("className", className);
-    templateData.put("project", projectName.toLowerCase());
+    templateData.put(TEMPLATE_CLASS_NAME, className);
+    templateData.put(TEMPLATE_PROJECT_NAME, projectName.toLowerCase());
     generate(className, scriptDir, template, templateData, windows);
   }
 
