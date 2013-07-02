@@ -22,15 +22,12 @@ build_classpath() {
   _PREFIX=$1
   if [ ! -z "$_PREFIX" ]; then
     _PREFIX="${_PREFIX}/"
+  else
+    _PREFIX=lib/
   fi
 
-  _CLASSPATH=""
-  if [ -f ${_PREFIX}lib/classpath.jar ]; then
-    _CLASSPATH="${_PREFIX}lib/classpath.jar"
-  else
-    for _FILE in $(find ${_PREFIX}lib -name "*.jar" -o -name "*.zip") ; do
-      _CLASSPATH=${_CLASSPATH}:${_FILE}
-    done
-  fi
-  echo "${_CLASSPATH}"
+  for _FILE in $(find ${_PREFIX} -name "*.jar" -o -name "*.zip") ; do
+    _CLASSPATH=${_CLASSPATH}:${_FILE}
+  done
+  echo "${_CLASSPATH#:}"
 }

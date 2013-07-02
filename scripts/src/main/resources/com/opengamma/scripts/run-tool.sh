@@ -33,13 +33,10 @@ SCRIPTDIR=${BASEDIR}/scripts
 MEM_OPTS=${MEM_OPTS:--Xms512m -Xmx1024m -XX:MaxPermSize=256M}
 GC_OPTS=${GC_OPTS:--XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing}
 
-CLASSPATH=$(build_classpath ${BASEDIR})
-if [ ! -z "${PROJECTJAR}" ]; then
-  if [ -f ${BASEDIR}/${PROJECTJAR} ]; then
-    CLASSPATH=${BASEDIR}/${PROJECTJAR}:${CLASSPATH}
-  elif [ -f ${BASEDIR}/build/${PROJECTJAR} ]; then
-    CLASSPATH=${BASEDIR}/build/${PROJECTJAR}:${CLASSPATH}
-  fi
+
+CLASSPATH=${BASEDIR}/lib/${PROJECTJAR}
+if [ -d ${BASEDIR}/lib/override ]; then
+  CLASSPATH=$(build_classpath ${BASEDIR}/lib/override):${CLASSPATH}
 fi
 CLASSPATH=${BASEDIR}/config:${CLASSPATH}
 
