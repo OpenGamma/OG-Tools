@@ -284,8 +284,9 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
     Map<Class<?>, Template> templateMap = resolveTemplateMap(templates, classLoader);
     for (Class<?> scriptableClass : scriptableClasses) {
       Map<String, Object> templateData = new HashMap<String, Object>();
-      templateData.put("className", scriptableClass);
-      templateData.put("project", project.getArtifactId());
+      templateData.put(ScriptGenerator.TEMPLATE_CLASS_NAME, scriptableClass);
+      templateData.put(ScriptGenerator.TEMPLATE_PROJECT_NAME, project.getArtifactId());
+      templateData.put(ScriptGenerator.TEMPLATE_PROJECT_JAR, project.getBuild().getFinalName() + ".jar");
       Template template = lookupTempate(scriptableClass, templateMap);
       ScriptGenerator.generate(scriptableClass.getName(), outputDir, template, templateData, windows);
     }
@@ -355,7 +356,8 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
   private void generateAdditionalFile(ClassLoader classLoader, String script, File scriptFile) throws MojoExecutionException {
     File destinationFile = new File(outputDir, scriptFile.getName().substring(0, scriptFile.getName().length() - 4));
     Map<String, Object> templateData = new HashMap<String, Object>();
-    templateData.put("project", project.getArtifactId());
+    templateData.put(ScriptGenerator.TEMPLATE_PROJECT_NAME, project.getArtifactId());
+    templateData.put(ScriptGenerator.TEMPLATE_PROJECT_JAR, project.getBuild().getFinalName() + ".jar");
     Template template = getTemplate(script, classLoader);
     ScriptGenerator.generate(destinationFile, template, templateData);
     destinationFile.setReadable(true, false);
