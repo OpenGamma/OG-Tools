@@ -49,7 +49,7 @@ start() {
     RETVAL=6
     return
   fi
-  exec $SETSID $JAVA_CMD $GC_OPTS $MEM_OPTS $EXTRA_JVM_OPTS $COMMANDMONITOR_OPTS \
+  exec $SETSID $JAVA_CMD $MEM_OPTS $GC_OPTS $EXTRA_JVM_OPTS $COMMANDMONITOR_OPTS \
   -Dlogback.configurationFile=$LOGBACK_CONFIG \
   -cp $CLASSPATH \
   com.opengamma.component.OpenGammaComponentServer \
@@ -115,7 +115,7 @@ stop() {
     read kpid < $PIDFILE
     kwait=$SHUTDOWN_WAIT
     kill -15 $kpid 2> /dev/null
-    until [ $(ps --pid $kpid 2> /dev/null | grep -c $kpid 2> /dev/null) -eq '0' ] || [ $count -gt $kwait ]
+    until [ $(ps -p $kpid 2> /dev/null | grep -c $kpid 2> /dev/null) -eq '0' ] || [ $count -gt $kwait ]
     do
       sleep 1
       count=$(($count+1))
@@ -132,7 +132,7 @@ status() {
   local count kpid
   if [ -f $PIDFILE ]; then
     read kpid < $PIDFILE
-    count=$(ps --pid $kpid 2> /dev/null | grep -c $kpid 2> /dev/null)
+    count=$(ps -p $kpid 2> /dev/null | grep -c $kpid 2> /dev/null)
     if [ $count -gt 0 ]; then
       echo $"${BASENAME} (pid $kpid) is running..."
       RETVAL=0
