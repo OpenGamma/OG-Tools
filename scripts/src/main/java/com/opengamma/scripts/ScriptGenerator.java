@@ -62,7 +62,7 @@ public class ScriptGenerator {
     } else {
       outputFile = new File(scriptDir, scriptName + ".sh");
     }
-    writeScriptFile(outputFile, template, templateData);
+    generate(outputFile, template, templateData);
   }
 
   /**
@@ -78,13 +78,15 @@ public class ScriptGenerator {
   }
 
   /**
-   * Writes the script using the Freemarker template.
+   * Generates and writes the script using the Freemarker template.
+   * <p>
+   * This is the low-level call to Freemarker.
    * 
    * @param outputFile  the file to write to, not null
    * @param template  the Freemarker template, not null
    * @param templateData  the lookup data injected into the template, not null
    */
-  private static void writeScriptFile(File outputFile, Template template, Object templateData) {
+  public static void generate(File outputFile, Template template, Object templateData) {
     try {
       PrintWriter writer = new PrintWriter(outputFile);
       template.process(templateData, writer);
