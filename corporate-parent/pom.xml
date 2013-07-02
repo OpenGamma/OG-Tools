@@ -9,7 +9,7 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>1.0.7</version>
+  <version>1.0.8-SNAPSHOT</version>
   <description>OpenGamma maven corporate parent project</description>
   <url>http://developers.opengamma.com/</url>
   <organization>
@@ -473,7 +473,7 @@
     <maven-enforcer-plugin.version>1.2</maven-enforcer-plugin.version>
     <maven-install-plugin.version>2.4</maven-install-plugin.version>
     <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
-    <maven-javadoc-plugin.version>2.9</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
     <maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
     <maven-plugin-plugin.version>3.2</maven-plugin-plugin.version>
     <maven-pmd-plugin.version>3.0.1</maven-pmd-plugin.version>
