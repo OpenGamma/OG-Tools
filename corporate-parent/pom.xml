@@ -266,7 +266,7 @@
                   <pluginExecutionFilter>
                     <groupId>org.fudgemsg</groupId>
                     <artifactId>fudge-proto-maven-plugin</artifactId>
-                    <versionRange>[0.3.9.6,)</versionRange>
+                    <versionRange>[${fudge-proto-maven-plugin.version},)</versionRange>
                     <goals>
                       <goal>generate</goal>
                     </goals>
@@ -279,7 +279,7 @@
                   <pluginExecutionFilter>
                     <groupId>org.joda</groupId>
                     <artifactId>maven-joda-beans-plugin</artifactId>
-                    <versionRange>[0.7,)</versionRange>
+                    <versionRange>[${maven-joda-beans-plugin.version},)</versionRange>
                     <goals>
                       <goal>validate</goal>
                       <goal>generate</goal>
@@ -293,7 +293,7 @@
                   <pluginExecutionFilter>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <versionRange>[1.0.0,)</versionRange>
+                    <versionRange>[${maven-enforcer-plugin.version},)</versionRange>
                     <goals>
                       <goal>enforce</goal>
                     </goals>
@@ -306,7 +306,7 @@
                   <pluginExecutionFilter>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <versionRange>[2.0,)</versionRange>
+                    <versionRange>[${maven-dependency-plugin.version},)</versionRange>
                     <goals>
                       <goal>copy</goal>
                       <goal>copy-dependencies</goal>
