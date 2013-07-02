@@ -225,6 +225,7 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
       additional.add("com/opengamma/scripts/run-tool.sh");
       additional.add("com/opengamma/scripts/java-utils.sh");
       additional.add("com/opengamma/scripts/componentserver-init-utils.sh");
+      additional.add("com/opengamma/scripts/templates/project-utils.sh.ftl");
     }
     if (windows) {
       windowsTemplate = "com/opengamma/scripts/templates/tool-template-windows.ftl";
@@ -336,33 +337,56 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
     }
     getLog().info("Copying " + additionalScripts.length + " additional script(s)");
     for (String script : additionalScripts) {
-      // try file
       File scriptFile = new File(baseDir, script);
-      File destinationFile = new File(outputDir, scriptFile.getName());
-      if (scriptFile.exists()) {
-        if (scriptFile.isFile() == false) {
-          throw new MojoExecutionException("Additional script is not a file, directories cannot be copied: " + scriptFile);
-        }
-        try {
-          FileUtils.copyFileToDirectory(scriptFile, outputDir);
-          destinationFile.setReadable(true, false);
-          destinationFile.setExecutable(true, false);
-        } catch (IOException ex) {
-          throw new MojoExecutionException("Unable to copy additional script: " + scriptFile, ex);
-        }
+      // process ftl if necessary
+      if (script.endsWith(".ftl")) {
+        generateAdditionalFile(classLoader, script, scriptFile);
       } else {
-        // then try resource
-        try (InputStream resourceStream = classLoader.getResourceAsStream(script)) {
-          if (resourceStream == null) {
-            throw new MojoExecutionException("Additional script cannot be found: " + script);
-          }
-          FileUtils.writeByteArrayToFile(destinationFile, IOUtils.toByteArray(resourceStream));
-          destinationFile.setReadable(true, false);
-          destinationFile.setExecutable(true, false);
-        } catch (IOException ex) {
-          throw new MojoExecutionException("Unable to copy additional script: " + scriptFile, ex);
+        // simple copy, either file or resource
+        if (scriptFile.exists()) {
+          copyAdditionalFile(classLoader, script, scriptFile);
+        } else {
+          copyAdditionalResource(classLoader, script, scriptFile);
         }
       }
+    }
+  }
+
+  private void generateAdditionalFile(ClassLoader classLoader, String script, File scriptFile) throws MojoExecutionException {
+    File destinationFile = new File(outputDir, scriptFile.getName().substring(0, scriptFile.getName().length() - 4));
+    Map<String, Object> templateData = new HashMap<String, Object>();
+    templateData.put("project", project.getArtifactId());
+    Template template = getTemplate(script, classLoader);
+    ScriptGenerator.generate(destinationFile, template, templateData);
+    destinationFile.setReadable(true, false);
+    destinationFile.setExecutable(true, false);
+  }
+
+  private void copyAdditionalFile(ClassLoader classLoader, String script, File scriptFile) throws MojoExecutionException {
+    if (scriptFile.isFile() == false) {
+      throw new MojoExecutionException("Additional script is not a file, directories cannot be copied: " + scriptFile);
+    }
+    try {
+      File destinationFile = new File(outputDir, scriptFile.getName());
+      FileUtils.copyFileToDirectory(scriptFile, outputDir);
+      destinationFile.setReadable(true, false);
+      destinationFile.setExecutable(true, false);
+    } catch (IOException ex) {
+      throw new MojoExecutionException("Unable to copy additional script file: " + script, ex);
+    }
+  }
+
+  private void copyAdditionalResource(ClassLoader classLoader, String script, File scriptFile) throws MojoExecutionException {
+    try (InputStream resourceStream = classLoader.getResourceAsStream(script)) {
+      if (resourceStream == null) {
+        throw new MojoExecutionException("Additional script cannot be found: " + script);
+      }
+      File destinationFile = new File(outputDir, scriptFile.getName());
+      FileUtils.writeByteArrayToFile(destinationFile, IOUtils.toByteArray(resourceStream));
+      destinationFile.setReadable(true, false);
+      destinationFile.setExecutable(true, false);
+    } catch (IOException ex) {
+      throw new MojoExecutionException("Unable to copy additional script resource: " + script, ex);
     }
   }
 
