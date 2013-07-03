@@ -284,7 +284,7 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
     Map<Class<?>, Template> templateMap = resolveTemplateMap(templates, classLoader);
     for (Class<?> scriptableClass : scriptableClasses) {
       Map<String, Object> templateData = new HashMap<String, Object>();
-      templateData.put(ScriptGenerator.TEMPLATE_CLASS_NAME, scriptableClass);
+      templateData.put(ScriptGenerator.TEMPLATE_CLASS_NAME, scriptableClass.getName());
       templateData.put(ScriptGenerator.TEMPLATE_PROJECT_NAME, project.getArtifactId());
       templateData.put(ScriptGenerator.TEMPLATE_PROJECT_JAR, project.getBuild().getFinalName() + ".jar");
       Template template = lookupTempate(scriptableClass, templateMap);
