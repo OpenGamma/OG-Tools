@@ -51,7 +51,7 @@ start() {
   fi
   exec $SETSID $JAVA_CMD $MEM_OPTS $GC_OPTS $EXTRA_JVM_OPTS $COMMANDMONITOR_OPTS \
   -Dlogback.configurationFile=$LOGBACK_CONFIG \
-  -cp $CLASSPATH \
+  -cp "$CLASSPATH" \
   com.opengamma.component.OpenGammaComponentServer \
   -q ${CONFIG} > ${LOGFILE} 2>&1 < /dev/null &
   echo $! >$PIDFILE
@@ -71,7 +71,7 @@ debug() {
   echo
   $JAVA_CMD $MEM_OPTS $GC_OPTS $EXTRA_JVM_OPTS $COMMANDMONITOR_OPTS \
   -Dlogback.configurationFile=$LOGBACK_CONFIG \
-  -cp $CLASSPATH \
+  -cp "$CLASSPATH" \
   com.opengamma.component.OpenGammaComponentServer \
   -q ${CONFIG}
 }
@@ -102,7 +102,7 @@ stop() {
   if [ x${COMMANDMONITOR_OPTS} != x"" ]; then
     $JAVA_CMD $MEM_OPTS $EXTRA_JVM_OPTS $COMMANDMONITOR_OPTS \
     -Dlogback.configurationFile=$LOGBACK_CONFIG \
-    -cp $CLASSPATH \
+    -cp "$CLASSPATH" \
     com.opengamma.component.OpenGammaComponentServerMonitor exit
     # Wait a bit before sending SIGINT
     sleep $SHUTDOWN_WAIT
