@@ -21,10 +21,14 @@ canonicalize() {
 BASENAME=${0##*/}
 COMPONENT=${BASENAME%.sh}
 BASEDIR="$(dirname "$(dirname "$(canonicalize "$0")")")"
-SCRIPTDIR=${BASEDIR}/scripts
+SCRIPTDIR="${BASEDIR}/scripts"
+if [ x"$1" == x"--chdirtoinstallation" ]; then
+  cd "${BASEDIR}" || exit 1
+  shift
+fi
 
-[ -f ${SCRIPTDIR}/project-utils.sh ] && . ${SCRIPTDIR}/project-utils.sh
-. ${SCRIPTDIR}/java-utils.sh
+[ -f "${SCRIPTDIR}/project-utils.sh" ] && . "${SCRIPTDIR}/project-utils.sh"
+. "${SCRIPTDIR}/java-utils.sh"
 
 [ -f /etc/sysconfig/opengamma/tools ] && . /etc/sysconfig/opengamma/tools
 [ -f /etc/default/opengamma/tools ] && . /etc/default/opengamma/tools
@@ -34,12 +38,12 @@ MEM_OPTS=${MEM_OPTS:--Xms512m -Xmx1024m -XX:MaxPermSize=256M}
 GC_OPTS=${GC_OPTS:--XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing}
 
 
-CLASSPATH=${BASEDIR}/lib/${PROJECTJAR}
-if [ -d ${BASEDIR}/lib/override ]; then
-  CLASSPATH=$(build_classpath ${BASEDIR}/lib/override):${CLASSPATH}
+CLASSPATH="${BASEDIR}/lib/${PROJECTJAR}"
+if [ -d "${BASEDIR}/lib/override" ]; then
+  CLASSPATH="$(build_classpath "${BASEDIR}/lib/override"):${CLASSPATH}"
 fi
-CLASSPATH=${BASEDIR}/config:${CLASSPATH}
+CLASSPATH="${BASEDIR}/config:${CLASSPATH}"
 
 set_java_cmd
 
-$JAVA_CMD $MEM_OPTS $GC_OPTS -cp $CLASSPATH "$@"
+$JAVA_CMD $MEM_OPTS $GC_OPTS -cp "$CLASSPATH" "$@"
