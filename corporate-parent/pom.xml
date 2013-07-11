@@ -11,7 +11,6 @@
   <name>Corporate-Parent</name>
   <version>1.0.8</version>
   <description>OpenGamma maven corporate parent project</description>
-  <url>http://developers.opengamma.com/</url>
   <organization>
     <name>OpenGamma</name>
     <url>http://www.opengamma.com</url>
