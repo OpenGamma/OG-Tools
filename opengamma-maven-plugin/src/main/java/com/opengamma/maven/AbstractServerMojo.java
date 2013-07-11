@@ -153,13 +153,13 @@ public abstract class AbstractServerMojo extends AbstractMojo {
     String simpleArgs = "";
     switch (startupLogging) {
       case "ERROR":
-        simpleArgs += "-v ";
+        simpleArgs += "-q ";
         break;
       case "WARN":
       case "INFO":
         break;
       case "DEBUG":
-        simpleArgs += "-q ";
+        simpleArgs += "-v ";
         break;
       default:
         throw new MojoExecutionException("Invalid value for startupLogging: " + startupLogging);
