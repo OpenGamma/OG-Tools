@@ -15,8 +15,8 @@ load_component_config() {
   [ -f /etc/default/opengamma/${_PROJECT}/${_COMPONENT} ] && . /etc/default/opengamma/${_PROJECT}/${_COMPONENT}
   [ -f $HOME/.opengamma/${_PROJECT}/${_COMPONENT} ] && . $HOME/.opengamma/${_PROJECT}/${_COMPONENT}
 
-  PIDFILE=${PIDFILE:-${_COMPONENT}.pid}
-  LOGFILE=${LOGFILE:-${_COMPONENT}-console.log}
+  PIDFILE=${PIDFILE:-data/${_COMPONENT}.pid}
+  LOGFILE=${LOGFILE:-logs/${_COMPONENT}-console.log}
   MEM_OPTS=${MEM_OPTS:--Xms4096m -Xmx4096m -XX:MaxPermSize=256M}
   GC_OPTS=${GC_OPTS:--XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing}
   EXTRA_JVM_OPTS=${EXTRA_JVM_OPTS:-""}
