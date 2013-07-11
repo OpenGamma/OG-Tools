@@ -230,7 +230,8 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
     if (windows) {
       windowsTemplate = "com/opengamma/scripts/templates/tool-template-windows.ftl";
       additional.add("com/opengamma/scripts/run-tool.bat");
-      additional.add("com/opengamma/scripts/run-tool-deprecated.bat");
+      additional.add("com/opengamma/scripts/run-tool-noexe.bat");
+      additional.add("com/opengamma/scripts/templates/project-utils.bat.ftl");
     }
     additionalScripts = (String[]) additional.toArray(new String[additional.size()]);
   }

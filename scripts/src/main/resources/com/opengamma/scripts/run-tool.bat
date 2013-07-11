@@ -4,6 +4,6 @@ if not exist "%~dp0\..\bin\runtool.exe" goto noexe
 goto done
 
 :noexe
-call "%~dp0\run-tool-deprecated.bat" %*
+call "%~dp0\run-tool-noexe.bat" %*
 
 :done

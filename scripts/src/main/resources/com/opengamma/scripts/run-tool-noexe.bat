@@ -4,7 +4,7 @@
 ::
 :: ---------------------------------------------------------------------------
 if "%OS%" == "Windows_NT" setlocal
-set BASEDIR=%~dp0\..
+set BASEDIR=%~dp0..
 set SCRIPTDIR=%BASEDIR%\scripts
 
 
@@ -51,9 +51,9 @@ set JAVA_CMD=%JRE_HOME%\bin\java
 :gotJavaCmd
 
 if exist "%JAVA_CMD%.exe" (
-    echo "Using %JAVA_CMD% java command"
+    rem OK
 ) else (
-    echo "Java command is not defined. Plese set JAVA_CMD environment variable pointing to java executable"
+    echo "Java command is not defined. Please set JAVA_CMD environment variable pointing to java executable"
     pause
     exit 1
 )
@@ -62,10 +62,6 @@ if exist "%JAVA_CMD%.exe" (
 ::     CLASS PATH
 
 setLocal EnableDelayedExpansion
-set _CLASSPATH=
-for /R "%BASEDIR%\lib" %%G in (.) do (
-    set _CLASSPATH=!_CLASSPATH!;%%G\*
-)
 
 rem Get standard environment variables
 if exist "%HOMEDRIVE%%HOMEPATH%"/.opengamma/tools.bat (
@@ -80,22 +76,9 @@ if "%GC_OPTS%" == "" (
 SET GC_OPTS=-XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing
 )
 
-SET CLASSPATH=!_CLASSPATH!
+SET CLASSPATH=%BASEDIR%\config;%BASEDIR%\lib\override\*;%BASEDIR%\lib\%PROJECTJAR%;
 
-if not "%PROJECT%" == "" (
-    SET PROJECTJAR=%PROJECT%.jar
-    if not "%PROJECTJAR%" == "" (
-        if exist "%BASEDIR%\%PROJECTJAR%" (
-            SET CLASSPATH="%BASEDIR%\%PROJECTJAR%;%CLASSPATH%"
-        ) else (
-            if exist "%BASEDIR%\build\%PROJECTJAR%" (
-                SET CLASSPATH="%BASEDIR%\build\%PROJECTJAR%;%CLASSPATH%"
-            )
-        )
-    )
-)
-
-SET CLASSPATH=%BASEDIR%\config;%CLASSPATH%
+ECHO "%JAVA_CMD%" %MEM_OPTS% %GC_OPTS% -cp "%CLASSPATH%" %*
 
 "%JAVA_CMD%" %MEM_OPTS% %GC_OPTS% -cp "%CLASSPATH%" %*
 
