@@ -22,6 +22,8 @@ build_classpath() {
   _PREFIX=$1
   if [ ! -z "$_PREFIX" ]; then
     _PREFIX="${_PREFIX}/"
+  else
+    _PREFIX="lib/"
   fi
 
   for _FILE in $(find "${_PREFIX}" -name "*.jar" -o -name "*.zip") ; do
