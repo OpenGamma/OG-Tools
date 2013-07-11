@@ -30,21 +30,26 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.codehaus.plexus.util.xml.Xpp3DomBuilder;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
+//CSOFF for Javadoc tags
 /**
- * Abstract class for running an OpenGamma component server.
- */
-public abstract class AbstractServerMojo extends AbstractMojo {
+* Runs an OpenGamma component server.
+* 
+* @goal server-init
+* @requiresDependencyResolution compile+runtime
+*/
+//CSON
+public class ServerInitMojo extends AbstractMojo {
 
   /**
    * The configuration directory to run where opengamma-maven-plugin.properties is located.
-   * This must be set unless 'configFile' is set.
+   * This must be set unless 'configFile' and 'className' is set.
    * @parameter alias="config" property="config"
    */
   private String config; // CSIGNORE
   /**
    * The class name to invoke.
-   * This defaults to 'com.opengamma.component.OpenGammaComponentServer'.
-   * @parameter alias="className" property="className" default-value="com.opengamma.component.OpenGammaComponentServer"
+   * This must be set unless 'config' is set.
+   * @parameter alias="className" property="className"
    */
   private String className; // CSIGNORE
   /**
@@ -54,30 +59,12 @@ public abstract class AbstractServerMojo extends AbstractMojo {
    */
   private String configFile; // CSIGNORE
   /**
-   * The log level for startup of component server logging.
-   * Set to 'ERROR', 'WARN', 'INFO' or 'DEBUG'. Default 'WARN'.
-   * @parameter alias="startupLogging" property="startupLogging" default-value="WARN"
-   */
-  private String startupLogging; // CSIGNORE
-  /**
    * The log level for component server logging, or a logback config file.
    * Set to 'ERROR', 'WARN', 'INFO', 'DEBUG' or the path to a file. Default 'WARN'.
    * If used, the file path would typically be something like 'com/opengamma/util/warn-logback.xml'.
    * @parameter alias="serverLogging" property="serverLogging" default-value="WARN"
    */
   private String serverLogging; // CSIGNORE
-  /**
-   * Any VM memory/GC args to pass to the component server.
-   * These are separated from vmArgs to allow default settings for Xms, Xmx and MaxPermSize.
-   * Default value '-Xms512m -Xmx1536m -XX:MaxPermSize=512M'.
-   * @parameter alias="vmMemoryArgs" property="vmMemoryArgs" default-value="-Xms512m -Xmx1536m -XX:MaxPermSize=512M"
-   */
-  private String vmMemoryArgs; // CSIGNORE
-  /**
-   * Any additional VM args to pass to the component server.
-   * @parameter alias="vmArgs" property="vmArgs"
-   */
-  private String vmArgs; // CSIGNORE
 
   /**
    * @parameter default-value="${project}"
@@ -114,12 +101,9 @@ public abstract class AbstractServerMojo extends AbstractMojo {
       Properties properties = new Properties();
       try (InputStream in = resource.openStream()) {
         properties.load(in);
-        className = properties.getProperty("server.main.class", className);
-        configFile = properties.getProperty("server.main.configFile", configFile);
-        startupLogging = properties.getProperty("server.main.startupLogging", startupLogging);
-        serverLogging = properties.getProperty("server.main.serverLogging", serverLogging);
-        vmMemoryArgs = properties.getProperty("server.main.vmMemoryArgs", vmMemoryArgs);
-        vmArgs = properties.getProperty("server.main.vmArgs", vmArgs);
+        className = properties.getProperty("server.init.class", className);
+        configFile = properties.getProperty("server.init.configFile", configFile);
+        serverLogging = properties.getProperty("server.init.serverLogging", serverLogging);
         
       } catch (IOException ex) {
         throw new MojoFailureException("Unable to read classpath resource: " + config + "/opengamma-maven-plugin.properties");
@@ -127,6 +111,9 @@ public abstract class AbstractServerMojo extends AbstractMojo {
     }
     
     // smart interpretation of configFile
+    if (className == null || className.length() == 0) {
+      throw new MojoFailureException("Unable to run server, no className set");
+    }
     if (configFile == null || configFile.length() == 0) {
       throw new MojoFailureException("Unable to run server, no configFile set");
     }
@@ -140,13 +127,10 @@ public abstract class AbstractServerMojo extends AbstractMojo {
     }
     
     // build arguments
-    String fullAppArgs = buildApplicationArguments();
+    String fullAppArgs = configFile;
     String fullVmArgs = buildVmArguments();
     String fullArgs = fullVmArgs + " " + className + " " + fullAppArgs;
-    getLog().info("Running component server: " + fullArgs);
-    if (isSpawn()) {
-      fullVmArgs += "-Dcommandmonitor.secret=OpenGammaMojo ";
-    }
+    getLog().info("Running server initialization: " + fullArgs);
     
     // build the configuration for ant
     // parse XML manually, as per https://github.com/TimMoore/mojo-executor/issues/10
@@ -154,11 +138,11 @@ public abstract class AbstractServerMojo extends AbstractMojo {
     String taskStr = 
         "<configuration>" +
           "<target>" +
-            "<java classpath='" + cp + "' classname='" + className + "' fork='true' spawn='" + isSpawn() + "'>" +
+            "<java classpath='" + cp + "' classname='" + className + "' fork='true' spawn='false'>" +
               "<jvmarg line='" + fullVmArgs + "' />" +
               "<arg line='" + fullAppArgs + "' />" +
             "</java>" +
-            "<echo>Server starting...</echo>" +
+            "<echo>Initialization starting...</echo>" +
           "</target>" +
         "</configuration>";
     Xpp3Dom config;
@@ -186,28 +170,6 @@ public abstract class AbstractServerMojo extends AbstractMojo {
     );
   }
 
-  protected abstract boolean isSpawn();
-
-  //-------------------------------------------------------------------------
-  private String buildApplicationArguments() throws MojoExecutionException {
-    String simpleArgs = "";
-    switch (startupLogging) {
-      case "ERROR":
-        simpleArgs += "-q ";
-        break;
-      case "WARN":
-      case "INFO":
-        break;
-      case "DEBUG":
-        simpleArgs += "-v ";
-        break;
-      default:
-        throw new MojoExecutionException("Invalid value for startupLogging: " + startupLogging);
-    }
-    simpleArgs += configFile;
-    return simpleArgs;
-  }
-
   //-------------------------------------------------------------------------
   private String buildVmArguments() throws MojoExecutionException {
     String fullVmArgs = "";
@@ -227,12 +189,6 @@ public abstract class AbstractServerMojo extends AbstractMojo {
       default:
         fullVmArgs += "-Dlogback.configurationFile=" + serverLogging + " ";
         break;
-    }
-    if (vmMemoryArgs != null) {
-      fullVmArgs += vmMemoryArgs + " ";
-    }
-    if (vmArgs != null) {
-      fullVmArgs += vmArgs + " ";
     }
     return fullVmArgs;
   }

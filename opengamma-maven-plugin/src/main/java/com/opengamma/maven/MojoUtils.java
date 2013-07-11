@@ -6,6 +6,9 @@
 package com.opengamma.maven;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -80,6 +83,29 @@ public final class MojoUtils {
     }
     cpStrs.removeAll(Collections.singleton(""));
     return Joiner.on(File.pathSeparator).join(cpStrs);
+  }
+
+  //-------------------------------------------------------------------------
+  /**
+   * Calculates the String classpath for the project.
+   * 
+   * @param project  the project, not null
+   * @return the classpath string, not null
+   */
+  public static ClassLoader calculateRuntimeClassLoader(MavenProject project) {
+    try {
+      @SuppressWarnings("unchecked")
+      List<Artifact> artifacts = new ArrayList<>(project.getRuntimeArtifacts());
+      List<URL> urlList = new ArrayList<>();
+      urlList.add(new File(project.getBuild().getOutputDirectory()).getAbsoluteFile().toURI().toURL());
+      for (Artifact artifact : artifacts) {
+        urlList.add(artifact.getFile().getAbsoluteFile().toURI().toURL());
+      }
+      URL[] urls = (URL[]) urlList.toArray(new URL[urlList.size()]);
+      return new URLClassLoader(urls);
+    } catch (MalformedURLException ex) {
+      throw new RuntimeException(ex);
+    }
   }
 
 }

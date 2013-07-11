@@ -44,6 +44,42 @@ Properties:
  - Property = "opengamma.generate.scripts.zip"
 
 
+#### server-init
+
+These initialize an OpenGamma component server.
+They are intended to be run directly from the command line.
+
+The recommended usage is to setup an opengamma-maven.plugin.properties file, see below.
+
+Properties:
+- config
+ - The classpath location of an opengamma-maven.plugin.properties file.
+   Any value set in the properties file override command line arguments.
+ - Command line property = "config"
+- className
+ - The initialization class name to run.
+ - Command line property = "className"
+- configFile
+ - The component server properties or INI file.
+   The file or classpath prefix is optional, as it will try both.
+ - Command line property = "configFile"
+- serverLogging
+ - The level of logging for the server in general - ERROR, WARN, INFO or DEBUG.
+   Default WARN.
+ - Command line property = "serverLogging"
+
+Example:
+
+```
+ mvn opengamma:server-init -DconfigFile=toolcontext/toolcontext-examplessimulated.properties
+
+ mvn opengamma:server-init -Dconfig=fullstack
+ // where there is a classpath file fullstack/opengamma-maven.plugin.properties:
+ server.init.class = com.opengamma.component.OpenGammaComponentServer
+ server.init.configFile = classpath:/toolcontext/toolcontext-examplessimulated.properties
+```
+
+
 #### server-run / server-start
 
 These start and stop an OpenGamma component server.
@@ -53,7 +89,17 @@ The `server-run` goal will start the server inline so it can be killed by Ctrl+C
 
 The `server-start` goal will start the server in the background where it must be killed by `server-stop`.
 
+The recommended usage is to setup an opengamma-maven.plugin.properties file, see below.
+
 Properties:
+- config
+ - The classpath location of an opengamma-maven.plugin.properties file.
+   Any value set in the properties file override command line arguments.
+ - Command line property = "config"
+- className
+ - The server class name to run.
+   The default value of 'com.opengamma.component.OpenGammaComponentServer' is generally sufficient.
+ - Command line property = "className"
 - configFile
  - The component server properties or INI file.
    The file or classpath prefix is optional, as it will try both.
@@ -74,10 +120,15 @@ Properties:
  - Any additional VM arguments for the server.
  - Command line property = "vmArgs"
 
-Example:
+Examples:
 
 ```
- mvn opengamma:server-start -DconfigFile=fullstack/fullstack-example-dev.properties
+ mvn opengamma:server-run -DconfigFile=fullstack/fullstack-examplessimulated-dev.properties
+
+ mvn opengamma:server-run -Dconfig=fullstack
+ // where there is a classpath file fullstack/opengamma-maven.plugin.properties:
+ server.main.class = com.opengamma.component.OpenGammaComponentServer
+ server.main.configFile = classpath:/fullstack/fullstack-examplessimulated-dev.properties
 ```
 
 
@@ -92,6 +143,30 @@ Example:
 ```
  mvn opengamma:server-stop
 ```
+
+
+#### Properties file
+
+The command line can be shortened using a properties file name `opengamma-maven-plugin.properties`.
+The only command line argument is to the classpath directory whether the file is located.
+
+The following property keys are recognised:
+
+    server.init.class
+    server.init.configFile
+    server.init.serverLogging
+
+    server.main.class
+    server.main.configFile
+    server.main.startupLogging
+    server.main.serverLogging
+    server.main.vmMemoryArgs
+    server.main.vmArgs
+
+The "server.init" keys work with the "server-init" goal.
+The "server.main" keys work with the "server-run" and "server-start" goals.
+Any value set in the properties file overrides the matching value on the command line.
+
 
 
 #### Trademarks
