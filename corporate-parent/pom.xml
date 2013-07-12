@@ -519,7 +519,7 @@
     <fudge-proto-maven-plugin.version>0.3.9.6</fudge-proto-maven-plugin.version>
     <!-- Dependency versions -->
     <joda-beans.version>0.7</joda-beans.version>
-    <fudge-java.version>0.3.9.9</fudge-java.version>
+    <fudge-java.version>0.3.9.10</fudge-java.version>
     <fudge-proto.version>0.3.9.6</fudge-proto.version>
     <testng.version>6.8.5</testng.version>
     <junit.version>4.11</junit.version>
