@@ -6,22 +6,31 @@
 package com.opengamma.scripts;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.Validate;
-import org.scannotation.AnnotationDB;
+import org.reflections.Configuration;
+import org.reflections.Reflections;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 
 /**
  * Utilities for managing scripts.
  */
-public class ScriptUtils {
+public final class ScriptUtils {
+
+  /**
+   * Restricted constructor.
+   */
+  private ScriptUtils() {
+  }
 
   /**
    * Obtains an array of URLs from an array of file names.
@@ -63,36 +72,23 @@ public class ScriptUtils {
    * 
    * @param classpathUrls  the classpath, not null
    * @param annotationClass  the annotation to find, not null
+   * @param classLoader  the class loader, not null
    * @return the matching class names, not null
    */
-  public static Set<String> findClassAnnotation(URL[] classpathUrls, Class<? extends Annotation> annotationClass) {
+  public static Set<Class<?>> findClassAnnotation(
+      URL[] classpathUrls, Class<? extends Annotation> annotationClass, ClassLoader classLoader) {
+    Validate.notNull(classpathUrls, "classpathUrls");
     Validate.notNull(annotationClass, "annotationClass");
-    AnnotationDB annotationDb = getAnnotationDb(classpathUrls);
-    Set<String> classNames = annotationDb.getAnnotationIndex().get(annotationClass.getName());
-    if (classNames == null) {
-      return Collections.emptySet();
-    }
-    return Collections.unmodifiableSet(classNames);
-  }
-
-  /**
-   * Gets the annotation database for the specific classpath.
-   * 
-   * @param classpathUrlArray  the classpath URLs, not null
-   * @return the annotation database, not null
-   */
-  private static AnnotationDB getAnnotationDb(URL[] classpathUrlArray) {
-    AnnotationDB annotationDb = new AnnotationDB();
-    annotationDb.setScanClassAnnotations(true);
-    annotationDb.setScanMethodAnnotations(false);
-    annotationDb.setScanFieldAnnotations(false);
-    annotationDb.setScanParameterAnnotations(false);
-    try {
-      annotationDb.scanArchives(classpathUrlArray);
-    } catch (IOException ex) {
-      throw new RuntimeException("Error scanning for annotations", ex);
-    }
-    return annotationDb;
+    Validate.notNull(classLoader, "classLoader");
+    Set<URL> initialUrls = new HashSet<>(Arrays.asList(classpathUrls));
+    Set<URL> completeUrls = ClasspathHelper.forManifest(initialUrls);
+    Configuration config = new ConfigurationBuilder()
+      .setUrls(completeUrls)
+      .setScanners(new TypeAnnotationsScanner())
+      .addClassLoader(classLoader)
+      .useParallelExecutor();
+    Reflections reflections = new Reflections(config);
+    return reflections.getTypesAnnotatedWith(annotationClass);
   }
 
 }

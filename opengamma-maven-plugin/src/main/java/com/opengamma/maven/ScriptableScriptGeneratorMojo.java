@@ -38,7 +38,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.opengamma.scripts.ScriptGenerator;
 import com.opengamma.scripts.ScriptUtils;
@@ -190,7 +189,7 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
     
     // build the scripts
     if (unixMap.isEmpty() == false || windowsMap.isEmpty() == false) {
-      List<Class<?>> scriptableClasses = buildScriptableClasses(classpathUrls, classLoader);
+      Set<Class<?>> scriptableClasses = ScriptUtils.findClassAnnotation(classpathUrls, Scriptable.class, classLoader);
       getLog().info("Generating " + scriptableClasses.size() + " scripts");
       if (unix) {
         generateScripts(unixMap, scriptableClasses, classLoader, false);
@@ -266,19 +265,8 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
   }
 
   //-------------------------------------------------------------------------
-  // scans for the Scriptable annotation
-  private static List<Class<?>> buildScriptableClasses(URL[] classpathUrls, ClassLoader classLoader) throws MojoExecutionException {
-    Set<String> scriptableClassNames = ScriptUtils.findClassAnnotation(classpathUrls, Scriptable.class);
-    List<Class<?>> result = Lists.newArrayList();
-    for (String scriptable : scriptableClassNames) {
-      result.add(resolveClass(scriptable, classLoader));
-    }
-    return result;
-  }
-
-  //-------------------------------------------------------------------------
   // generates the scripts
-  private void generateScripts(Map<String, String> templates, List<Class<?>> scriptableClasses, ClassLoader classLoader, boolean windows) throws MojoExecutionException {
+  private void generateScripts(Map<String, String> templates, Set<Class<?>> scriptableClasses, ClassLoader classLoader, boolean windows) throws MojoExecutionException {
     if (templates.isEmpty()) {
       return;
     }
