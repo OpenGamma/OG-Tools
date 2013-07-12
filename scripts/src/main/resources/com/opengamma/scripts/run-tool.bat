@@ -1,9 +1,9 @@
 @echo off
-if not exist "%~dp0\..\bin\runtool.exe" goto noexe
+IF NOT EXIST "%~dp0\..\bin\runtool.exe" GOTO noexe
 "%~dp0\..\bin\runtool.exe" -elevate -plib\%PROJECTJAR% %*
-goto done
+GOTO done
 
 :noexe
-call "%~dp0\run-tool-noexe.bat" %*
+CALL "%~dp0\run-tool-noexe.bat" %*
 
 :done

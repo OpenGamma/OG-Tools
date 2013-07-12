@@ -3,9 +3,9 @@
 :: Set JAVA_HOME or JRE_HOME if not already set.
 ::
 :: ---------------------------------------------------------------------------
-if "%OS%" == "Windows_NT" setlocal
-set BASEDIR=%~dp0..
-set SCRIPTDIR=%BASEDIR%\scripts
+IF "%OS%" == "Windows_NT" setlocal
+SET BASEDIR=%~dp0..
+SET SCRIPTDIR=%BASEDIR%\scripts
 
 
 :: ---------------------------------------------------------------------------
@@ -28,13 +28,13 @@ set SCRIPTDIR=%BASEDIR%\scripts
 :: ---------------------------------------------------------------------------
 ::     JRE_HOME setup
 
-if not "%JRE_HOME%" == "" goto gotJRE
-set JRE_HOME=%JAVA_HOME%
+IF NOT "%JRE_HOME%" == "" GOTO gotJRE
+SET JRE_HOME=%JAVA_HOME%
 
 if "%JRE_HOME%" == "" (
-    echo "Error: Cannot find a JRE or JDK. Please set JRE_HOME or JAVA_HOME"
-    pause
-    exit 1
+    ECHO "Error: Cannot find a JRE or JDK. Please set JRE_HOME or JAVA_HOME"
+    PAUSE
+    EXIT 1
 )
 
 :gotJRE
@@ -44,35 +44,35 @@ if "%JRE_HOME%" == "" (
 ::     JAVA_CMD setup
 
 :: check if we got JAVA_CMD set
-if not "%JAVA_CMD%" == "" goto gotJavaCmd
+IF NOT "%JAVA_CMD%" == "" GOTO gotJavaCmd
 :: Trying to guess java command
-set JAVA_CMD=%JRE_HOME%\bin\java
+SET JAVA_CMD=%JRE_HOME%\bin\java
 
 :gotJavaCmd
 
-if exist "%JAVA_CMD%.exe" (
+IF EXIST "%JAVA_CMD%.exe" (
     rem OK
-) else (
-    echo "Java command is not defined. Please set JAVA_CMD environment variable pointing to java executable"
-    pause
-    exit 1
+) ELSE (
+    ECHO "Java command is not defined. Please set JAVA_CMD environment variable pointing to java executable"
+    PAUSE
+    EXIT 1
 )
 
 :: ---------------------------------------------------------------------------
 ::     CLASS PATH
 
-setLocal EnableDelayedExpansion
+SETLOCAL EnableDelayedExpansion
 
-rem Get standard environment variables
-if exist "%HOMEDRIVE%%HOMEPATH%"/.opengamma/tools.bat (
+REM Get standard environment variables
+IF EXIST "%HOMEDRIVE%%HOMEPATH%"/.opengamma/tools.bat (
     CALL "%HOMEDRIVE%%HOMEPATH%/.opengamma/tools.bat"
 )
 
 
-if "%MEM_OPTS%" == "" (
+IF "%MEM_OPTS%" == "" (
 SET MEM_OPTS=-Xms512m -Xmx1024m -XX:MaxPermSize=256M
 )
-if "%GC_OPTS%" == "" (
+IF "%GC_OPTS%" == "" (
 SET GC_OPTS=-XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing
 )
 
@@ -81,4 +81,3 @@ SET CLASSPATH=%BASEDIR%\config;%BASEDIR%\lib\override\*;%BASEDIR%\lib\%PROJECTJA
 ECHO "%JAVA_CMD%" %MEM_OPTS% %GC_OPTS% -cp "%CLASSPATH%" %*
 
 "%JAVA_CMD%" %MEM_OPTS% %GC_OPTS% -cp "%CLASSPATH%" %*
-
