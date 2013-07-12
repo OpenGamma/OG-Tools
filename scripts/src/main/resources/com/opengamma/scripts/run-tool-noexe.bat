@@ -76,7 +76,17 @@ IF "%GC_OPTS%" == "" (
 SET GC_OPTS=-XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing
 )
 
-SET CLASSPATH=%BASEDIR%\config;%BASEDIR%\lib\override\*;%BASEDIR%\lib\%PROJECTJAR%;
+SET OVERRIDE=
+IF EXIST %BASEDIR%\lib\override (
+    PUSHD %BASEDIR%\lib\override
+    FOR %%i in (*.jar) do (
+        ECHO Using override jar file: %%i
+        SET OVERRIDE=!OVERRIDE!;%BASEDIR%\lib\override\%%i
+    )
+    POPD
+)
+
+SET CLASSPATH=%BASEDIR%\config%OVERRIDE%;%BASEDIR%\lib\%PROJECTJAR%;
 
 ECHO "%JAVA_CMD%" %MEM_OPTS% %GC_OPTS% -cp "%CLASSPATH%" %*
 
