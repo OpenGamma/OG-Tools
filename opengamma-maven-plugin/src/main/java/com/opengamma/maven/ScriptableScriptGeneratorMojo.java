@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -53,7 +54,7 @@ import freemarker.template.Template;
  * @phase prepare-package
  * @requiresDependencyResolution compile
  * @threadSafe
- * @description 
+ * @description
  */
 // CSON
 public class ScriptableScriptGeneratorMojo extends AbstractMojo {
@@ -359,7 +360,9 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
     }
     try {
       File destinationFile = new File(outputDir, scriptFile.getName());
-      FileUtils.copyFileToDirectory(scriptFile, outputDir);
+      String content = FileUtils.readFileToString(scriptFile, StandardCharsets.UTF_8);
+      content = ScriptGenerator.fixLineEndings(content, destinationFile.getName());
+      FileUtils.write(destinationFile, content, StandardCharsets.UTF_8);
       destinationFile.setReadable(true, false);
       destinationFile.setExecutable(true, false);
     } catch (IOException ex) {
@@ -374,6 +377,9 @@ public class ScriptableScriptGeneratorMojo extends AbstractMojo {
       }
       File destinationFile = new File(outputDir, scriptFile.getName());
       FileUtils.writeByteArrayToFile(destinationFile, IOUtils.toByteArray(resourceStream));
+      String content = FileUtils.readFileToString(destinationFile, StandardCharsets.UTF_8);
+      content = ScriptGenerator.fixLineEndings(content, destinationFile.getName());
+      FileUtils.write(destinationFile, content, StandardCharsets.UTF_8);
       destinationFile.setReadable(true, false);
       destinationFile.setExecutable(true, false);
     } catch (IOException ex) {

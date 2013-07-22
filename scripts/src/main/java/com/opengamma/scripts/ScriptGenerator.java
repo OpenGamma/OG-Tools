@@ -6,10 +6,14 @@
 package com.opengamma.scripts;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -107,16 +111,41 @@ public class ScriptGenerator {
    * @param templateData  the lookup data injected into the template, not null
    */
   public static void generate(File outputFile, Template template, Object templateData) {
-    try {
-      PrintWriter writer = new PrintWriter(outputFile);
+    String script;
+    try (StringWriter writer = new StringWriter(512)) {
       template.process(templateData, writer);
       writer.flush();
-      writer.close();
+      script = writer.toString();
+    } catch (TemplateException | IOException ex) {
+      throw new RuntimeException("Error processing template", ex);
+    }
+    script = fixLineEndings(script, outputFile.getName());
+    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8))) {
+      writer.append(script);
+      writer.flush();
       outputFile.setReadable(true, false);
       outputFile.setExecutable(true, false);
-    } catch (TemplateException | IOException ex) {
+    } catch (IOException ex) {
       throw new RuntimeException("Error writing to output file", ex);
     }
+  }
+
+  /**
+   * Fixes the line endings of a file, converting batch files to CRLF and all others to LF.
+   * 
+   * @param fileName  the file name, not null
+   * @param content  the file content, not null
+   * @return the file content, not null
+   */
+  public static String fixLineEndings(String content, String fileName) {
+    content = content.replace("\r\n", "\n").replace("\n\r", "\n").replace("\r", "\n");
+    if (content.endsWith("\n") == false) {
+      content = content + "\n";
+    }
+    if (fileName.endsWith(".bat")) {
+      content = content.replace("\n", "\r\n");
+    }
+    return content;
   }
 
   //-------------------------------------------------------------------------
