@@ -1,6 +1,7 @@
 OpenGamma Platform Project Parent
----------------------------
+---------------------------------
 This is the parent pom for OpenGamma client integrations.
+
 It is intended to inherit maven version numbers from the corporate parent to lock down the specific version of the platform to be used as well as house the standard boilerplate configs such as:
 * The version of corporate-parent
 * resources processing configs

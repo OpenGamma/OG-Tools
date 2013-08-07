@@ -1,4 +1,12 @@
+*~
+*.class
 *.iml
-.idea/
-.settings/
-target/
+*.log
+.checkstyle
+.classpath
+.project
+/.idea/
+/.settings/
+/bin/
+/build/
+/target/
