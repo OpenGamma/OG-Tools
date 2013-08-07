@@ -180,6 +180,7 @@
               </descriptorRefs>
               <tarLongFileMode>gnu</tarLongFileMode>
               <attach>false</attach>
+              <skipAssembly>${og.assembly.server.skip}</skipAssembly>
             </configuration>
           </execution>
           <execution>
@@ -194,6 +195,7 @@
               </descriptorRefs>
               <finalName>server-dir</finalName>
               <appendAssemblyId>false</appendAssemblyId>
+              <skipAssembly>${og.assembly.server.dir.skip}</skipAssembly>
             </configuration>
           </execution>
         </executions>
@@ -337,6 +339,19 @@
         </plugins>
       </build>
     </profile>
+    <!-- Hack to prevent assembly plugin running when working with this parent pom -->
+    <profile>
+      <id>block-assembly</id>
+      <activation>
+        <file>
+          <exists>pom-profile-marker.txt</exists>
+        </file>
+      </activation>
+      <properties>
+        <og.assembly.server.skip>true</og.assembly.server.skip>
+        <og.assembly.server.dir.skip>true</og.assembly.server.dir.skip>
+      </properties>
+    </profile>
   </profiles>
 
   <!-- ==================================================================== -->
@@ -345,6 +360,8 @@
     <og.version>${project.version}</og.version>
     <og.assembly.server>unix-tarbz2</og.assembly.server><!-- or 'windows-zip' or 'combined' -->
     <og.assembly.server.dir>combined-dir</og.assembly.server.dir>
+    <og.assembly.server.skip>false</og.assembly.server.skip>
+    <og.assembly.server.dir.skip>false</og.assembly.server.dir.skip>
     <!-- Properties for OpenGamma plugin -->
     <opengamma.generate.scripts.type>tool</opengamma.generate.scripts.type>
     <!-- Properties for testing -->

@@ -1,0 +1,2 @@
+Marker file used to trigger a profile.
+If Maven was a decent build system we woldn't need this hack.
