@@ -164,22 +164,36 @@
           <dependency>
             <groupId>com.opengamma.platform</groupId>
             <artifactId>og-platform-project-assembly</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
           </dependency>
         </dependencies>
         <executions>
           <execution>
-            <id>packages</id>
+            <id>server</id>
             <phase>package</phase>
             <goals>
               <goal>single</goal>
             </goals>
             <configuration>
               <descriptorRefs>
-                <descriptorRef>assembly-server</descriptorRef>
+                <descriptorRef>assembly-server-${og.assembly.server}</descriptorRef>
               </descriptorRefs>
               <tarLongFileMode>gnu</tarLongFileMode>
               <attach>false</attach>
+            </configuration>
+          </execution>
+          <execution>
+            <id>server-dir</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptorRefs>
+                <descriptorRef>assembly-server-${og.assembly.server.dir}</descriptorRef>
+              </descriptorRefs>
+              <finalName>server-dir</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
             </configuration>
           </execution>
         </executions>
@@ -327,8 +341,10 @@
 
   <!-- ==================================================================== -->
   <properties>
-    <!-- Versions -->
+    <!-- Properties for child projects -->
     <og.version>${project.version}</og.version>
+    <og.assembly.server>unix-tarbz2</og.assembly.server><!-- or 'windows-zip' or 'combined' -->
+    <og.assembly.server.dir>combined-dir</og.assembly.server.dir>
     <!-- Properties for OpenGamma plugin -->
     <opengamma.generate.scripts.type>tool</opengamma.generate.scripts.type>
     <!-- Properties for testing -->
