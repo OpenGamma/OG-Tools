@@ -13,7 +13,7 @@
 
   <groupId>com.opengamma.platform</groupId>
   <artifactId>og-platform-project-assembly</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 
   <name>OG-Platform-Project-Assembly</name>
   <description>OG Platform Project shared assembly</description>
@@ -27,7 +27,7 @@
     </license>
   </licenses>
   <scm>
-    <url>https://github.com/OpenGamma/OG-PlatformProject/tree/master/og-platform-project-assembly</url>
+    <url>https://github.com/OpenGamma/OG-Tools/tree/master/og-platform-project-assembly</url>
   </scm>
 
   <!-- ==================================================================== -->
