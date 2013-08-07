@@ -2,10 +2,12 @@
   xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-  <id>server</id>
+
+  <id>server-dir</id>
   <formats>
-    <format>tar.bz2</format>
+    <format>dir</format>
   </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
 
   <!-- website resources -->
   <dependencySets>
@@ -75,14 +77,14 @@
       <fileMode>644</fileMode>
     </fileSet>
     <fileSet>
-      <directory>${project.build.directory}/assembly/web-marketdata</directory>
-      <outputDirectory>/web-marketdata</outputDirectory>
+      <directory>${project.build.directory}/assembly/web-sharedmasters</directory>
+      <outputDirectory>/web-sharedmasters</outputDirectory>
       <directoryMode>755</directoryMode>
       <fileMode>644</fileMode>
     </fileSet>
     <fileSet>
-      <directory>${project.build.directory}/assembly/web-sharedmasters</directory>
-      <outputDirectory>/web-sharedmasters</outputDirectory>
+      <directory>${project.build.directory}/assembly/web-marketdata</directory>
+      <outputDirectory>/web-marketdata</outputDirectory>
       <directoryMode>755</directoryMode>
       <fileMode>644</fileMode>
     </fileSet>
