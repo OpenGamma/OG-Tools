@@ -1,0 +1,9 @@
+<version>
+2.1.0
+</version>
+<archives>
+lib/og-component-2.1.0.jar
+lib/og-bloomberg-2.1.0.jar
+lib/og-integration-2.1.0.jar
+lib/og-web-2.1.0.jar
+</archives>

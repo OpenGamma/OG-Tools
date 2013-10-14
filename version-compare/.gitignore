@@ -1,0 +1,6 @@
+.classpath
+.project
+/.settings/
+/lib/
+/compat_reports/
+/target/
