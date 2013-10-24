@@ -70,7 +70,7 @@ IF EXIST "%HOMEDRIVE%%HOMEPATH%"/.opengamma/tools.bat (
 
 
 IF "%MEM_OPTS%" == "" (
-SET MEM_OPTS=-Xms512m -Xmx1024m -XX:MaxPermSize=256M
+SET MEM_OPTS=-Xms512m -Xmx1024m -XX:PermSize=128M -XX:MaxPermSize=256M
 )
 IF "%GC_OPTS%" == "" (
 SET GC_OPTS=-XX:+UseParallelGC -XX:+UseParallelOldGC
