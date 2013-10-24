@@ -73,7 +73,7 @@ IF "%MEM_OPTS%" == "" (
 SET MEM_OPTS=-Xms512m -Xmx1024m -XX:MaxPermSize=256M
 )
 IF "%GC_OPTS%" == "" (
-SET GC_OPTS=-XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing
+SET GC_OPTS=-XX:+UseParallelGC -XX:+UseParallelOldGC
 )
 
 SET OVERRIDE=

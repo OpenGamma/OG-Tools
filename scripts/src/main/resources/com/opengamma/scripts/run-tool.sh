@@ -35,7 +35,7 @@ fi
 [ -f $HOME/.opengamma/tools ] && . $HOME/.opengamma/tools
 
 MEM_OPTS=${MEM_OPTS:--Xms512m -Xmx1024m -XX:MaxPermSize=256M}
-GC_OPTS=${GC_OPTS:--XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing}
+GC_OPTS=${GC_OPTS:-XX:+UseParallelGC -XX:+UseParallelOldGC}
 
 
 CLASSPATH="${BASEDIR}/lib/${PROJECTJAR}"

@@ -18,7 +18,7 @@ load_component_config() {
   PIDFILE=${PIDFILE:-data/${_COMPONENT}.pid}
   LOGFILE=${LOGFILE:-logs/${_COMPONENT}-console.log}
   MEM_OPTS=${MEM_OPTS:--Xms4096m -Xmx4096m -XX:MaxPermSize=256M}
-  GC_OPTS=${GC_OPTS:--XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing}
+  GC_OPTS=${GC_OPTS:--XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSConcurrentMTEnabled}
   EXTRA_JVM_OPTS=${EXTRA_JVM_OPTS:-""}
   LOGBACK_CONFIG=${LOGBACK_CONFIG:-engine-logback.xml}
   SHUTDOWN_WAIT=${SHUTDOWN_WAIT:-15}
