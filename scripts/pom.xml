@@ -13,7 +13,7 @@
   </parent>  
   <groupId>com.opengamma.tools</groupId>
   <artifactId>scripts</artifactId>
-  <version>1.3.1</version>
+  <version>1.3.2</version>
   <packaging>jar</packaging>
   <name>Scripts</name>
   <description>Utilities for managing script files</description>
@@ -31,6 +31,24 @@
     <developerConnection>scm:git:https://github.com/OpenGamma/OG-Tools.git</developerConnection>
     <url>https://github.com/OpenGamma/OG-Tools</url>
   </scm>
+
+  <!-- ==================================================================== -->
+  <!-- OpenGamma public repositories -->
+  <!-- duplicated from corporate-pom to ensure this pom builds from scratch -->
+  <repositories>
+    <repository>
+      <id>og-public</id>
+      <name>OG Public</name>
+      <url>http://maven.opengamma.com/nexus/content/groups/public</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>og-public</id>
+      <name>OG Public</name>
+      <url>http://maven.opengamma.com/nexus/content/groups/public</url>
+    </pluginRepository>
+  </pluginRepositories>
 
   <!-- ==================================================================== -->
   <build>
