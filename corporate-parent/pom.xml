@@ -472,7 +472,7 @@
     <build-helper-maven-plugin.version>1.8</build-helper-maven-plugin.version>
     <buildnumber-maven-plugin.version>1.2</buildnumber-maven-plugin.version>
     <exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
-    <opengamma-maven-plugin.version>1.4.0</opengamma-maven-plugin.version>
+    <opengamma-maven-plugin.version>1.4.1</opengamma-maven-plugin.version>
     <joda-beans-maven-plugin.version>0.7.3</joda-beans-maven-plugin.version>
     <fudge-proto-maven-plugin.version>0.3.9.7</fudge-proto-maven-plugin.version>
     <!-- Dependency versions -->
