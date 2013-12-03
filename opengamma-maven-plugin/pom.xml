@@ -8,12 +8,12 @@
   <parent>
     <groupId>com.opengamma</groupId>
     <artifactId>corporate-parent</artifactId>
-    <version>1.1.5</version>
+    <version>1.1.6</version>
     <relativePath></relativePath>
   </parent>  
   <groupId>com.opengamma.tools</groupId>
   <artifactId>opengamma-maven-plugin</artifactId>
-  <version>1.4.0</version>
+  <version>1.4.1</version>
   <packaging>maven-plugin</packaging>
   <name>OpenGamma Maven Plugin</name>
   <description>OpenGamma plugin for Apache Maven</description>
@@ -83,7 +83,7 @@
     <dependency>
       <groupId>com.opengamma.tools</groupId>
       <artifactId>scripts</artifactId>
-      <version>1.4.0</version>
+      <version>1.4.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
