@@ -478,7 +478,7 @@
     <buildnumber-maven-plugin.version>1.2</buildnumber-maven-plugin.version>
     <exec-maven-plugin.version>1.2.1</exec-maven-plugin.version>
     <jacoco-maven-plugin.version>0.6.4.201312101107</jacoco-maven-plugin.version>
-    <opengamma-maven-plugin.version>1.4.1</opengamma-maven-plugin.version>
+    <opengamma-maven-plugin.version>1.4.2</opengamma-maven-plugin.version>
     <joda-beans-maven-plugin.version>0.7.3</joda-beans-maven-plugin.version>
     <fudge-proto-maven-plugin.version>0.3.9.7</fudge-proto-maven-plugin.version>
     <!-- Dependency versions -->
