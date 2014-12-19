@@ -2,7 +2,7 @@
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
 
 <!--
-    Checkstyle-Configuration: OG v2
+    Checkstyle-Configuration: OG v3
     Description: none
 -->
 <module name="Checker">
@@ -11,7 +11,14 @@
     <property name="tabWidth" value="2"/>
     <module name="FileContentsHolder"/>
     <module name="ConstantName">
-      <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^s_[a-z][a-zA-Z0-9]*$"/>
+      <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^[a-z][a-zA-Z0-9]*$"/>
+    </module>
+    <module name="AbbreviationAsWordInName">
+      <property name="allowedAbbreviationLength" value="1"/>
+    </module>
+    <module name="AnonInnerLength"/>
+    <module name="AnnotationLocation">
+      <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
     </module>
     <module name="ArrayTypeStyle">
       <property name="severity" value="error"/>
@@ -25,7 +32,7 @@
       <property name="severity" value="error"/>
     </module>
     <module name="EmptyBlock">
-      <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,STATIC_INIT"/>
+      <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,INSTANCE_INIT,STATIC_INIT"/>
     </module>
     <module name="EqualsHashCode"/>
     <module name="ExplicitInitialization">
@@ -50,7 +57,6 @@
       <property name="scope" value="protected"/>
       <property name="allowUndeclaredRTE" value="true"/>
       <property name="allowMissingThrowsTags" value="true"/>
-      <property name="allowMissingJavadoc" value="true"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="logLoadErrors" value="true"/>
       <property name="suppressLoadErrors" value="true"/>
@@ -72,7 +78,7 @@
     <module name="LocalFinalVariableName"/>
     <module name="LocalVariableName"/>
     <module name="MemberName">
-      <property name="format" value="^_[a-z][a-zA-Z0-9$]*$"/>
+      <property name="format" value="^[a-z][a-zA-Z0-9$]*$"/>
     </module>
     <module name="MethodLength">
       <property name="max" value="300"/>
@@ -81,7 +87,9 @@
     <module name="MethodParamPad">
       <property name="severity" value="error"/>
     </module>
-    <module name="MissingDeprecated"/>
+    <module name="MissingDeprecated">
+      <property name="severity" value="error"/>
+    </module>
     <module name="MissingOverride"/>
     <module name="ModifierOrder">
       <property name="severity" value="error"/>
@@ -93,6 +101,7 @@
     <module name="NeedBraces">
       <property name="severity" value="error"/>
     </module>
+    <module name="NoLineWrap"/>
     <module name="NoWhitespaceAfter">
       <property name="severity" value="error"/>
     </module>
@@ -101,12 +110,14 @@
       <property name="tokens" value="SEMI,DOT,POST_DEC,POST_INC"/>
       <property name="severity" value="error"/>
     </module>
+    <module name="OneStatementPerLine"/>
     <module name="OperatorWrap">
       <property name="option" value="eol"/>
       <property name="tokens" value="ASSIGN, DIV_ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, STAR_ASSIGN, MOD_ASSIGN, SR_ASSIGN, BSR_ASSIGN, SL_ASSIGN, BXOR_ASSIGN, BOR_ASSIGN, BAND_ASSIGN"/>
     </module>
     <module name="PackageAnnotation"/>
     <module name="PackageName"/>
+    <module name="ParameterAssignment"/>
     <module name="ParameterName"/>
     <module name="ParameterNumber">
       <property name="max" value="20"/>
@@ -115,10 +126,10 @@
       <property name="severity" value="error"/>
     </module>
     <module name="RedundantImport"/>
-    <module name="RedundantModifier"/>
     <module name="RightCurly">
       <property name="severity" value="error"/>
     </module>
+    <module name="SimplifyBooleanReturn"/>
     <module name="StaticVariableName">
       <property name="format" value="^s_[a-z][a-zA-Z0-9]*$"/>
     </module>
@@ -145,7 +156,7 @@
   <module name="RegexpHeader">
     <property name="header" value="^/\*[*]?\n^ \* Copyright \(C\) (2009|201[0-9]) - present by OpenGamma Inc\. and the OpenGamma group of companies\n^ \*\n^ \* Please see distribution for license\.\n^ \*\/"/>
     <property name="fileExtensions" value="java,proto"/>
-    <!-- property name="severity" value="error"/   proto generated files cause errors-->
+    <property name="severity" value="error"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="\{\@code true\}"/>
@@ -187,6 +198,7 @@
     <property name="eachLine" value="true"/>
     <property name="severity" value="error"/>
   </module>
+  <module name="JavadocPackage"/>
   <module name="NewlineAtEndOfFile"/>
   <module name="SuppressWithNearbyCommentFilter">
     <property name="commentFormat" value="CSIGNORE"/>
