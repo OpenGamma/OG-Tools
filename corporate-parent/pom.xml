@@ -9,7 +9,7 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>2.0.0-RC1</version>
+  <version>2.0.0-RC2</version>
   <description>OpenGamma maven corporate parent project</description>
   <organization>
     <name>OpenGamma</name>
@@ -282,20 +282,6 @@
               <pluginExecutions>
                 <pluginExecution>
                   <pluginExecutionFilter>
-                    <groupId>org.joda</groupId>
-                    <artifactId>joda-beans-maven-plugin</artifactId>
-                    <versionRange>[${joda-beans-maven-plugin.version},)</versionRange>
-                    <goals>
-                      <goal>validate</goal>
-                      <goal>generate</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <versionRange>[${maven-enforcer-plugin.version},)</versionRange>
@@ -524,6 +510,34 @@
         </plugins>
       </reporting>
     </profile>
+    <!--  integrate joda-beans with Eclipse -->
+    <profile>
+      <id>joda-beans-eclipse</id>
+      <activation>
+        <property>
+          <name>eclipse.buildId</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.joda</groupId>
+            <artifactId>joda-beans-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>generate</goal>
+                </goals>
+                <configuration>
+                  <eclipse>true</eclipse>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
   <!-- ==================================================================== -->
@@ -558,7 +572,7 @@
     <exec-maven-plugin.version>1.3.2</exec-maven-plugin.version>
     <jacoco-maven-plugin.version>0.7.2.201409121644</jacoco-maven-plugin.version>
     <opengamma-maven-plugin.version>1.4.2</opengamma-maven-plugin.version>
-    <joda-beans-maven-plugin.version>0.7.3</joda-beans-maven-plugin.version>
+    <joda-beans-maven-plugin.version>1.0</joda-beans-maven-plugin.version>
     <!-- Dependency versions -->
     <testng.version>6.8.8</testng.version>
     <junit.version>4.11</junit.version>
