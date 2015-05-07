@@ -36,6 +36,27 @@ class SimpleExec extends DefaultTask
     @TaskAction
     void exec()
     {
+        output = execWithCommand(command)
+
+        if(output.exitCode != 0 && throwOnFailure)
+            throw buildException("running system command", command.toString())
+    }
+
+    protected Throwable buildException(String action, String attempt, Throwable cause = null)
+    {
+        return new GradleException("""\
+Error ${action} (${attempt.toString()})
+=== STDOUT ===
+${output.stdOut}
+=== /STDOUT ===
+=== STDERR ===
+${output.stdErr}
+=== /STDERR ===
+""", cause)
+    }
+
+    protected ShellResult execWithCommand(command)
+    {
         if( ! executor)
             executor = new DefaultShellExecutor()
 
@@ -47,17 +68,6 @@ class SimpleExec extends DefaultTask
         if(environment)
             effectiveEnvironment.putAll environment
 
-        output = executor.execute(command, effectiveEnvironment, wd)
-
-        if(output.exitCode != 0 && throwOnFailure)
-            throw new GradleException("""\
-Error running system command (${command.toString()})
-=== STDOUT ===
-${output.stdOut}
-=== /STDOUT ===
-=== STDERR ===
-${output.stdErr}
-=== /STDERR ===
-""")
+        return executor.execute(command, effectiveEnvironment, wd)
     }
 }
