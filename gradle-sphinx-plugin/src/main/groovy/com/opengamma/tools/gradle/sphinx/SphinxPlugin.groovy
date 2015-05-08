@@ -104,7 +104,9 @@ class SphinxPlugin implements Plugin<Project>
 
 	private Task addSphinxBuildTask()
 	{
+		Environment env = new Environment()
 		SimpleExec t = project.tasks.create(SPHINX_BUILD_TASK_NAME, SimpleExec)
+		t.environment = env.pythonEnvironment
 		t.command = "make html"
 		t.workingDirectory = new File(project.buildDir, "/tmp/docs-stage")
 		t.outputs.dir new File(t.workingDirectory, "/_build/html")

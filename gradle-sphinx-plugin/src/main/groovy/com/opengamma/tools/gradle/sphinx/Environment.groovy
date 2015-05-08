@@ -79,7 +79,7 @@ class Environment
 		return pythonEnvironment ? new File(pythonEnvironment).canonicalPath + "/bin/" : ""
 	}
 
-	private Map<String, String> getPythonEnvironment()
+	Map<String, String> getPythonEnvironment()
 	{
 		Map<String, String> inheritedEnvironment = [:]
 		inheritedEnvironment.putAll System.getenv()
