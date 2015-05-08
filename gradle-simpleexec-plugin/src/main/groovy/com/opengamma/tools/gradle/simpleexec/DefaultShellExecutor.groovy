@@ -21,7 +21,8 @@ class DefaultShellExecutor implements ShellExecutor
 		try
 		{
 			p = startProcess(command, wd, env)
-			p.consumeProcessOutput(sbOut, sbErr)
+//			p.consumeProcessOutput(sbOut, sbErr)
+			p.waitForProcessOutput(sbOut, sbErr)
 			exit = p.waitFor()
 		}
 		catch(final Exception ex)
