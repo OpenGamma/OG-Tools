@@ -12,5 +12,5 @@ class ReleaseExtension
 {
     boolean releaseBuild = false
     Version releaseVersion
-    String releaseTagTemplate
+    String releaseTagTemplate = "@version@"
 }

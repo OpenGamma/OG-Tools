@@ -7,13 +7,16 @@
 package com.opengamma.tools.gradle.release
 
 import com.opengamma.tools.gradle.release.task.UpdateVersion
+import com.opengamma.tools.gradle.simpleexec.SimpleExecWithFailover
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 
 class AutoVersionPlugin implements Plugin<Project>
 {
-    private final static String UPDATE_VERSION_TASK_NAME = "updateVersion"
+    public final static String UPDATE_VERSION_TASK_NAME = "updateVersion"
+    public final static String DESCRIBE_TAG_TASK_NAME = "describeGitTag"
+    public final static String DESCRIBE_COMMIT_TASK_NAME = "describeGitCommit"
 
     Project project
 
@@ -23,28 +26,41 @@ class AutoVersionPlugin implements Plugin<Project>
         this.project = target
         project.extensions.create("release", ReleaseExtension)
 
-        addUpdateVersionTask()
+	    Task describeTagTask = addDescribeGitTagTask()
+	    Task describeCommitTask = addDescribeGitCommitTask()
+        Task updateVersionTask = addUpdateVersionTask()
+
+	    updateVersionTask.dependsOn([describeCommitTask, describeTagTask])
+
+	    project.tasks.all {
+		    if([updateVersionTask, describeTagTask, describeCommitTask].contains(it)) return
+		    it.dependsOn updateVersionTask
+	    }
     }
 
     private Task addUpdateVersionTask()
     {
-        Task t = projects.tasks.create(UPDATE_VERSION_TASK_NAME, UpdateVersion)
+        Task t = project.tasks.create(UPDATE_VERSION_TASK_NAME, UpdateVersion)
         // TODO t.mustRunAfter "checkReleaseEnvironment"
-
-        // TODO THIS HAS NO BUSINESS BEING HERE
-//        t.configure {
-//            project.gradle.taskGraph.whenReady { taskGraph ->
-//            if(project.tasks[ReleasePlugin.RELEASE_TASK_NAME])
-//                project.release.releaseBuild = true
-//            }
-//        }
-
-        t.doFirst {
-            Project rootProject = project.rootProject
-            rootProject.allprojects { p ->
-                p.version = rootProject.release.releaseBuild ?
-                        rootProject.release.releaseVersion.toString() : getDerivedSnapshotVersion().toString()
-            }
-        }
     }
+
+	private Task addDescribeGitTagTask()
+	{
+		Task t = project.tasks.create(DESCRIBE_TAG_TASK_NAME, SimpleExecWithFailover)
+		t.command = "git describe --abbrev=0"
+		t.failoverCommand = "git describe --abbrev=0 --tags"
+		t.throwOnFailure = false
+		t.workingDirectory = project.rootDir
+		return t
+	}
+
+	private Task addDescribeGitCommitTask()
+	{
+		Task t = project.tasks.create(DESCRIBE_COMMIT_TASK_NAME, SimpleExecWithFailover)
+		t.command = "git describe"
+		t.failoverCommand = "git describe --tags"
+		t.throwOnFailure = false
+		t.workingDirectory = project.rootDir
+		return t
+	}
 }

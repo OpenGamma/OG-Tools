@@ -15,6 +15,7 @@ class SnapshotVersionDeriver
     String baseTagDescription
     String commitDescription
     String releaseTagTemplate
+    Integer buildNumber
 
     /**
      * TODO - This doc copied from original OGM implementation - needs updating
@@ -39,15 +40,22 @@ class SnapshotVersionDeriver
     public Version deriveSnapshot()
     {
         def (String tagVersionPrefix, String tagVersionSuffix) = releaseTagTemplate.split("@version@", 2)
-        String rawMetadata = commitDescription.replaceFirst("${baseTagDescription}-", "")
-        def (String commitCount, String objectName) = rawMetadata.split("-", 2)
+        String rawMetadata = commitDescription.replaceFirst("${baseTagDescription}", "")
+	    if(rawMetadata.startsWith("-"))
+		    rawMetadata = rawMetadata.replaceFirst("-", "")
+        def (String commitCount, String objectName) = rawMetadata ? rawMetadata.split("-", 2) : ["", ""]
+	    if(commitCount)
+		    commitCount += "."
         String tagVersion = baseTagDescription.replaceFirst(tagVersionPrefix, "")
         tagVersion = tagVersion - tagVersionSuffix
         Version baseVersion = Version.valueOf(tagVersion)
+	    String build = null != buildNumber ? "b${buildNumber}" : ""
+	    if(objectName && build)
+		    objectName += "."
         Version snapshotVersion = new Version.Builder().
                 setNormalVersion(baseVersion.normalVersion).
                 setPreReleaseVersion(baseVersion.preReleaseVersion).
-                setBuildMetadata("${commitCount}.${objectName}").
+                setBuildMetadata("${commitCount}${objectName}${build}").
                 build()
 
         return snapshotVersion
