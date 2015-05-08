@@ -14,7 +14,7 @@ import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 
-class GitClone extends DefaultTask
+class GitClone extends BaseGitTask
 {
 	@Input
 	String gitRepoURL
