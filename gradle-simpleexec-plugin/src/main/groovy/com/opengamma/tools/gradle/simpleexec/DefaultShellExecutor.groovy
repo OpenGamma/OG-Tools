@@ -29,7 +29,7 @@ class DefaultShellExecutor implements ShellExecutor
 			throw new GradleException("Could not run system command", ex)
 		}
 
-		return new ShellResult(exit, sbOut.toString(), sbErr.toString())
+		return new ShellResult(exit, sbOut.toString().trim(), sbErr.toString().trim())
 	}
 
 	private Process startProcess(Object command, File wd, Map<String, String> env)
