@@ -161,7 +161,11 @@ ${sphinxBuild.output.stdErr}
 		t.group = "Documentation"
 		t.description = "Package the HTML User Guide into a Zip archive"
 		t.dependsOn project.tasks[BUILD_GUIDE_TASK_NAME]
-		t.from new File(project.buildDir, "/docs/guide")
+
+		println "[!!] ${PACKAGE_GUIDE_TASK_NAME}.dependsOn: ${t.getDependsOn()}"
+
+//		t.from new File(project.buildDir, "/docs/guide")
+		t.from project.tasks[BUILD_GUIDE_TASK_NAME]
 		t.into "html"
 
 		t.doFirst {
