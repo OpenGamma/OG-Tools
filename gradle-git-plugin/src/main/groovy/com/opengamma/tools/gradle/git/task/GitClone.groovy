@@ -7,7 +7,6 @@
 package com.opengamma.tools.gradle.git.task
 
 import com.opengamma.tools.gradle.simpleexec.SimpleExec
-import org.gradle.api.DefaultTask
 import org.gradle.api.Task
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
