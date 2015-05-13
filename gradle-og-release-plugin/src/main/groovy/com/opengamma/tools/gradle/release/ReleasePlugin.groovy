@@ -13,11 +13,13 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionGraph
+import org.gradle.api.tasks.bundling.AbstractArchiveTask
 
 class ReleasePlugin implements Plugin<Project>
 {
     public final static String RELEASE_TASK_NAME = "release"
     public final static String CHECK_RELEASE_ENVIRONMENT_TASK_NAME = "checkReleaseEnvironment"
+	public final static Optional<Class> DEPLOY_LOCAL_TASK_TYPE = safeGetClass("com.opengamma.tools.gradle.task.DeployLocal")
 
 	Project project
 
@@ -25,6 +27,8 @@ class ReleasePlugin implements Plugin<Project>
     void apply(Project target)
     {
 	    this.project = target
+
+	    addPackageTask()
 
 	    addCheckReleaseEnvironmentTask()
 	    addReleaseTask()
@@ -61,5 +65,28 @@ class ReleasePlugin implements Plugin<Project>
 			project.tasks[AutoVersionPlugin.UPDATE_VERSION_TASK_NAME].doLast setVersion
 		else
 			setVersion()
+	}
+
+	private void addPackageTask()
+	{
+		Task t = project.tasks.create("package", DefaultTask)
+		t.dependsOn project.rootProject.getTasksByName("build", true)
+		project.rootProject.tasks.withType(AbstractArchiveTask) { at ->
+			t.dependsOn at
+		}
+		DEPLOY_LOCAL_TASK_TYPE.ifPresent { taskType ->
+			project.rootProject.tasks.withType(taskType) { dl ->
+				t.dependsOn dl
+			}
+		}
+	}
+
+	private static Optional<Class> safeGetClass(String className)
+	{
+		try {
+			return Optional.of(Class.forName(className))
+		} catch(ClassNotFoundException ignored) {
+			return Optional.empty()
+		}
 	}
 }
