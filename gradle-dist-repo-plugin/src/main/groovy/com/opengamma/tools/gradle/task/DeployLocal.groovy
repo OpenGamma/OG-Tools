@@ -14,6 +14,8 @@ import org.gradle.api.tasks.Upload
 
 class DeployLocal extends Upload
 {
+	private final static DEFAULT_REPO_DIR_NAME = "m2_dist"
+
 	@Input @Optional
 	Project deployInto
 
@@ -25,17 +27,11 @@ class DeployLocal extends Upload
 
 	DeployLocal()
 	{
-		super()
-	}
-
-
-	@TaskAction
-	void makeItSo()
-	{
-		if( ! deployInto) deployInto = project
-
-		File deployRepo = new File(deployInto.buildDir, repoDirectoryName).canonicalFile
+		deployInto = project.extensions.getByType(DistRepoExtension).deployInto ?: project
+		repoDirectoryName = project.extensions.getByType(DistRepoExtension).repoDirectoryName ?: DEFAULT_REPO_DIR_NAME
+		deployRepo = new File(deployInto.buildDir, repoDirectoryName).canonicalFile
 		final String m2RepoURL = "file://${deployRepo}"
+
 
 		Configuration configuration = project.configurations.getByName(Dependency.ARCHIVES_CONFIGURATION)
 		this.configuration = configuration
@@ -43,7 +39,6 @@ class DeployLocal extends Upload
 		MavenRepositoryHandlerConvention repositories =
 				new DslObject(repositories).convention.getPlugin(MavenRepositoryHandlerConvention.class)
 
-		outputs.dir deployRepo
 		repositories.mavenDeployer() {
 			repository(url: m2RepoURL)
 		}

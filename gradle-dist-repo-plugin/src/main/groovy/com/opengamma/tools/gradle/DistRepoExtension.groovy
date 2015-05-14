@@ -6,5 +6,5 @@ class DistRepoExtension
 {
     String repoDirectoryName = "m2_dist"
     Project deployInto
-    boolean distProject = true
+    File deployRepo
 }

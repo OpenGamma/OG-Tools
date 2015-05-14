@@ -28,7 +28,7 @@ class DistRepoPlugin implements Plugin<Project>
         applyMavenPlugin()
         addExtension()
         addUploadTask()
-        addZipTask()
+//        addZipTask()
     }
 
     private void applyMavenPlugin()
@@ -46,19 +46,20 @@ class DistRepoPlugin implements Plugin<Project>
         project.afterEvaluate {
 
         }
+        project.tasks.create("deployLocal", DeployLocal)-
     }
 
-    private void addZipTask()
-    {
-        project.afterEvaluate {
-            DistRepoExtension ext = project.distRepo
-
-            Zip task = project.tasks.create(ZIP_TASK_NAME, Zip)
-            task.from project.tasks[DIST_LOCAL_TASK_NAME]
-            task.into("${project.name}-${project.version}")
-            task.onlyIf { ext.distProject }
-        }
-    }
+//    private void addZipTask()
+//    {
+//        project.afterEvaluate {
+//            DistRepoExtension ext = project.distRepo
+//
+//            Zip task = project.tasks.create(ZIP_TASK_NAME, Zip)
+//            task.from project.tasks[DIST_LOCAL_TASK_NAME]
+//            task.into("${project.name}-${project.version}")
+//            task.onlyIf { ext.distProject }
+//        }
+//    }
 
 //    private void configureForRootIfNecessary()
 //    {
