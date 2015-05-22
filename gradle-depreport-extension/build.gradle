@@ -1,0 +1,53 @@
+/*
+ * Copyright (C) 2015 - present by OpenGamma Inc. and the OpenGamma group of companies
+ *
+ * Please see distribution for license.
+ */
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.7
+
+group 'com.opengamma.tools'
+version '0.1.0-SNAPSHOT'
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven {
+		url "http://opengamma.artifactoryonline.com/opengamma/ext-snapshots-local"
+		credentials {
+			username ogNexusUsername
+			password ogNexusPassword
+		}
+	}
+	maven {
+		url "https://plugins.gradle.org/m2/"
+	}
+}
+
+dependencies {
+	compile gradleApi()
+	compile "gradle.plugin.com.github.jk1:gradle-license-report:0.2"
+	compile 'com.google.guava:guava:18.0'
+	compile 'org.apache.commons:commons-csv:1.1'
+}
+
+uploadArchives {
+	onlyIf {
+		project.hasProperty("ogArtifactoryUsername") &&
+				project.hasProperty("ogArtifactoryPassword")
+	}
+	repositories {
+		mavenDeployer {
+			String url = project.version.toString().endsWith("-SNAPSHOT") ?
+					"http://opengamma.artifactoryonline.com/opengamma/gradle-plugins-snapshots-local" :
+					"http://opengamma.artifactoryonline.com/opengamma/gradle-plugins-releases-local"
+			repository(url: url) {
+				authentication(userName: ogArtifactoryUsername, password: ogArtifactoryPassword)
+			}
+		}
+	}
+}
