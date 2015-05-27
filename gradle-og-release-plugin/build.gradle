@@ -9,6 +9,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 group 'com.opengamma.tools'
 version '0.1.0-SNAPSHOT'

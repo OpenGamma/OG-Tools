@@ -3,12 +3,15 @@ package com.opengamma.tools.gradle.release.task
 import com.github.zafarkhaja.semver.UnexpectedCharacterException
 import com.github.zafarkhaja.semver.Version
 import com.monochromeroad.gradle.plugin.aws.s3.S3Sync
+import com.opengamma.tools.gradle.distrepo.task.DeployLocal
+import com.opengamma.tools.gradle.git.task.GitWriteTask
+import com.opengamma.tools.gradle.release.ReleaseExtension
 import com.opengamma.tools.gradle.simpleexec.SimpleExec
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Task
-import org.gradle.api.internal.ConventionTask
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.Upload
 
 import java.text.ParseException
 
@@ -29,6 +32,7 @@ class CheckReleaseEnvironment extends DefaultTask
 		checkVersionProgression()
 		disableS3IfNecessary()
 		disableTasksForDryRunIfNecessary()
+		copyConfiguration()
 	}
 
 	/**
@@ -59,10 +63,10 @@ class CheckReleaseEnvironment extends DefaultTask
 			throw new GradleException("Could not parse version string required for release", ex)
 		}
 
-		forceVersions = (inputForceVersions ?: "false").toBoolean()
+		forceVersions = Boolean.parseBoolean(inputForceVersions)
 
-		skipS3 = (inputSkipS3 ?: "false").toBoolean()
-		dryRun = (inputDryRun ?: "false").toBoolean()
+		skipS3 = Boolean.parseBoolean(inputSkipS3)
+		dryRun = Boolean.parseBoolean(inputDryRun)
 	}
 
 	private void checkRepo()
@@ -86,7 +90,7 @@ class CheckReleaseEnvironment extends DefaultTask
 		getOwnerBranches.execute()
 
 		ownerBranches = getOwnerBranches.output.stdOut.readLines().collect {
-			it.replaceAll(/(\*| )/, "")
+			it.replaceAll(/(\* | )/, "")
 		}
 	}
 
@@ -137,12 +141,22 @@ class CheckReleaseEnvironment extends DefaultTask
 	{
 		if( ! dryRun) return
 
-		[S3Sync, org.gradle.api.tasks.Upload] /*, GitPush]*/.each { Class<? extends ConventionTask> t ->
+		[S3Sync, Upload, GitWriteTask].each { Class<? extends DefaultTask> t ->
 			project.allprojects*.tasks*.withType(t) { Task it ->
+				if(it instanceof DeployLocal) return
 				it.enabled = false
 			}
 		}
 	}
 
-
+	private void copyConfiguration()
+	{
+		project.extensions.findByType(ReleaseExtension)?.with {
+			releaseBuild = true
+			dryRun = this.dryRun
+			skipS3 = this.skipS3
+			releaseVersion = this.releaseVersion
+//			releaseTagName = this.releaseTagName
+		}
+	}
 }
