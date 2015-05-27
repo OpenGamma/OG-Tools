@@ -12,8 +12,10 @@ import com.opengamma.tools.gradle.sphinx.EnvironmentNotSuitableException
 import com.opengamma.tools.gradle.sphinx.error.EnvironmentError
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.ParallelizableTask
 import org.gradle.api.tasks.TaskAction
 
+@ParallelizableTask
 class CheckDocsEnvironment extends DefaultTask
 {
 	public final static String TASK_NAME = "checkDocsEnvironment"
