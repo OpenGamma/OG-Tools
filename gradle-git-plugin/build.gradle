@@ -11,7 +11,7 @@ apply plugin: 'maven'
 sourceCompatibility = 1.8
 
 group 'com.opengamma.tools'
-version '0.1.0-SNAPSHOT'
+version '0.9.0'
 
 repositories {
     mavenLocal()
@@ -21,7 +21,7 @@ repositories {
 dependencies {
     compile gradleApi()
     compile 'org.codehaus.groovy:groovy-all:2.3.10'
-    compile "com.opengamma.tools:gradle-simpleexec-plugin:0.1.0-SNAPSHOT"
+    compile "com.opengamma.tools:gradle-simpleexec-plugin:0.9.0"
 
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
     testRuntime 'cglib:cglib-nodep:3.1'
