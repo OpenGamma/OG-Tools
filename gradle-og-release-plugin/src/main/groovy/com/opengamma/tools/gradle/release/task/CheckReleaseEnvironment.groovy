@@ -9,9 +9,9 @@ package com.opengamma.tools.gradle.release.task
 import com.github.zafarkhaja.semver.UnexpectedCharacterException
 import com.github.zafarkhaja.semver.Version
 import com.monochromeroad.gradle.plugin.aws.s3.S3Sync
-import com.opengamma.tools.gradle.distrepo.task.DeployLocal
 import com.opengamma.tools.gradle.git.task.GitWriteTask
 import com.opengamma.tools.gradle.release.ReleaseExtension
+import com.opengamma.tools.gradle.release.SafeClassReference
 import com.opengamma.tools.gradle.simpleexec.SimpleExec
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
@@ -21,7 +21,7 @@ import org.gradle.api.tasks.Upload
 
 import java.text.ParseException
 
-class CheckReleaseEnvironment extends DefaultTask
+class CheckReleaseEnvironment extends DefaultTask implements SafeClassReference
 {
 	boolean forceVersions = false
 	boolean dryRun = false
@@ -147,9 +147,11 @@ class CheckReleaseEnvironment extends DefaultTask
 	{
 		if( ! dryRun) return
 
+		Optional<Class> deployLocalClass = safeGetClass("com.opengamma.tools.gradle.distrepo.task.DeployLocal")
+
 		[S3Sync, Upload, GitWriteTask].each { Class<? extends DefaultTask> t ->
 			project.allprojects*.tasks*.withType(t) { Task it ->
-				if(it instanceof DeployLocal) return
+				if(deployLocalClass.present && deployLocalClass.get().isInstance(it)) return
 				it.enabled = false
 			}
 		}

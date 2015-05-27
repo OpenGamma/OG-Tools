@@ -19,7 +19,7 @@ import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import org.gradle.language.base.plugins.LifecycleBasePlugin
 
-class ReleasePlugin implements Plugin<Project>, ReleaseExtensionCreator, TaskNamer
+class ReleasePlugin implements Plugin<Project>, ReleaseExtensionCreator, TaskNamer, SafeClassReference
 {
     public final static String RELEASE_TASK_NAME = "release"
     public final static String PACKAGE_TASK_NAME = "package"
@@ -115,14 +115,5 @@ class ReleasePlugin implements Plugin<Project>, ReleaseExtensionCreator, TaskNam
 	String getReleaseTagName()
 	{
 		return project.release.releaseTagTemplate.replaceAll("@version@", project.version)
-	}
-
-	private static Optional<Class> safeGetClass(String className)
-	{
-		try {
-			return Optional.of(Class.forName(className))
-		} catch(ClassNotFoundException ignored) {
-			return Optional.empty()
-		}
 	}
 }
