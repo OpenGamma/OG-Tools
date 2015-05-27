@@ -9,29 +9,28 @@ package com.opengamma.tools.gradle.git.task
 import com.opengamma.tools.gradle.simpleexec.SimpleExec
 import org.gradle.api.Task
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
 class GitTag extends GitWriteTask
 {
-    @Input
-    GString message
+	@Input
+	GString message
 
-    @Input
-    GString tagName
+	@Input
+	GString tagName
 
-    @Input
-    File repositoryLocation
+	@Input
+	File repositoryLocation
 
-    @TaskAction
-    void doTag()
-    {
-        Task doTag = project.tasks.create("execGitTag", SimpleExec)
-        doTag.configure {
-            command "git",  "tag",  "-a", "-m", /"${message}"/, tagName
-            workingDirectory repositoryLocation
-        }
+	@TaskAction
+	void doTag()
+	{
+		Task doTag = project.tasks.create("execGitTag", SimpleExec)
+		doTag.configure {
+			command "git",  "tag",  "-a", "-m", /"${message}"/, tagName
+			workingDirectory repositoryLocation
+		}
 
-        doTag.execute()
-    }
+		doTag.execute()
+	}
 }

@@ -14,35 +14,35 @@ import org.gradle.api.tasks.TaskAction
 
 class GitPush extends GitWriteTask
 {
-    @Input
-    File repositoryLocation
+	@Input
+	File repositoryLocation
 
-    @Input @Optional
-    boolean all = false
+	@Input @Optional
+	boolean all = false
 
-    @Input @Optional
-    boolean tags = false
+	@Input @Optional
+	boolean tags = false
 
-    @Input @Optional
-    String upstream
+	@Input @Optional
+	String upstream
 
-    @TaskAction
-    void doPush()
-    {
-        List<String> gitCommand = ["git", "push"]
-        if(all)
-            gitCommand << "--all"
-        if(tags)
-            gitCommand << "--tags"
-        if(upstream)
-            gitCommand.addAll(["--set-upstream", upstream])
+	@TaskAction
+	void doPush()
+	{
+		List<String> gitCommand = ["git", "push"]
+		if(all)
+			gitCommand << "--all"
+		if(tags)
+			gitCommand << "--tags"
+		if(upstream)
+			gitCommand.addAll(["--set-upstream", upstream])
 
-        Task doPush = project.tasks.create("execGitPush", SimpleExec)
-        doPush.configure {
-            command gitCommand
-            workingDirectory repositoryLocation
-        }
+		Task doPush = project.tasks.create("execGitPush", SimpleExec)
+		doPush.configure {
+			command gitCommand
+			workingDirectory repositoryLocation
+		}
 
-        doPush.execute()
-    }
+		doPush.execute()
+	}
 }
