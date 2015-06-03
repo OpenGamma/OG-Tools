@@ -26,10 +26,15 @@ class CheckDocsEnvironment extends DefaultTask
 	void checkEnvironment()
 	{
 		List<EnvironmentError> errors = []
+		Set<String> requiredPackages = [].toSet()
 
 		errors.addAll environment.checkPythonOnPath()
 
-		project.sphinx.requiredPackages.each { String pkg ->
+		project.tasks.withType(Sphinx) { t ->
+			requiredPackages.addAll t.requiredPackages
+		}
+
+		requiredPackages.each { String pkg ->
 			errors.addAll owner.environment.checkPythonPackage(pkg)
 		}
 

@@ -12,6 +12,7 @@ import com.opengamma.tools.gradle.sphinx.error.ApplicationVersionError
 import com.opengamma.tools.gradle.sphinx.error.EnvironmentError
 import com.opengamma.tools.gradle.sphinx.error.MissingApplicationError
 import com.opengamma.tools.gradle.sphinx.error.MissingPythonPackageError
+import com.opengamma.tools.gradle.sphinx.task.Sphinx
 import spock.lang.Specification
 
 class EnvironmentSpec extends Specification
@@ -161,8 +162,8 @@ Version: 1.0.1
 	{
 		setup:
 		List<EnvironmentError> errors = []
-		SphinxExtension ext = new SphinxExtension()
-		ext.requiredPackages = ["pip-one", "pip-two"].toSet()
+		Sphinx ext = Stub(Sphinx)
+		ext.getRequiredPackages >> { ["pip-one", "pip-two"].toSet() }
 		ShellExecutor executor = Stub(ShellExecutor)
 		executor.execute({it.contains("python ")}, _, _) >> { return new ShellResult(0, null, "Python 2.7") }
 		executor.execute({it.endsWith("pip show pip-one")}, _, _) >> { return new ShellResult(0, "Version: 1.0.0", null) }
