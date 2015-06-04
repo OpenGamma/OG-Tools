@@ -50,8 +50,8 @@ class Sphinx extends DefaultTask
 
 	public void include(String include)
 	{
-		if( ! includes) includes = []
-		includes << include
+		if( ! this.@includes) includes = []
+		this.@includes << include
 	}
 
 	public List<String> getIncludes()

@@ -156,9 +156,6 @@ ${sphinxBuild.output.stdErr}
 	{
 		project.tasks.withType(Sphinx) { s ->
 			Copy t = project.tasks.create(task(BUILD_GUIDE_TASK_BASE_NAME, s), Copy)
-//          TODO
-//			t.group = "Documentation"
-//			t.description = "Run Sphinx against the rst sources to generate the HTML User Guide"
 			t.dependsOn project.tasks[task(COLLECT_SPHINX_OUTPUT_TASK_BASE_NAME, s)]
 			t.configure {
 				from(project.tasks[task(SPHINX_BUILD_TASK_BASE_NAME, s)])
@@ -171,9 +168,6 @@ ${sphinxBuild.output.stdErr}
 	{
 		project.tasks.withType(Sphinx) { s ->
 			Zip t = project.tasks.create(task(PACKAGE_GUIDE_TASK_BASE_NAME, s), Zip)
-//          TODO
-//			t.group = "Documentation"
-//			t.description = "Package the HTML User Guide into a Zip archive"
 			t.dependsOn project.tasks[task(BUILD_GUIDE_TASK_BASE_NAME, s)]
 
 			t.from project.tasks[task(BUILD_GUIDE_TASK_BASE_NAME, s)]
@@ -192,6 +186,10 @@ ${sphinxBuild.output.stdErr}
 	private void addBuildGuidesTask()
 	{
 		Task t = project.tasks.create(BUILD_GUIDES_TASK_NAME, DefaultTask)
+
+		t.group = "Documentation"
+		t.description = "Run Sphinx against the rst sources to generate the HTML User Guide"
+
 		project.tasks.all {
 			if(it.name.startsWith(BUILD_GUIDE_TASK_BASE_NAME))
 				t.dependsOn it
@@ -201,6 +199,10 @@ ${sphinxBuild.output.stdErr}
 	private void addPackageGuidesTask()
 	{
 		Task t = project.tasks.create(PACKAGE_GUIDES_TASK_NAME, DefaultTask)
+
+		t.group = "Documentation"
+		t.description = "Package the HTML User Guide into a Zip archive"
+
 		project.tasks.all {
 			if(it.name.startsWith(PACKAGE_GUIDE_TASK_BASE_NAME))
 				t.dependsOn it
