@@ -5,6 +5,8 @@ import org.gradle.api.tasks.Optional
 
 class Sphinx extends DefaultTask
 {
+	public static final String INCLUDE_ALL_DOCS = "**/docs/**"
+
 	/**
 	 * The index file to use for this doc set
 	 */
@@ -33,9 +35,7 @@ class Sphinx extends DefaultTask
 	 * Defaults to include("**&#47;docs/**")
 	 */
 	@Input @Optional
-	Closure includes = {
-		include("**/docs/**")
-	}
+	List<String> includes = null
 
 	/**
 	 * OPTIONAL
@@ -47,4 +47,15 @@ class Sphinx extends DefaultTask
 	Set<String> requiredPackages =  [
 			"numpy", "numpydoc", "rst2pdf", "pygments", "sphinx", "sphinx-rtd-theme"
 	].toSet()
+
+	public void include(String include)
+	{
+		if( ! includes) includes = []
+		includes << include
+	}
+
+	public List<String> getIncludes()
+	{
+		return this.@includes ?: [ INCLUDE_ALL_DOCS ]
+	}
 }

@@ -100,8 +100,8 @@ class SphinxPlugin implements Plugin<Project>
 				project.copy {
 					from project.projectDir
 					into new File(project.buildDir, "/tmp/docs-stage-${s.name}")
-					s.includes.delegate = delegate
-					s.includes()
+					for(String i: s.includes)
+						include(i)
 					exclude("**/build/")
 					exclude("**/tmp/")
 					includeEmptyDirs = false
