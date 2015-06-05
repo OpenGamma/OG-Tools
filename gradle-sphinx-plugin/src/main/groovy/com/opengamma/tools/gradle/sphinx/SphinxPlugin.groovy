@@ -180,6 +180,7 @@ ${sphinxBuild.output.stdErr}
 
 				archiveName = userGuideArchiveName.replaceAll("@project\\.version@", project.version.toString())
 			}
+			s.archive = t
 		}
 	}
 

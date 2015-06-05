@@ -2,6 +2,7 @@ package com.opengamma.tools.gradle.sphinx.task
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.bundling.Zip
 
 class Sphinx extends DefaultTask
 {
@@ -47,6 +48,11 @@ class Sphinx extends DefaultTask
 	Set<String> requiredPackages =  [
 			"numpy", "numpydoc", "rst2pdf", "pygments", "sphinx", "sphinx-rtd-theme"
 	].toSet()
+
+	/**
+	 * The bundle configuration that will package this documentation set
+	 */
+	Zip archive
 
 	public void include(String include)
 	{
