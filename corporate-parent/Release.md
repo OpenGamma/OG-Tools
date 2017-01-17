@@ -1,5 +1,5 @@
 Releasing corporate-parent
 --------------------------
-The pom cannot contain the distributionManagement block, so the relevant command is stored here
+This project is released via Travis and Bintray.
 
-mvn clean deploy -Doss.repo -Dgpg.passphrase=real-password-needed
+Simply add a tag formatted as 'corporate-parent-v2.x.x' to trigger the release.
