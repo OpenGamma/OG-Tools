@@ -555,43 +555,6 @@
         </plugins>
       </build>
     </profile>
-    <!-- allow publishing to Maven Central, activated with -Doss.repo -->
-    <profile>
-      <id>repo-sign-artifacts</id>
-      <activation>
-        <property>
-          <name>oss.repo</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-                <configuration>
-                  <keyname>opengamma</keyname>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-      <distributionManagement>
-        <repository>
-          <id>oss-sonatype</id>
-          <name>Sonatype OSS staging repository</name>
-          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-          <layout>default</layout>
-        </repository>
-      </distributionManagement>
-    </profile>
   </profiles>
 
   <!-- ==================================================================== -->

@@ -1,0 +1,20 @@
+sudo: required
+language: java
+jdk:
+  - oraclejdk8
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+install:
+  - mvn --version
+# build the corporate-parent directory
+script:
+  - cd corporate-parent
+  - mvn install -e -B
+  - if [[ $TRAVIS_TAG =~ ^corporate-parent-v.*$ ]] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then mvn deploy -DaltDeploymentRepository="og-public-release::default::https://api.bintray.com/maven/opengamma/releases/MavenCorporateParent/" --settings ../.github/deploy-settings.xml; fi
+  - rm -rf $HOME/.m2/repository/com/opengamma
+# secure keys for DEPLOY_USER and DEPLOY_PASSWORD (which is the API KEY)
+env:
+  global:
+  - secure: dvPrIy90XOXKLCxlzYJXQ02f4fNb5bgC5kvdV44Brp1KZF3gvLKX8wRMnv32Rkk12DvBZbNGPociTxXYFqz2FMzTQ/eKSZrkC/VrYGDyoIZbY4Fqr4uwFbMJLHtSEtPWJxSkMypggcWY70niih5h4GUNPsagAFL2wVjw68urjkQ=
+  - secure: HKHR+2gafmSJd4UOGy9dJtBn7YKYhaEDU3BOO5GYojPjakWVfRcOKwdBdvNYUVOhtL3vEuxx0dbroX901fSgud7BR8nOp/IUZvjDASwzu9yXTskzqfm0gsoE1cEQE+ytvTpeZbNjnB/GwfrurwVHwKYsbFqTm59Hd4ogfHuH9Qw=
