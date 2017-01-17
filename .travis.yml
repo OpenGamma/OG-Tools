@@ -12,6 +12,9 @@ script:
   - cd corporate-parent
   - mvn install -e -B
   - if [[ $TRAVIS_TAG =~ ^corporate-parent-v.*$ ]] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then mvn deploy -DaltDeploymentRepository="og-public-release::default::https://api.bintray.com/maven/opengamma/releases/MavenCorporateParent/" --settings ../.github/deploy-settings.xml; fi
+  - cd ../build-config
+  - mvn install -e -B
+  - if [[ $TRAVIS_TAG =~ ^build-config-v.*$ ]] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then mvn deploy -DaltDeploymentRepository="og-public-release::default::https://api.bintray.com/maven/opengamma/releases/MavenBuildConfig/" --settings ../.github/deploy-settings.xml; fi
   - rm -rf $HOME/.m2/repository/com/opengamma
 # secure keys for DEPLOY_USER and DEPLOY_PASSWORD (which is the API KEY)
 env:
