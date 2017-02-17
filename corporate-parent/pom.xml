@@ -224,7 +224,7 @@
               </property>
               <property>
                 <name>reporter</name>
-                <value>org.testng.reporters.FailedReporter,org.testng.reporters.XMLReporter,org.testng.reporters.JUnitReportReporter</value>
+                <value>org.testng.reporters.JUnitReportReporter</value>
               </property>
             </properties>
           </configuration>
