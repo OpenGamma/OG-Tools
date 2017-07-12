@@ -22,9 +22,20 @@
   <module name="TreeWalker">
     <property name="tabWidth" value="2"/>
 
+    <!-- Allow abbreviations in local variables, but not in methods -->
     <module name="AbbreviationAsWordInName">
+      <property name="allowedAbbreviationLength" value="1"/>
       <property name="ignoreFinal" value="false"/>
-      <property name="tokens" value="ANNOTATION_FIELD_DEF,PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
+      <property name="ignoreStatic" value="true"/>
+      <property name="ignoreOverriddenMethods" value="true"/>
+      <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF"/>
+    </module>
+    <module name="AbbreviationAsWordInName">
+      <property name="allowedAbbreviationLength" value="3"/>
+      <property name="ignoreFinal" value="false"/>
+      <property name="ignoreStatic" value="true"/>
+      <property name="ignoreOverriddenMethods" value="true"/>
+      <property name="tokens" value="PARAMETER_DEF, VARIABLE_DEF"/>
     </module>
     <module name="ArrayTypeStyle">
       <property name="severity" value="error"/>
@@ -64,17 +75,39 @@
     </module>
     <module name="InnerAssignment"/>
     <module name="InterfaceIsType"/>
-    <module name="JavadocType">
-      <property name="scope" value="protected"/>
+    <!-- Allow method Javadoc to be missing on protected, but not on public -->
+    <module name="JavadocMethod">
+      <property name="scope" value="public"/>
+      <property name="allowUndeclaredRTE" value="true"/>
+      <property name="allowMissingThrowsTags" value="true"/>
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+      <property name="logLoadErrors" value="true"/>
+      <property name="suppressLoadErrors" value="true"/>
+      <property name="validateThrows" value="true"/>
     </module>
     <module name="JavadocMethod">
       <property name="scope" value="protected"/>
+      <property name="excludeScope" value="public"/>
       <property name="allowUndeclaredRTE" value="true"/>
       <property name="allowMissingJavadoc" value="true"/>
       <property name="allowMissingThrowsTags" value="true"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="logLoadErrors" value="true"/>
       <property name="suppressLoadErrors" value="true"/>
+      <property name="validateThrows" value="true"/>
+    </module>
+    <module name="JavadocStyle">
+      <property name="scope" value="public"/>
+      <property name="checkFirstSentence" value="true"/>
+      <property name="checkEmptyJavadoc" value="false"/>
+      <property name="checkHtml" value="false"/>
+      <property name="tokens" value="ANNOTATION_DEF, CLASS_DEF, CTOR_DEF, ENUM_DEF, INTERFACE_DEF, METHOD_DEF"/>
+    </module>
+    <module name="JavadocTagContinuationIndentation">
+      <property name="offset" value="2"/>
+    </module>
+    <module name="JavadocType">
+      <property name="scope" value="protected"/>
     </module>
     <module name="JavadocVariable">
       <property name="scope" value="protected"/>
@@ -112,6 +145,7 @@
       <property name="severity" value="error"/>
     </module>
     <module name="NoFinalizer"/>
+    <module name="NonEmptyAtclauseDescription"/>
     <module name="NoWhitespaceAfter">
       <property name="severity" value="error"/>
     </module>
