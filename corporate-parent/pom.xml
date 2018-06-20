@@ -90,6 +90,18 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>${maven-checkstyle-plugin.version}</version>
           <!-- trigger m2e to use checkstyle -->
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>${checkstyle.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.opengamma</groupId>
+              <artifactId>build-config</artifactId>
+              <version>${build-config.version}</version>
+            </dependency>
+          </dependencies>
           <executions>
             <execution>
               <id>run-checkstyle</id>
@@ -99,6 +111,13 @@
               </goals>
             </execution>
           </executions>
+          <configuration>
+            <includeResources>false</includeResources>
+            <includeTestResources>false</includeTestResources>
+            <includeTestSourceDirectory>false</includeTestSourceDirectory>
+            <consoleOutput>true</consoleOutput>
+            <failsOnError>true</failsOnError>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -637,7 +656,7 @@
     <!-- Plugin version numbers -->
     <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
     <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
-    <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
+    <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
     <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
@@ -675,6 +694,8 @@
     <japicmp-maven-plugin.version>0.11.0</japicmp-maven-plugin.version>
     <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
     <!-- Dependency versions -->
+    <build-config.version>2.3.0</build-config.version>
+    <checkstyle.version>8.10.1</checkstyle.version>
 	<guava.version>24.0-jre</guava.version>
     <testng.version>6.14.2</testng.version>
     <junit.version>4.12</junit.version>
@@ -695,6 +716,7 @@
     <notimestamp>true</notimestamp>
     <additionalparam>-Xdoclint:missing -Xdoclint:reference</additionalparam>
     <!-- Properties for maven-checkstyle-plugin -->
+    <checkstyle.excludes>module-info.java</checkstyle.excludes>
     <checkstyle.config.location>checkstyle/checkstyle.xml</checkstyle.config.location>
     <checkstyle.enable.rss>false</checkstyle.enable.rss>
     <!-- Properties for buildnumber-maven-plugin -->
