@@ -201,6 +201,11 @@
                 <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               </manifest>
             </archive>
+            <additionalOptions>
+              <additionalOption>--allow-script-in-comments</additionalOption>
+              <additionalOption>-Xdoclint:missing</additionalOption>
+              <additionalOption>-Xdoclint:reference</additionalOption>
+            </additionalOptions>
           </configuration>
         </plugin>
         <plugin>
@@ -514,6 +519,13 @@
             </reports>
           </reportSet>
         </reportSets>
+        <configuration>
+          <additionalOptions>
+            <additionalOption>--allow-script-in-comments</additionalOption>
+            <additionalOption>-Xdoclint:missing</additionalOption>
+            <additionalOption>-Xdoclint:reference</additionalOption>
+          </additionalOptions>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -783,7 +795,6 @@
     <maxmemory>2048m</maxmemory>
     <author>false</author>
     <notimestamp>true</notimestamp>
-    <additionalparam>-Xdoclint:missing -Xdoclint:reference</additionalparam>
     <!-- Properties for maven-checkstyle-plugin -->
     <checkstyle.excludes>module-info.java</checkstyle.excludes>
     <checkstyle.config.location>checkstyle/checkstyle.xml</checkstyle.config.location>
