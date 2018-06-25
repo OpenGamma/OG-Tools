@@ -203,9 +203,8 @@
             </archive>
             <additionalOptions>
               <additionalOption>--allow-script-in-comments</additionalOption>
-              <additionalOption>-Xdoclint:missing</additionalOption>
-              <additionalOption>-Xdoclint:reference</additionalOption>
             </additionalOptions>
+            <doclint>none</doclint>
           </configuration>
         </plugin>
         <plugin>
@@ -519,13 +518,6 @@
             </reports>
           </reportSet>
         </reportSets>
-        <configuration>
-          <additionalOptions>
-            <additionalOption>--allow-script-in-comments</additionalOption>
-            <additionalOption>-Xdoclint:missing</additionalOption>
-            <additionalOption>-Xdoclint:reference</additionalOption>
-          </additionalOptions>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
