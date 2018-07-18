@@ -63,6 +63,9 @@
     </module>
     <module name="InnerAssignment"/>
     <module name="InterfaceIsType"/>
+    <module name="InterfaceMemberImpliedModifier">
+      <property name="violateImpliedStaticNested" value="false"/>
+    </module>
     <module name="JavadocType">
       <property name="scope" value="protected"/>
     </module>

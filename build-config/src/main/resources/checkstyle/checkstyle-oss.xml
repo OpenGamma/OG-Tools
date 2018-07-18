@@ -55,6 +55,7 @@
       <property name="option" value="text"/>
       <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,STATIC_INIT"/>
     </module>
+    <!--  Module EmptyLineSeparator does not work well with comments https://github.com/checkstyle/checkstyle/issues/4763 -->
     <module name="EqualsHashCode"/>
     <module name="ExplicitInitialization">
       <property name="severity" value="error"/>
@@ -74,6 +75,10 @@
     </module>
     <module name="InnerAssignment"/>
     <module name="InterfaceIsType"/>
+    <module name="InterfaceMemberImpliedModifier">
+      <property name="violateImpliedStaticNested" value="false"/>
+      <property name="severity" value="error"/>
+    </module>
     <!-- Allow method Javadoc to be missing on protected, but not on public -->
     <module name="JavadocMethod">
       <property name="scope" value="public"/>
@@ -216,6 +221,12 @@
     <property name="fileExtensions" value="java,proto"/>
     <property name="severity" value="error"/>
   </module>
+  <module name="RegexpSingleline">
+    <property name="format" value="^(?! *[\*/]+).*\s+$"/>
+    <property name="message" value="No whitespace at end of line"/>
+    <property name="fileExtensions" value="java"/>
+    <property name="severity" value="error"/>
+  </module>  
   <module name="RegexpSingleline">
     <property name="format" value="import org.testng.collections."/>
     <property name="message" value="Invalid import, maybe you want com.google.common.collect"/>
