@@ -65,6 +65,7 @@
     <module name="InterfaceIsType"/>
     <module name="InterfaceMemberImpliedModifier">
       <property name="violateImpliedStaticNested" value="false"/>
+      <property name="severity" value="error"/>
     </module>
     <module name="JavadocType">
       <property name="scope" value="protected"/>
