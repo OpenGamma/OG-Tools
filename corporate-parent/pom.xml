@@ -9,7 +9,7 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>2.5.1</version>
+  <version>2.5.2-SNAPSHOT</version>
   <description>OpenGamma maven corporate parent project</description>
 
   <!-- ==================================================================== -->
@@ -714,7 +714,7 @@
               <serverId>oss-sonatype</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
               <description>Releasing ${project.groupId}:${project.artifactId}:${project.version}</description>
-              <autoReleaseAfterClose>false</autoReleaseAfterClose>
+              <autoReleaseAfterClose>${nexus.staging.autoRelease}</autoReleaseAfterClose>
               <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
             </configuration>
           </plugin>
@@ -730,7 +730,7 @@
     <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
-    <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+    <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
     <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <maven-enforcer-plugin.version>3.0.0-M1</maven-enforcer-plugin.version>
@@ -744,7 +744,7 @@
     <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
     <maven-plugin-plugin.version>3.5.2</maven-plugin-plugin.version>
     <maven-pmd-plugin.version>3.0.1</maven-pmd-plugin.version>
-    <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
+    <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     <maven-remote-resources-plugin.version>1.5</maven-remote-resources-plugin.version>
     <maven-repository-plugin.version>2.4</maven-repository-plugin.version>
@@ -767,14 +767,14 @@
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
     <!-- Dependency versions -->
-    <assertj.version>3.9.0</assertj.version><!-- 3.10.0 fails comparing sets -->
-    <build-config.version>2.3.0</build-config.version>
-    <checkstyle.version>8.10.1</checkstyle.version>
-    <guava.version>25.1-jre</guava.version>
+    <assertj.version>3.11.0</assertj.version>
+    <build-config.version>2.4.0</build-config.version>
+    <checkstyle.version>8.12</checkstyle.version>
+    <guava.version>26.0-jre</guava.version>
     <hamcrest.version>1.3</hamcrest.version>
     <junit.version>4.12</junit.version>
-    <mockito.version>2.19.0</mockito.version>
-    <testng.version>6.14.2</testng.version>
+    <mockito.version>2.21.0</mockito.version>
+    <testng.version>6.14.2</testng.version><!-- 6.14.3 does not work -->
 
     <!-- Properties for maven-compiler-plugin -->
     <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
@@ -808,6 +808,7 @@
     <gpg.executable>gpg</gpg.executable>
     <gpg.keyname>${env.GPG_KEY_NAME}</gpg.keyname>
     <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+    <nexus.staging.autoRelease>true</nexus.staging.autoRelease>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
