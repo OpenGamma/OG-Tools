@@ -704,7 +704,7 @@
     <forbiddenapis-maven-plugin.version>2.6</forbiddenapis-maven-plugin.version>
     <github-release-plugin.version>1.3.0</github-release-plugin.version><!-- 1.2.1-OG -->
     <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
-    <joda-beans-maven-plugin.version>1.2.1</joda-beans-maven-plugin.version>
+    <joda-beans-maven-plugin.version>1.2.2</joda-beans-maven-plugin.version>
     <japicmp-maven-plugin.version>0.13.1</japicmp-maven-plugin.version>
     <kotlin-maven-plugin.version>1.3.21</kotlin-maven-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
