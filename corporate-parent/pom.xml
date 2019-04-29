@@ -735,7 +735,7 @@
     <maven.buildNumber.getRevisionOnlyOnce>true</maven.buildNumber.getRevisionOnlyOnce>
     <maven.buildNumber.revisionOnScmFailure>UNKNOWN</maven.buildNumber.revisionOnScmFailure>
     <!-- Properties for maven-joda-bean-plugin -->
-    <joda.beans.version>2.5.0</joda.beans.version>
+    <joda.beans.version>2.6.0</joda.beans.version>
     <joda.beans.indent>2</joda.beans.indent>
     <joda.beans.stopOnError>false</joda.beans.stopOnError>
     <!-- Properties for maven-surefire-report-plugin -->
