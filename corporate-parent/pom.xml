@@ -362,7 +362,7 @@
         <plugin>
           <groupId>com.google.cloud.tools</groupId>
           <artifactId>jib-maven-plugin</artifactId>
-          <version>1.1.2</version>
+          <version>${jib-maven-plugin.version}</version>
         </plugin>
 
         <!-- Additional controlled maven plugins -->
@@ -725,6 +725,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.fork>true</maven.compiler.fork>
     <maven.compiler.verbose>false</maven.compiler.verbose>
+    <jib-maven-plugin.version>1.1.2</jib-maven-plugin.version>
     <!-- Properties for maven-javadoc-plugin -->
     <minmemory>512m</minmemory>
     <maxmemory>2048m</maxmemory>
