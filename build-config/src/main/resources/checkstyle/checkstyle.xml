@@ -16,7 +16,7 @@
    limitations under the License.
 -->
 <module name="Checker">
-  <property name="severity" value="warning"/>
+  <property name="severity" value="error"/>
   <property name="localeLanguage" value="en"/>
   <property name="localeCountry" value="GB"/>
   <module name="TreeWalker">
@@ -26,36 +26,41 @@
       <property name="ignoreFinal" value="false"/>
       <property name="tokens" value="ANNOTATION_FIELD_DEF,PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
     </module>
+    <module name="AnnotationLocation">
+      <property name="allowSamelineMultipleAnnotations" value="false"/>
+      <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
+      <property name="allowSamelineParameterizedAnnotation" value="false"/>
+    </module>
     <module name="ArrayTypeStyle">
-      <property name="severity" value="error"/>
       <message key="array.type.style" value="Array must be defined as Foo[] array, not Foo array[]"/>
     </module>
-    <module name="AvoidStarImport">
-      <property name="severity" value="error"/>
+    <module name="AvoidStarImport"/>
+    <module name="CatchParameterName">
+      <property name="format" value="^(ex|e)$"/>
     </module>
-    <module name="ConstantName">
+      <module name="ConstantName">
       <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log([A-Z][a-zA-Z0-9]*)?$|^[a-z][a-zA-Z0-9]*Log$"/>
     </module>
     <module name="CovariantEquals"/>
-    <module name="DefaultComesLast">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="DefaultComesLast"/>
     <module name="EmptyBlock">
       <property name="option" value="text"/>
       <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,STATIC_INIT"/>
     </module>
     <module name="EqualsHashCode"/>
-    <module name="ExplicitInitialization">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="FallThrough">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="ExplicitInitialization"/>
+    <module name="FallThrough"/>
     <module name="GenericWhitespace"/>
     <module name="IllegalImport"/><!-- other imports disallowed by regex below -->
     <module name="IllegalInstantiation">
       <property name="classes" value="Boolean"/>
-      <property name="severity" value="error"/>
+    </module>
+    <module name="ImportOrder">
+      <property name="groups" value="/^java\./,javax,org,com"/>
+      <property name="ordered" value="true"/>
+      <property name="separated" value="true"/>
+      <property name="option" value="above"/>
+      <property name="sortStaticImportsAlphabetically" value="true"/>
     </module>
     <module name="Indentation">
       <property name="basicOffset" value="2"/>
@@ -65,7 +70,6 @@
     <module name="InterfaceIsType"/>
     <module name="InterfaceMemberImpliedModifier">
       <property name="violateImpliedStaticNested" value="false"/>
-      <property name="severity" value="error"/>
     </module>
     <module name="JavadocType">
       <property name="scope" value="protected"/>
@@ -79,12 +83,19 @@
       <property name="logLoadErrors" value="true"/>
       <property name="suppressLoadErrors" value="true"/>
     </module>
+<!--    The below *should* work but is currently broken: https://github.com/checkstyle/checkstyle/issues/6192-->
+<!--    <module name="JavadocParagraph">-->
+<!--      &lt;!&ndash; This rule ensures a new line before parameters. &ndash;&gt;-->
+<!--      &lt;!&ndash; And this means <p> elements can appear on a line of their own. &ndash;&gt;-->
+<!--      <property name="allowNewlineParagraph" value="true"/>-->
+<!--    </module>-->
+    <module name="JavadocTagContinuationIndentation">
+      <property name="offset" value="1"/>
+    </module>
     <module name="JavadocVariable">
       <property name="scope" value="protected"/>
     </module>
-    <module name="LeftCurly">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="LeftCurly"/>
     <module name="LineLength">
       <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
       <property name="max" value="200"/>
@@ -99,71 +110,61 @@
       <property name="max" value="300"/>
     </module>
     <module name="MethodName"/>
-    <module name="MethodParamPad">
-      <property name="severity" value="error"/>
+    <module name="MethodParamPad"/>
+    <module name="MissingDeprecated">
+      <property name="skipNoJavadoc" value="false" />
     </module>
-    <module name="MissingDeprecated"/>
     <module name="MissingOverride"/>
-    <module name="ModifierOrder">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="MissingSwitchDefault"/>
+    <module name="ModifierOrder"/>
     <module name="MutableException">
-      <property name="severity" value="error"/>
       <message key="mutable.exception" value="Fields in an exception class must be final"/>
     </module>
-    <module name="NeedBraces">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="NeedBraces"/>
     <module name="NoFinalizer"/>
-    <module name="NoWhitespaceAfter">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="NoWhitespaceAfter"/>
     <module name="NoWhitespaceBefore">
       <property name="allowLineBreaks" value="true"/>
       <property name="tokens" value="SEMI,DOT,POST_DEC,POST_INC"/>
-      <property name="severity" value="error"/>
     </module>
     <module name="OneTopLevelClass"/>
     <module name="OperatorWrap">
       <property name="option" value="eol"/>
       <property name="tokens" value="ASSIGN, DIV_ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, STAR_ASSIGN, MOD_ASSIGN, SR_ASSIGN, BSR_ASSIGN, SL_ASSIGN, BXOR_ASSIGN, BOR_ASSIGN, BAND_ASSIGN"/>
     </module>
+    <module name="OverloadMethodsDeclarationOrder">
+      <!-- Checks that overload methods are grouped together. -->
+    </module>
     <module name="PackageAnnotation"/>
-    <module name="PackageName"/>
+    <module name="PackageName">
+      <!-- Package names should begin with the com.opengamma domain.-->
+      <property name="format" value="^com\.opengamma(\.[a-z][a-z]*)*$"/>
+    </module>
     <module name="ParameterName"/>
     <module name="ParameterNumber">
       <property name="max" value="20"/>
     </module>
     <module name="ParenPad">
-      <property name="severity" value="error"/>
+      <property name="option" value="nospace"/>
     </module>
-    <module name="RightCurly">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="RightCurly"/>
     <module name="SeparatorWrap">
       <property name="tokens" value="DOT"/>
       <property name="option" value="nl"/>
-      <property name="severity" value="error"/>
     </module>
     <module name="SeparatorWrap">
       <property name="tokens" value="COMMA"/>
       <property name="option" value="eol"/>
-      <property name="severity" value="error"/>
     </module>
     <module name="StaticVariableName">
       <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log$"/>
     </module>
     <module name="StringLiteralEquality"/>
     <module name="TypeName"/>
-    <module name="TypecastParenPad">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="UpperEll">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="TypecastParenPad"/>
+    <module name="UpperEll"/>
     <module name="VisibilityModifier"/>
     <module name="WhitespaceAfter">
-      <property name="severity" value="error"/>
     </module>
     <module name="WhitespaceAround">
       <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,TYPE_EXTENSION_AND"/>
@@ -171,7 +172,6 @@
       <property name="allowEmptyMethods" value="true"/>
       <property name="allowEmptyLambdas" value="true"/>
       <property name="allowEmptyTypes" value="true"/>
-      <property name="severity" value="error"/>
     </module>
     <module name="SuppressWithNearbyCommentFilter">
       <property name="commentFormat" value="CSIGNORE"/>
@@ -184,26 +184,49 @@
   <module name="RegexpHeader">
     <property name="header" value="^/\*\n^ \* Copyright \(C\) (2009|20[12][0-9]) - present by OpenGamma Inc\. and the OpenGamma group of companies\n^ \*\n^ \* Please see distribution for license\.\n^ \*\/"/>
     <property name="fileExtensions" value="java,proto"/>
-    <property name="severity" value="error"/>
+  </module>
+  <module name="RegexpSingleline">
+    <!-- Disallow the @author tag in Javadoc. -->
+    <!-- (Not currently implemented explicitly in Checkstyle: https://github.com/checkstyle/checkstyle/issues/2506) -->
+    <property name="format" value="^\s*\*\s*@author"/>
+    <property name="message" value="Javadoc has illegal ''author'' tag."/>
+    <property name="fileExtensions" value="java"/>
+  </module>
+  <module name="RegexpSingleline">
+    <!-- (?!\h*\/\/|\h*\/\*\*|\h*\*\/|\h*\*) ignores lines beginning with comments (javadoc or plain) -->
+    <property name="format" value="^(?!\h*\/\/|\h*\/\*\*|\h*\*\/|\h*\*).*\([a-zA-Z\h,]+$"/>
+    <property name="message" value="Multiple arguments must be placed on their own line"/>
+    <property name="fileExtensions" value="java"/>
+  </module>
+  <module name="RegexpSingleline">
+    <!-- (?!\h*\/\/|\h*\/\*\*|\h*\*\/|\h*\*) ignores lines beginning with comments (javadoc or plain) -->
+    <property name="format" value="^(?!\h*\/\/|\h*\/\*\*|\h*\*\/|\h*\*)[\h]*\);[\h]*$"/>
+    <property name="message" value="Closing parenthesis should be on the same line as the last argument"/>
+    <property name="fileExtensions" value="java"/>
+  </module>
+  <module name="RegexpSingleline">
+    <property name="format" value=".toList()"/>
+    <property name="message" value="Use toImmutableList() instead of toList()"/>
+    <property name="fileExtensions" value="java"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="import org.testng.collections."/>
     <property name="message" value="Invalid import, maybe you want com.google.common.collect"/>
-    <property name="severity" value="error"/>
+    <property name="fileExtensions" value="java"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="import org.testng.internal."/>
     <property name="message" value="Invalid import, internal testng classes not allowed"/>
-    <property name="severity" value="error"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="import com.beust.jcommander.internal."/>
     <property name="message" value="Invalid import, maybe you want com.google.common.collect"/>
-    <property name="severity" value="error"/>
+    <property name="fileExtensions" value="java"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="UnsupportedEncodingException "/>
     <property name="message" value="Use constants on Guava Charsets class instead"/>
+    <property name="fileExtensions" value="java"/>
   </module>
   <module name="SuppressWithPlainTextCommentFilter">
     <property name="offCommentFormat" value="CSOFF: ALL"/>
@@ -214,10 +237,16 @@
     <property name="onCommentFormat" value="CSON\: ([\w\|]+)"/>
     <property name="checkFormat" value="$1"/>
   </module>
+  <module name="SuppressWithPlainTextCommentFilter">
+    <!-- We can't currently make Javadoc generated for Joda Beans conform to these rules so just ignore
+    generated code for now. -->
+    <property name="offCommentFormat" value="\/\/------------------------- AUTOGENERATED START -------------------------"/>
+    <property name="onCommentFormat" value="\/\/-------------------------- AUTOGENERATED END --------------------------"/>
+    <property name="checkFormat" value="$1"/>
+  </module>
   <module name="FileLength"/>
   <module name="FileTabCharacter">
     <property name="eachLine" value="true"/>
-    <property name="severity" value="error"/>
   </module>
   <module name="NewlineAtEndOfFile"/>
 </module>
