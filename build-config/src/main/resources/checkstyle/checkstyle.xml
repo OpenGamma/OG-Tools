@@ -36,9 +36,9 @@
     </module>
     <module name="AvoidStarImport"/>
     <module name="CatchParameterName">
-      <property name="format" value="^(ex|e)$"/>
+      <property name="format" value="^(e|ex|ex2|ignored)$"/>
     </module>
-      <module name="ConstantName">
+    <module name="ConstantName">
       <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log([A-Z][a-zA-Z0-9]*)?$|^[a-z][a-zA-Z0-9]*Log$"/>
     </module>
     <module name="CovariantEquals"/>
@@ -195,7 +195,7 @@
   <module name="RegexpSingleline">
     <!-- (?!\h*\/\/|\h*\/\*\*|\h*\*\/|\h*\*) ignores lines beginning with comments (javadoc or plain) -->
     <property name="format" value="^(?!\h*\/\/|\h*\/\*\*|\h*\*\/|\h*\*).*\([a-zA-Z\h,]+$"/>
-    <property name="message" value="Multiple arguments must be placed on their own line"/>
+    <property name="message" value="When split across multiple lines, each argument must be placed on its own line"/>
     <property name="fileExtensions" value="java"/>
   </module>
   <module name="RegexpSingleline">
