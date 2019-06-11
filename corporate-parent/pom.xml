@@ -432,6 +432,22 @@
   </build>
 
   <!-- ==================================================================== -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.joda</groupId>
+        <artifactId>joda-beans</artifactId>
+        <version>${joda-beans.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.joda</groupId>
+        <artifactId>joda-convert</artifactId>
+        <version>${joda-convert.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- ==================================================================== -->
   <!-- Avoid generating test-javadoc and test-jxr, but do generate surefire and checkstyle -->
   <!-- Turn off checkstyle with 'checkstyle.skip' property -->
   <!-- Override checksyle config with 'checkstyle.config.location' property -->
@@ -719,6 +735,8 @@
 
     <!-- Versions -->
     <jakarta.xml.bind-api.version>2.3.2</jakarta.xml.bind-api.version>
+    <joda-beans.version>2.7.1</joda-beans.version>
+    <joda-convert.version>2.2.1</joda-convert.version>
 
     <!-- Properties for maven-compiler-plugin -->
     <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
@@ -741,9 +759,9 @@
     <maven.buildNumber.getRevisionOnlyOnce>true</maven.buildNumber.getRevisionOnlyOnce>
     <maven.buildNumber.revisionOnScmFailure>UNKNOWN</maven.buildNumber.revisionOnScmFailure>
     <!-- Properties for maven-joda-bean-plugin -->
-    <joda.beans.version>2.7.0</joda.beans.version>
     <joda.beans.indent>2</joda.beans.indent>
     <joda.beans.stopOnError>false</joda.beans.stopOnError>
+    <joda.beans.version>${joda-beans.version}</joda.beans.version><!-- Version for plugin -->
     <!-- Properties for maven-surefire-report-plugin -->
     <alwaysGenerateSurefireReport>false</alwaysGenerateSurefireReport>
     <!-- Testing properties -->
