@@ -9,7 +9,7 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>2.6.5</version>
+  <version>2.6.6-SNAPSHOT</version>
   <description>OpenGamma maven corporate parent project</description>
 
   <!-- ==================================================================== -->
@@ -732,7 +732,7 @@
     <author>false</author>
     <notimestamp>true</notimestamp>
     <!-- Properties for maven-checkstyle-plugin -->
-    <build-config.version>2.4.1</build-config.version>
+    <build-config.version>2.5.0</build-config.version>
     <checkstyle.version>8.21</checkstyle.version>
     <checkstyle.excludes>module-info.java</checkstyle.excludes>
     <checkstyle.config.location>checkstyle/checkstyle.xml</checkstyle.config.location>
