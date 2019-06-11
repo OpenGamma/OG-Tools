@@ -211,11 +211,12 @@
     <property name="message" value="Closing parenthesis should be on the same line as the last argument"/>
     <property name="fileExtensions" value="java"/>
   </module>
-  <module name="RegexpSingleline">
-    <property name="format" value=".toList()"/>
+  <!-- Tried this, but blast radius too high -->
+  <!--module name="RegexpSingleline">
+    <property name="format" value="Collectors\.toList"/>
     <property name="message" value="Use toImmutableList() instead of toList()"/>
     <property name="fileExtensions" value="java"/>
-  </module>
+  </module-->
   <module name="RegexpSingleline">
     <property name="format" value="import org.testng.collections."/>
     <property name="message" value="Invalid import, maybe you want com.google.common.collect"/>
