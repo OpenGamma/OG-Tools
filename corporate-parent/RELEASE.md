@@ -1,4 +1,4 @@
-Releasing corporate-parent
+Releasing Corporate-Parent
 --------------------------
 This project is released via Travis and Bintray.
 
