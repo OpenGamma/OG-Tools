@@ -1,0 +1,170 @@
+version: 2.1
+
+#############################################################################
+# execution environment
+executors:
+
+#----------------------------------------------------------------------------
+# vital to set the MaxRAM parameter as cgroups settings are not passed to the JVM
+  jdk11:
+    docker:
+      - image: circleci/openjdk:11.0.2-jdk
+    working_directory: ~/repo
+    environment:
+      JAVA_TOOL_OPTIONS: -XX:MaxRAM=3572m
+      MAVEN_OPTS: -Xmx1g
+
+
+#############################################################################
+# reusable commands
+commands:
+
+#----------------------------------------------------------------------------
+# all uses of mvn will be passed these command line arguments
+  init_maven:
+    description: "Initializing Maven"
+    steps:
+      - run:
+          name: Initializing Maven
+          command: |
+            mvn --version
+            mkdir -p ./.mvn
+            echo '-e -B -DtrimStackTrace=false --settings ../.github/deploy-settings.xml' > ./.mvn/maven.config
+
+#----------------------------------------------------------------------------
+  maven_install_test:
+    description: "Maven install and test"
+    steps:
+      - run:
+          name: Maven install
+          command: mvn install
+
+#----------------------------------------------------------------------------
+  maven_deploy:
+    description: "Maven deploy"
+    steps:
+      - run:
+          name: Maven deploy
+          command: mvn deploy -Doss.repo
+
+#----------------------------------------------------------------------------
+  restore_maven_cache:
+    description: "Restoring Maven cache"
+    steps:
+      - restore_cache:
+          name: "Restoring Maven cache"
+          keys:
+            - mvn-repo-v1-
+      - run:
+          name: Maven take dependencies local
+          command: mvn de.qaware.maven:go-offline-maven-plugin:1.1.0:resolve-dependencies
+
+#----------------------------------------------------------------------------
+  store_maven_cache:
+    description: "Storing Maven cache"
+    steps:
+      - save_cache:
+          name: "Storing Maven cache"
+          key: mvn-repo-v1-{{ .Environment.CIRCLE_JOB }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/.m2/repository
+
+#----------------------------------------------------------------------------
+# checkout to specified directory, with working_directory set to the desired subdirectory (must be absolute paths)
+  perform_build:
+    description: "Performs the standard build"
+    parameters:
+      actions:
+        type: steps
+    steps:
+      - checkout:
+          path: ~/repo
+      - init_maven
+      - restore_maven_cache
+      - steps: << parameters.actions >>
+      - store_maven_cache
+
+#----------------------------------------------------------------------------
+# this works with gpg v2.1 as currently installed on CircleCI
+# codesigning.asc.gpg was created using `gpg -c --chiper-algo=AES256 codesigning.asc` locally
+  setup_gpg:
+    description: "Setup GPG"
+    steps:
+      - run:
+          name: Setup GPG
+          working_directory: ~/repo/.github
+          command: |
+            echo $SIGNING_PASSWORD | gpg --batch --passphrase-fd 0 -o codesigning.asc -d codesigning.asc.gpg
+            gpg --batch --import codesigning.asc
+            shred --remove codesigning.asc
+
+
+#############################################################################
+# jobs to run
+jobs:
+  build:
+    parameters:
+      working_directory:
+        type: string
+    executor: jdk11
+    working_directory: << parameters.working_directory >>
+    steps:
+      - perform_build:
+          actions:
+            - maven_install_test
+
+#----------------------------------------------------------------------------
+  release:
+    parameters:
+      working_directory:
+        type: string
+    executor: jdk11
+    working_directory: << parameters.working_directory >>
+    steps:
+      - perform_build:
+          actions:
+            - maven_install_test
+            - setup_gpg
+            - maven_deploy
+
+
+#############################################################################
+# workflow elements
+workflows:
+
+#----------------------------------------------------------------------------
+# main build, runs for branches
+  build:
+    jobs:
+      - build:
+          context: OG-OSS
+          working_directory: ~/repo/corporate-parent
+      - build:
+          context: OG-OSS
+          working_directory: ~/repo/build-config
+
+#----------------------------------------------------------------------------
+# release corporate-parent based on a tag
+  release_corp_parent:
+    jobs:
+      - release:
+          context: OG-OSS
+          working_directory: ~/repo/corporate-parent
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^corporate-parent-v.*/
+
+#----------------------------------------------------------------------------
+# release build-config based on a tag
+  release_build_config:
+    jobs:
+      - release:
+          context: OG-OSS
+          working_directory: ~/repo/build-config
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^build-config-v.*/
