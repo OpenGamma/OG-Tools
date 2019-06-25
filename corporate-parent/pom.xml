@@ -638,7 +638,7 @@
                       <message>Missing license files. Are you trying to release a private project to Maven Central!</message>
                     </requireFilesExist>
                     <requireEnvironmentVariable>
-                      <variableName>TRAVIS</variableName>
+                      <variableName>CI</variableName>
                       <variableName>GPG_KEY_NAME</variableName>
                       <variableName>GPG_PASSPHRASE</variableName>
                       <variableName>OSS_SONATYPE_USER</variableName>
@@ -662,6 +662,14 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <!-- This can probably be removed once plugin updated to v1.7 -->
+                <!-- It is necessary for gpg v2.1 and later -->
+                <configuration>
+                  <gpgArguments>
+                    <gpgArgument>--pinentry-mode</gpgArgument>
+                    <gpgArgument>loopback</gpgArgument>
+                  </gpgArguments>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -681,6 +689,12 @@
           </plugin>
         </plugins>
       </build>
+      <distributionManagement>
+        <repository>
+          <id>oss-sonatype</id>
+          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+      </distributionManagement>
     </profile>
   </profiles>
 
