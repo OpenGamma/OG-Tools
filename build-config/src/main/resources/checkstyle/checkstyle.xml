@@ -84,7 +84,7 @@
       <property name="logLoadErrors" value="true"/>
       <property name="suppressLoadErrors" value="true"/>
     </module>
-<!--    The below *should* work but is currently broken: https://github.com/checkstyle/checkstyle/issues/6192-->
+<!--    The below *should* work but is currently broken: https://github.com/checkstyle/checkstyle/issues/6192 -->
 <!--    <module name="JavadocParagraph">-->
 <!--      &lt;!&ndash; This rule ensures a new line before parameters. &ndash;&gt;-->
 <!--      &lt;!&ndash; And this means <p> elements can appear on a line of their own. &ndash;&gt;-->
@@ -126,7 +126,7 @@
     <module name="NoWhitespaceAfter"/>
     <module name="NoWhitespaceBefore">
       <property name="allowLineBreaks" value="true"/>
-      <property name="tokens" value="SEMI,DOT,POST_DEC,POST_INC"/>
+      <property name="tokens" value="ELLIPSIS,SEMI,DOT,POST_DEC,POST_INC"/>
     </module>
     <module name="OneTopLevelClass"/>
     <module name="OperatorWrap">
@@ -218,6 +218,11 @@
     <property name="fileExtensions" value="java"/>
   </module-->
   <module name="RegexpSingleline">
+    <property name="format" value="ListUtils.union"/>
+    <property name="message" value="Prefer Guavate.concatToList over ListUtils.union"/>
+    <property name="fileExtensions" value="java"/>
+  </module>
+  <module name="RegexpSingleline">
     <property name="format" value="import org.testng.collections."/>
     <property name="message" value="Invalid import, maybe you want com.google.common.collect"/>
     <property name="fileExtensions" value="java"/>
@@ -225,6 +230,7 @@
   <module name="RegexpSingleline">
     <property name="format" value="import org.testng.internal."/>
     <property name="message" value="Invalid import, internal testng classes not allowed"/>
+    <property name="fileExtensions" value="java"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="import com.beust.jcommander.internal."/>
@@ -234,6 +240,11 @@
   <module name="RegexpSingleline">
     <property name="format" value="UnsupportedEncodingException "/>
     <property name="message" value="Use constants on Guava Charsets class instead"/>
+    <property name="fileExtensions" value="java"/>
+  </module>
+  <module name="RegexpMultiline">
+    <property name="format" value="^[\r\n]*[^(\n\r]+\)[ ]*\{[ ]*(\n|\r\n)[ ]*[\S]+?"/>
+    <property name="message" value="When split across multiple lines, method parameters must be followed by a new line"/>
     <property name="fileExtensions" value="java"/>
   </module>
   <module name="SuppressWithPlainTextCommentFilter">
