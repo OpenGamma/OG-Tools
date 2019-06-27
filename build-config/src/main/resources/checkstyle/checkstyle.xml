@@ -207,6 +207,11 @@
       <property name="message" value="Closing parenthesis should be on the same line as the last parameter"/>
       <property name="illegalPattern" value="true"/>
     </module>
+    <module name="Regexp">
+      <property name="format" value="@PropertyDefinition(?!(.*validate = &quot;[^&quot;].|.*get = \&quot;optional&quot;))"/>
+      <property name="message" value="Properties should either be declared 'validate = &quot;notNull&quot;' or 'get = &quot;optional&quot;'"/>
+      <property name="illegalPattern" value="true"/>
+    </module>
   </module>
 
   <!-- Header inlined due to m2e -->
