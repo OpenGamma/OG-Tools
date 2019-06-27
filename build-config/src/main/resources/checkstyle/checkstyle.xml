@@ -84,7 +84,7 @@
       <property name="logLoadErrors" value="true"/>
       <property name="suppressLoadErrors" value="true"/>
     </module>
-<!--    The below *should* work but is currently broken: https://github.com/checkstyle/checkstyle/issues/6192-->
+<!--    The below *should* work but is currently broken: https://github.com/checkstyle/checkstyle/issues/6192 -->
 <!--    <module name="JavadocParagraph">-->
 <!--      &lt;!&ndash; This rule ensures a new line before parameters. &ndash;&gt;-->
 <!--      &lt;!&ndash; And this means <p> elements can appear on a line of their own. &ndash;&gt;-->
@@ -126,7 +126,7 @@
     <module name="NoWhitespaceAfter"/>
     <module name="NoWhitespaceBefore">
       <property name="allowLineBreaks" value="true"/>
-      <property name="tokens" value="SEMI,DOT,POST_DEC,POST_INC"/>
+      <property name="tokens" value="ELLIPSIS,SEMI,DOT,POST_DEC,POST_INC"/>
     </module>
     <module name="OneTopLevelClass"/>
     <module name="OperatorWrap">
@@ -185,6 +185,28 @@
       <property name="checkCPP" value="true"/>
       <property name="checkC" value="false"/>
     </module>
+    <module name="Regexp">
+      <property name="format" value="^[\r\n]*[^(\n\r]+\)[ ]*\{[ ]*(\n|\r\n)[ ]*[\S]+?"/>
+      <property name="message" value="When split across multiple lines, method parameters must be followed by a new line"/>
+      <property name="illegalPattern" value="true"/>
+    </module>
+    <module name="Regexp">
+      <!-- Matching closing argument e.g. `String foo, String bar) {` -->
+      <!-- Note: Does not match multiple arguments on their own line e.g. `String foo, String bar,` -->
+      <property name="format" value="^[^(\r\n]+[,](?![^,]*>)[^(\n\r]+\)[ ]*\{[ ]*$"/>
+      <property name="message" value="When split across multiple lines, each parameter must be placed on its own line"/>
+      <property name="illegalPattern" value="true"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="^[ ]*\);[ ]*$"/>
+      <property name="message" value="Closing parenthesis should be on the same line as the last argument"/>
+      <property name="illegalPattern" value="true"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="^[ ]*\)[ ]*\{[ ]*$"/>
+      <property name="message" value="Closing parenthesis should be on the same line as the last parameter"/>
+      <property name="illegalPattern" value="true"/>
+    </module>
   </module>
 
   <!-- Header inlined due to m2e -->
@@ -199,24 +221,17 @@
     <property name="message" value="Javadoc has illegal ''author'' tag."/>
     <property name="fileExtensions" value="java"/>
   </module>
-  <module name="RegexpSingleline">
-    <!-- (?!\h*\/\/|\h*\/\*\*|\h*\*\/|\h*\*) ignores lines beginning with comments (javadoc or plain) -->
-    <property name="format" value="^(?!\h*\/\/|\h*\/\*\*|\h*\*\/|\h*\*).*\([a-zA-Z\h,]+$"/>
-    <property name="message" value="When split across multiple lines, each argument must be placed on its own line"/>
-    <property name="fileExtensions" value="java"/>
-  </module>
-  <module name="RegexpSingleline">
-    <!-- (?!\h*\/\/|\h*\/\*\*|\h*\*\/|\h*\*) ignores lines beginning with comments (javadoc or plain) -->
-    <property name="format" value="^(?!\h*\/\/|\h*\/\*\*|\h*\*\/|\h*\*)[\h]*\);[\h]*$"/>
-    <property name="message" value="Closing parenthesis should be on the same line as the last argument"/>
-    <property name="fileExtensions" value="java"/>
-  </module>
   <!-- Tried this, but blast radius too high -->
   <!--module name="RegexpSingleline">
     <property name="format" value="Collectors\.toList"/>
     <property name="message" value="Use toImmutableList() instead of toList()"/>
     <property name="fileExtensions" value="java"/>
   </module-->
+  <module name="RegexpSingleline">
+    <property name="format" value="ListUtils.union"/>
+    <property name="message" value="Prefer Guavate.concatToList over ListUtils.union"/>
+    <property name="fileExtensions" value="java"/>
+  </module>
   <module name="RegexpSingleline">
     <property name="format" value="import org.testng.collections."/>
     <property name="message" value="Invalid import, maybe you want com.google.common.collect"/>
@@ -225,6 +240,7 @@
   <module name="RegexpSingleline">
     <property name="format" value="import org.testng.internal."/>
     <property name="message" value="Invalid import, internal testng classes not allowed"/>
+    <property name="fileExtensions" value="java"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="import com.beust.jcommander.internal."/>
