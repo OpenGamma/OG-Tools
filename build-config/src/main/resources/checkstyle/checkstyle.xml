@@ -208,7 +208,7 @@
       <property name="illegalPattern" value="true"/>
     </module>
     <module name="Regexp">
-      <property name="format" value="@PropertyDefinition(?!(.*validate = &quot;[^&quot;].|.*get = \&quot;optional&quot;))"/>
+      <property name="format" value="@PropertyDefinition(?!(.*validate = &quot;[^&quot;].|.*get = \&quot;optional&quot;))[\S ]*(\n|\r\n)(?![\S ]* (byte|char|short|int|long|float|double|boolean) [\S ]*$)"/>
       <property name="message" value="Properties should either be declared 'validate = &quot;notNull&quot;' or 'get = &quot;optional&quot;'"/>
       <property name="illegalPattern" value="true"/>
     </module>
