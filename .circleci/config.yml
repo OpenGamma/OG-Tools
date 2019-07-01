@@ -29,7 +29,7 @@ commands:
           command: |
             mvn --version
             mkdir -p ./.mvn
-            echo '-e -B -DtrimStackTrace=false --settings ../.github/deploy-settings.xml' > ./.mvn/maven.config
+            echo '-e -B -DtrimStackTrace=false --settings ../.circleci/maven-settings.xml' > ./.mvn/maven.config
 
 #----------------------------------------------------------------------------
   maven_install_test:
@@ -92,7 +92,7 @@ commands:
     steps:
       - run:
           name: Setup GPG
-          working_directory: ~/repo/.github
+          working_directory: ~/repo/.circleci
           command: |
             echo $SIGNING_PASSWORD | gpg --batch --passphrase-fd 0 -o codesigning.asc -d codesigning.asc.gpg
             gpg --batch --import codesigning.asc
