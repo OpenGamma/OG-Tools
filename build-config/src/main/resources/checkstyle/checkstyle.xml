@@ -190,13 +190,14 @@
       <property name="message" value="When split across multiple lines, method parameters must be followed by a new line"/>
       <property name="illegalPattern" value="true"/>
     </module>
-    <module name="Regexp">
-      <!-- Matching closing argument e.g. `String foo, String bar) {` -->
-      <!-- Note: Does not match multiple arguments on their own line e.g. `String foo, String bar,` -->
-      <property name="format" value="^[^(\r\n]+[,](?![^,]*>)[^(\n\r]+\)[ ]*\{[ ]*$"/>
-      <property name="message" value="When split across multiple lines, each parameter must be placed on its own line"/>
-      <property name="illegalPattern" value="true"/>
-    </module>
+<!--    Regex incorrectly matches method parameters with multiple type params.-->
+<!--    <module name="Regexp">-->
+<!--      &lt;!&ndash; Matching closing argument e.g. `String foo, String bar) {` &ndash;&gt;-->
+<!--      &lt;!&ndash; Note: Does not match multiple arguments on their own line e.g. `String foo, String bar,` &ndash;&gt;-->
+<!--      <property name="format" value="^[^(\r\n]+[,](?![^,]*>)[^(\n\r]+\)[ ]*\{[ ]*$"/>-->
+<!--      <property name="message" value="When split across multiple lines, each parameter must be placed on its own line"/>-->
+<!--      <property name="illegalPattern" value="true"/>-->
+<!--    </module>-->
     <module name="Regexp">
       <property name="format" value="^[ ]*\);[ ]*$"/>
       <property name="message" value="Closing parenthesis should be on the same line as the last argument"/>
@@ -208,7 +209,7 @@
       <property name="illegalPattern" value="true"/>
     </module>
     <module name="Regexp">
-      <property name="format" value="@PropertyDefinition(?!(.*validate = &quot;[^&quot;].|.*get = \&quot;optional&quot;))[\S ]*(\n|\r\n)(?![\S ]* (byte|char|short|int|long|float|double|boolean) [\S ]*$)"/>
+      <property name="format" value="@PropertyDefinition(?!(.*validate = |.*get = \&quot;optional&quot;))[\S ]*(\n|\r\n)(?![\S ]* (byte|char|short|int|long|float|double|boolean) [\S ]*$)"/>
       <property name="message" value="Properties should either be declared 'validate = &quot;notNull&quot;' or 'get = &quot;optional&quot;'"/>
       <property name="illegalPattern" value="true"/>
     </module>
