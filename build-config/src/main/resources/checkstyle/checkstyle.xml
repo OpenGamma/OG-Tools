@@ -186,7 +186,7 @@
       <property name="checkC" value="false"/>
     </module>
     <module name="Regexp">
-      <property name="format" value="^[\r\n]*[^(\n\r]+\)[ ]*\{[ ]*(\n|\r\n)[ ]*[\S]+?"/>
+      <property name="format" value="^[ ]*(private|protected|public)?[ ]*(static)?[ ]*(final)?[ ]*[A-Z][a-zA-Z0-9,&lt;&gt;? ]+[ ]+[a-z][a-zA-Z0-9,&lt;&gt;? ]+\([^)]*(\n|\r\n)[^{}]+?\)[ ]*\{[ ]*(\n|\r\n)[ ]*[^ \r\n]+[^\r\n]*(\n|\r\n)"/>
       <property name="message" value="When split across multiple lines, method parameters must be followed by a new line"/>
       <property name="illegalPattern" value="true"/>
     </module>
