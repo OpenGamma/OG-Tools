@@ -642,8 +642,8 @@
                   <rules>
                     <requireFilesExist>
                       <files>
-                       <file>${project.basedir}/LICENSE.txt</file>
-                       <file>${project.basedir}/NOTICE.txt</file>
+                       <file>${root.dir}/LICENSE.txt</file>
+                       <file>${root.dir}/NOTICE.txt</file>
                       </files>
                       <message>Missing license files. Are you trying to release a private project to Maven Central!</message>
                     </requireFilesExist>
@@ -793,6 +793,10 @@
     <tests.testng.maxheap>1G</tests.testng.maxheap>
     <tests.testng.parallel>classes</tests.testng.parallel>
     <tests.testng.threads>4</tests.testng.threads>
+
+    <!-- Locate the root directory of the multi-module build -->
+    <root.dir>${project.basedir}</root.dir>
+
     <!-- Other properties -->
     <github.repo>OG-Tools</github.repo>
     <gpg.executable>gpg</gpg.executable>
