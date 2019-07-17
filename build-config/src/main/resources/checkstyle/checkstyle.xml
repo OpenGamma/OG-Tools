@@ -205,6 +205,11 @@
       <property name="message" value="Properties should either be declared 'validate = &quot;notNull&quot;' or 'get = &quot;optional&quot;'"/>
       <property name="illegalPattern" value="true"/>
     </module>
+    <module name="Regexp">
+      <property name="format" value="\{[ ]*(\n|\r\n)[ ]*(\n|\r\n)[ ]*}"/>
+      <property name="message" value="Empty blocks should not contain empty lines."/>
+      <property name="illegalPattern" value="true"/>
+    </module>
   </module>
 
   <!-- Header inlined due to m2e -->
