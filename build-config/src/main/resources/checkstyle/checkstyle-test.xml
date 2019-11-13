@@ -36,9 +36,6 @@
     <module name="PackageAnnotation"/>
 
     <!-- Block checks -->
-    <module name="AvoidNestedBlocks">
-      <property name="allowInSwitchCase" value="true"/>
-    </module>
     <module name="EmptyBlock">
       <property name="option" value="text"/>
       <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,STATIC_INIT"/>
@@ -48,7 +45,6 @@
     <module name="RightCurly"/>
 
     <!-- Class design -->
-    <module name="HideUtilityClassConstructor"/>
     <module name="MutableException">
       <message key="mutable.exception" value="Fields in an exception class must be final"/>
     </module>
@@ -88,43 +84,10 @@
       <property name="sortStaticImportsAlphabetically" value="true"/>
     </module>
 
-    <!-- Javadoc -->
-    <module name="JavadocMethod">
-      <property name="scope" value="protected"/>
-      <property name="allowUndeclaredRTE" value="true"/>
-      <property name="allowMissingThrowsTags" value="true"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
-      <property name="logLoadErrors" value="true"/>
-      <property name="suppressLoadErrors" value="true"/>
-    </module>
-<!--    The below *should* work but is currently broken: https://github.com/checkstyle/checkstyle/issues/6192 -->
-<!--    <module name="JavadocParagraph">-->
-<!--      &lt;!&ndash; This rule ensures a new line before parameters. &ndash;&gt;-->
-<!--      &lt;!&ndash; And this means <p> elements can appear on a line of their own. &ndash;&gt;-->
-<!--      <property name="allowNewlineParagraph" value="true"/>-->
-<!--    </module>-->
-    <module name="JavadocTagContinuationIndentation">
-      <property name="offset" value="1"/>
-    </module>
-    <module name="JavadocType">
-      <property name="scope" value="protected"/>
-    </module>
-    <module name="JavadocVariable">
-      <property name="scope" value="protected"/>
-    </module>
-    <module name="MissingJavadocMethod">
-      <property name="scope" value="public"/>
-    </module>
-    <module name="MissingJavadocType">
-      <property name="scope" value="public"/>
-    </module>
-    <module name="NonEmptyAtclauseDescription" />
-
     <!-- Misc -->
     <module name="ArrayTypeStyle">
       <message key="array.type.style" value="Array must be defined as Foo[] array, not Foo array[]"/>
     </module>
-    <module name="CommentsIndentation" />
     <module name="Indentation">
       <property name="basicOffset" value="2"/>
       <property name="caseIndent" value="2"/>
@@ -138,10 +101,6 @@
     </module>
 
     <!-- Naming -->
-    <module name="AbbreviationAsWordInName">
-      <property name="ignoreFinal" value="false"/>
-      <property name="tokens" value="ANNOTATION_FIELD_DEF,PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
-    </module>
     <module name="CatchParameterName">
       <property name="format" value="^(e|ex|ex2|ignored)$"/>
     </module>
@@ -160,7 +119,9 @@
     <module name="MemberName">
       <property name="format" value="^_?[a-z][a-zA-Z0-9$]*$"/>
     </module>
-    <module name="MethodName"/>
+    <module name="MethodName">
+      <property name="format" value="^[a-z][a-zA-Z0-9_]*$"/>
+    </module>
     <module name="MethodTypeParameterName">
       <property name="format" value="^[A-Z]+$"/>
     </module>
@@ -178,12 +139,6 @@
       <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
       <property name="max" value="200"/>
       <property name="tabWidth" value="2"/>
-    </module>
-    <module name="MethodLength">
-      <property name="max" value="300"/>
-    </module>
-    <module name="ParameterNumber">
-      <property name="max" value="20"/>
     </module>
 
     <!-- Whitespace -->
@@ -223,11 +178,6 @@
 
     <!-- Regexp -->
     <module name="Regexp">
-      <property name="format" value="^[ ]*(private|protected|public)?[ ]*(static)?[ ]*(final)?[ ]*[A-Z][a-zA-Z0-9,&lt;&gt;? ]+[ ]+[a-z][a-zA-Z0-9,&lt;&gt;? ]+\([^)]*(\n|\r\n)[^{}]+?\)[ ]*\{[ ]*(\n|\r\n)[ ]*[^ \r\n]+[^\r\n]*(\n|\r\n)"/>
-      <property name="message" value="When split across multiple lines, method parameters must be followed by a new line"/>
-      <property name="illegalPattern" value="true"/>
-    </module>
-    <module name="Regexp">
       <property name="format" value="^[ ]*\);[ ]*$"/>
       <property name="message" value="Closing parenthesis should be on the same line as the last argument"/>
       <property name="illegalPattern" value="true"/>
@@ -237,12 +187,6 @@
       <property name="message" value="Closing parenthesis should be on the same line as the last parameter"/>
       <property name="illegalPattern" value="true"/>
     </module>
-    <!-- This would cause major problems in some projects -->
-    <!--module name="Regexp">
-      <property name="format" value="@PropertyDefinition(?!(.*validate = |.*get = \&quot;optional&quot;))[\S ]*(\n|\r\n)(?![\S ]* (byte|char|short|int|long|float|double|boolean) [\S ]*$)"/>
-      <property name="message" value="Properties should either be declared 'validate = &quot;notNull&quot;' or 'get = &quot;optional&quot;'"/>
-      <property name="illegalPattern" value="true"/>
-    </module-->
 
     <!-- Filters -->
     <module name="SuppressWithNearbyCommentFilter">
@@ -262,24 +206,6 @@
   <!-- Header inlined due to m2e -->
   <module name="RegexpHeader">
     <property name="header" value="^/\*\n^ \* Copyright \(C\) (2009|20[12][0-9]) - present by OpenGamma Inc\. and the OpenGamma group of companies\n^ \*\n^ \* Please see distribution for license\.\n^ \*\/"/>
-    <property name="fileExtensions" value="java"/>
-  </module>
-  <module name="RegexpSingleline">
-    <!-- Disallow the @author tag in Javadoc. -->
-    <!-- (Not currently implemented explicitly in Checkstyle: https://github.com/checkstyle/checkstyle/issues/2506) -->
-    <property name="format" value="^\s*\*\s*@author"/>
-    <property name="message" value="Javadoc has illegal ''author'' tag."/>
-    <property name="fileExtensions" value="java"/>
-  </module>
-  <!-- Tried this, but blast radius too high -->
-  <!--module name="RegexpSingleline">
-    <property name="format" value="Collectors\.toList"/>
-    <property name="message" value="Use toImmutableList() instead of toList()"/>
-    <property name="fileExtensions" value="java"/>
-  </module-->
-  <module name="RegexpSingleline">
-    <property name="format" value="ListUtils.union"/>
-    <property name="message" value="Prefer Guavate.concatToList over ListUtils.union"/>
     <property name="fileExtensions" value="java"/>
   </module>
   <module name="RegexpSingleline">
@@ -314,7 +240,6 @@
   <module name="BeforeExecutionExclusionFileFilter">
     <property name="fileNamePattern" value="module\-info\.java$"/>
   </module>
-  <module name="FileLength"/>
   <module name="FileTabCharacter">
     <property name="eachLine" value="true"/>
   </module>
