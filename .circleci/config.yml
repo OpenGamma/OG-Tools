@@ -94,6 +94,7 @@ commands:
           name: Setup GPG
           working_directory: ~/repo/.circleci
           command: |
+            export GPG_TTY=$(tty)
             echo $SIGNING_PASSWORD | gpg --batch --passphrase-fd 0 -o codesigning.asc -d codesigning.asc.gpg
             gpg --batch --import codesigning.asc
             shred --remove codesigning.asc
