@@ -29,9 +29,7 @@
       <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
       <property name="allowSamelineParameterizedAnnotation" value="false"/>
     </module>
-    <module name="MissingDeprecated">
-      <property name="skipNoJavadoc" value="false" />
-    </module>
+    <module name="MissingDeprecated" />
     <module name="MissingOverride"/>
     <module name="PackageAnnotation"/>
 
@@ -48,7 +46,6 @@
     <module name="RightCurly"/>
 
     <!-- Class design -->
-    <module name="HideUtilityClassConstructor"/>
     <module name="MutableException">
       <message key="mutable.exception" value="Fields in an exception class must be final"/>
     </module>
@@ -93,7 +90,6 @@
       <property name="scope" value="protected"/>
       <property name="allowUndeclaredRTE" value="true"/>
       <property name="allowMissingThrowsTags" value="true"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="logLoadErrors" value="true"/>
       <property name="suppressLoadErrors" value="true"/>
     </module>
@@ -112,9 +108,6 @@
     <module name="JavadocVariable">
       <property name="scope" value="protected"/>
     </module>
-    <module name="MissingJavadocMethod">
-      <property name="scope" value="public"/>
-    </module>
     <module name="MissingJavadocType">
       <property name="scope" value="public"/>
     </module>
@@ -124,7 +117,6 @@
     <module name="ArrayTypeStyle">
       <message key="array.type.style" value="Array must be defined as Foo[] array, not Foo array[]"/>
     </module>
-    <module name="CommentsIndentation" />
     <module name="Indentation">
       <property name="basicOffset" value="2"/>
       <property name="caseIndent" value="2"/>
@@ -174,11 +166,6 @@
     <module name="TypeName"/>
 
     <!-- Size -->
-    <module name="LineLength">
-      <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
-      <property name="max" value="200"/>
-      <property name="tabWidth" value="2"/>
-    </module>
     <module name="MethodLength">
       <property name="max" value="300"/>
     </module>
@@ -222,11 +209,6 @@
     </module>
 
     <!-- Regexp -->
-    <module name="Regexp">
-      <property name="format" value="^[ ]*(private|protected|public)?[ ]*(static)?[ ]*(final)?[ ]*[A-Z][a-zA-Z0-9,&lt;&gt;? ]+[ ]+[a-z][a-zA-Z0-9,&lt;&gt;? ]+\([^)]*(\n|\r\n)[^{}]+?\)[ ]*\{[ ]*(\n|\r\n)[ ]*[^ \r\n]+[^\r\n]*(\n|\r\n)"/>
-      <property name="message" value="When split across multiple lines, method parameters must be followed by a new line"/>
-      <property name="illegalPattern" value="true"/>
-    </module>
     <module name="Regexp">
       <property name="format" value="^[ ]*\);[ ]*$"/>
       <property name="message" value="Closing parenthesis should be on the same line as the last argument"/>
@@ -311,12 +293,18 @@
     <property name="onCommentFormat" value="CSON\: ([\w\|]+)"/>
     <property name="checkFormat" value="$1"/>
   </module>
+
   <module name="BeforeExecutionExclusionFileFilter">
     <property name="fileNamePattern" value="module\-info\.java$"/>
   </module>
   <module name="FileLength"/>
   <module name="FileTabCharacter">
     <property name="eachLine" value="true"/>
+  </module>
+  <module name="LineLength">
+    <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+    <property name="max" value="200"/>
+    <property name="tabWidth" value="2"/>
   </module>
   <module name="NewlineAtEndOfFile"/>
 </module>
