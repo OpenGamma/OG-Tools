@@ -94,10 +94,13 @@ commands:
           name: Setup GPG
           working_directory: ~/repo/.circleci
           command: |
-            export GPG_TTY=$(tty)
+            gpg --version
             echo $SIGNING_PASSWORD | gpg --batch --passphrase-fd 0 -o codesigning.asc -d codesigning.asc.gpg
             gpg --batch --import codesigning.asc
             shred --remove codesigning.asc
+            echo 'use-agent' >> ~/.gnupg/gpg.conf
+            echo 'pinentry-mode loopback' >> ~/.gnupg/gpg.conf
+            echo 'allow-loopback-pinentry' >> ~/.gnupg/gpg-agent.conf
 
 
 #############################################################################
@@ -112,6 +115,7 @@ jobs:
     steps:
       - perform_build:
           actions:
+            - setup_gpg
             - maven_install_test
 
 #----------------------------------------------------------------------------
