@@ -772,7 +772,7 @@
 
     <!-- Versions -->
     <jakarta.xml.bind-api.version>2.3.2</jakarta.xml.bind-api.version>
-    <joda-beans.version>2.7.1</joda-beans.version>
+    <joda-beans.version>2.8.0</joda-beans.version>
     <joda-convert.version>2.2.1</joda-convert.version>
 
     <!-- Properties for maven-compiler-plugin -->
