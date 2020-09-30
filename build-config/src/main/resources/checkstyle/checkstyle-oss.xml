@@ -79,10 +79,8 @@
       <property name="violateImpliedStaticNested" value="false"/>
       <property name="severity" value="error"/>
     </module>
-    <!-- Allow method Javadoc to be missing on protected, but not on public -->
     <module name="JavadocMethod">
       <property name="scope" value="public"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="validateThrows" value="true"/>
     </module>
     <module name="JavadocMethod">
@@ -120,6 +118,10 @@
       <property name="severity" value="error"/>
     </module>
     <module name="MissingDeprecated"/>
+    <module name="MissingJavadocMethod">
+      <property name="scope" value="public"/>
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+    </module>
     <module name="MissingOverride"/>
     <module name="ModifierOrder">
       <property name="severity" value="error"/>

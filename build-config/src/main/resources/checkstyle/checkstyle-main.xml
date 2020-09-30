@@ -88,8 +88,6 @@
     <!-- Javadoc -->
     <module name="JavadocMethod">
       <property name="scope" value="protected"/>
-      <property name="allowMissingJavadoc" value="true"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
     </module>
 <!--    The below *should* work but is currently broken: https://github.com/checkstyle/checkstyle/issues/6192 -->
 <!--    <module name="JavadocParagraph">-->
