@@ -46,6 +46,7 @@
     <module name="RightCurly"/>
 
     <!-- Class design -->
+    <module name="HideUtilityClassConstructor"/>
     <module name="MutableException">
       <message key="mutable.exception" value="Fields in an exception class must be final"/>
     </module>
@@ -88,8 +89,6 @@
     <!-- Javadoc -->
     <module name="JavadocMethod">
       <property name="scope" value="protected"/>
-      <property name="allowMissingJavadoc" value="true"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
     </module>
 <!--    The below *should* work but is currently broken: https://github.com/checkstyle/checkstyle/issues/6192 -->
 <!--    <module name="JavadocParagraph">-->
@@ -105,6 +104,9 @@
     </module>
     <module name="JavadocVariable">
       <property name="scope" value="protected"/>
+    </module>
+    <module name="MissingJavadocMethod">
+      <property name="scope" value="public"/>
     </module>
     <module name="MissingJavadocType">
       <property name="scope" value="public"/>
@@ -207,6 +209,26 @@
     </module>
 
     <!-- Regexp -->
+    <module name="Regexp">
+      <property name="format" value="^ \*\/(\n|\r\n){2,4}package [^\n]*"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="No blank line is allowed between license and package statement"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="\*\/(\n|\r\n) *(\n|\r\n)[^\n]* class .*$"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="No blank line is allowed between Javadoc and class"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="(\n|\r\n){3}"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="Only a single blank line is allowed, but found two blank lines"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="^[ ]*(private|protected|public)?[ ]*(static)?[ ]*(final)?[ ]*[A-Z][a-zA-Z0-9,&lt;&gt;? ]+[ ]+[a-z][a-zA-Z0-9,&lt;&gt;? ]+\([^)]*(\n|\r\n)[^{}]+?\)[ ]*\{[ ]*(\n|\r\n)[ ]*[^ \r\n]+[^\r\n]*(\n|\r\n)"/>
+      <property name="message" value="When split across multiple lines, method parameters must be followed by a new line"/>
+      <property name="illegalPattern" value="true"/>
+    </module>
     <module name="Regexp">
       <property name="format" value="^[ ]*\);[ ]*$"/>
       <property name="message" value="Closing parenthesis should be on the same line as the last argument"/>

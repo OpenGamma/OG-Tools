@@ -34,9 +34,6 @@
     <module name="PackageAnnotation"/>
 
     <!-- Block checks -->
-    <module name="AvoidNestedBlocks">
-      <property name="allowInSwitchCase" value="true"/>
-    </module>
     <module name="EmptyBlock">
       <property name="option" value="text"/>
       <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,STATIC_INIT"/>
@@ -85,32 +82,6 @@
       <property name="sortStaticImportsAlphabetically" value="true"/>
     </module>
 
-    <!-- Javadoc -->
-    <module name="JavadocMethod">
-      <property name="scope" value="protected"/>
-      <property name="allowMissingJavadoc" value="true"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
-    </module>
-<!--    The below *should* work but is currently broken: https://github.com/checkstyle/checkstyle/issues/6192 -->
-<!--    <module name="JavadocParagraph">-->
-<!--      &lt;!&ndash; This rule ensures a new line before parameters. &ndash;&gt;-->
-<!--      &lt;!&ndash; And this means <p> elements can appear on a line of their own. &ndash;&gt;-->
-<!--      <property name="allowNewlineParagraph" value="true"/>-->
-<!--    </module>-->
-    <module name="JavadocTagContinuationIndentation">
-      <property name="offset" value="1"/>
-    </module>
-    <module name="JavadocType">
-      <property name="scope" value="protected"/>
-    </module>
-    <module name="JavadocVariable">
-      <property name="scope" value="protected"/>
-    </module>
-    <module name="MissingJavadocType">
-      <property name="scope" value="public"/>
-    </module>
-    <module name="NonEmptyAtclauseDescription" />
-
     <!-- Misc -->
     <module name="ArrayTypeStyle">
       <message key="array.type.style" value="Array must be defined as Foo[] array, not Foo array[]"/>
@@ -128,10 +99,6 @@
     </module>
 
     <!-- Naming -->
-    <module name="AbbreviationAsWordInName">
-      <property name="ignoreFinal" value="false"/>
-      <property name="tokens" value="ANNOTATION_FIELD_DEF,PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
-    </module>
     <module name="CatchParameterName">
       <property name="format" value="^(e|ex|ex2|ignored)$"/>
     </module>
@@ -150,7 +117,9 @@
     <module name="MemberName">
       <property name="format" value="^_?[a-z][a-zA-Z0-9$]*$"/>
     </module>
-    <module name="MethodName"/>
+    <module name="MethodName">
+      <property name="format" value="^[a-z][a-zA-Z0-9_]*$"/>
+    </module>
     <module name="MethodTypeParameterName">
       <property name="format" value="^[A-Z]+$"/>
     </module>
@@ -162,14 +131,6 @@
       <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log$"/>
     </module>
     <module name="TypeName"/>
-
-    <!-- Size -->
-    <module name="MethodLength">
-      <property name="max" value="300"/>
-    </module>
-    <module name="ParameterNumber">
-      <property name="max" value="20"/>
-    </module>
 
     <!-- Whitespace -->
     <module name="GenericWhitespace"/>
@@ -196,7 +157,9 @@
       <property name="option" value="eol"/>
     </module>
     <module name="TypecastParenPad"/>
+    <!-- don't check whitespace after comma to avoid issues at end of array initialization -->
     <module name="WhitespaceAfter">
+      <property name="tokens" value="SEMI, TYPECAST, LITERAL_IF, LITERAL_ELSE, LITERAL_WHILE, LITERAL_DO, LITERAL_FOR, DO_WHILE"/>
     </module>
     <module name="WhitespaceAround">
       <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,TYPE_EXTENSION_AND"/>
@@ -208,6 +171,16 @@
 
     <!-- Regexp -->
     <module name="Regexp">
+      <property name="format" value="^ \*\/(\n|\r\n){2,4}package [^\n]*"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="No blank line is allowed between license and package statement"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="(\n|\r\n){3}"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="Only a single blank line is allowed, but found two blank lines"/>
+    </module>
+    <module name="Regexp">
       <property name="format" value="^[ ]*\);[ ]*$"/>
       <property name="message" value="Closing parenthesis should be on the same line as the last argument"/>
       <property name="illegalPattern" value="true"/>
@@ -217,12 +190,6 @@
       <property name="message" value="Closing parenthesis should be on the same line as the last parameter"/>
       <property name="illegalPattern" value="true"/>
     </module>
-    <!-- This would cause major problems in some projects -->
-    <!--module name="Regexp">
-      <property name="format" value="@PropertyDefinition(?!(.*validate = |.*get = \&quot;optional&quot;))[\S ]*(\n|\r\n)(?![\S ]* (byte|char|short|int|long|float|double|boolean) [\S ]*$)"/>
-      <property name="message" value="Properties should either be declared 'validate = &quot;notNull&quot;' or 'get = &quot;optional&quot;'"/>
-      <property name="illegalPattern" value="true"/>
-    </module-->
 
     <!-- Filters -->
     <module name="SuppressWithNearbyCommentFilter">
@@ -242,24 +209,6 @@
   <!-- Header inlined due to m2e -->
   <module name="RegexpHeader">
     <property name="header" value="^/\*\n^ \* Copyright \(C\) (2009|20[12][0-9]) - present by OpenGamma Inc\. and the OpenGamma group of companies\n^ \*\n^ \* Please see distribution for license\.\n^ \*\/"/>
-    <property name="fileExtensions" value="java"/>
-  </module>
-  <module name="RegexpSingleline">
-    <!-- Disallow the @author tag in Javadoc. -->
-    <!-- (Not currently implemented explicitly in Checkstyle: https://github.com/checkstyle/checkstyle/issues/2506) -->
-    <property name="format" value="^\s*\*\s*@author"/>
-    <property name="message" value="Javadoc has illegal ''author'' tag."/>
-    <property name="fileExtensions" value="java"/>
-  </module>
-  <!-- Tried this, but blast radius too high -->
-  <!--module name="RegexpSingleline">
-    <property name="format" value="Collectors\.toList"/>
-    <property name="message" value="Use toImmutableList() instead of toList()"/>
-    <property name="fileExtensions" value="java"/>
-  </module-->
-  <module name="RegexpSingleline">
-    <property name="format" value="ListUtils.union"/>
-    <property name="message" value="Prefer Guavate.concatToList over ListUtils.union"/>
     <property name="fileExtensions" value="java"/>
   </module>
   <module name="RegexpSingleline">
@@ -295,7 +244,6 @@
   <module name="BeforeExecutionExclusionFileFilter">
     <property name="fileNamePattern" value="module\-info\.java$"/>
   </module>
-  <module name="FileLength"/>
   <module name="FileTabCharacter">
     <property name="eachLine" value="true"/>
   </module>
