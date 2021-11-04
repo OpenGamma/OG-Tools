@@ -16,174 +16,151 @@
    limitations under the License.
 -->
 <module name="Checker">
-  <property name="severity" value="warning"/>
+  <property name="severity" value="error"/>
   <property name="localeLanguage" value="en"/>
   <property name="localeCountry" value="GB"/>
   <module name="TreeWalker">
     <property name="tabWidth" value="2"/>
 
-    <!-- Allow abbreviations in local variables, but not in methods -->
-    <module name="AbbreviationAsWordInName">
-      <property name="allowedAbbreviationLength" value="1"/>
-      <property name="ignoreFinal" value="false"/>
-      <property name="ignoreStatic" value="true"/>
-      <property name="ignoreOverriddenMethods" value="true"/>
-      <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF"/>
+    <!-- Grouped as per checkstyle home page -->
+    <!-- Annotations -->
+    <module name="AnnotationLocation">
+      <property name="allowSamelineMultipleAnnotations" value="false"/>
+      <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
+      <property name="allowSamelineParameterizedAnnotation" value="false"/>
     </module>
-    <module name="AbbreviationAsWordInName">
-      <property name="allowedAbbreviationLength" value="3"/>
-      <property name="ignoreFinal" value="false"/>
-      <property name="ignoreStatic" value="true"/>
-      <property name="ignoreOverriddenMethods" value="true"/>
-      <property name="tokens" value="PARAMETER_DEF, VARIABLE_DEF"/>
-    </module>
-    <module name="ArrayTypeStyle">
-      <property name="severity" value="error"/>
-      <message key="array.type.style" value="Array must be defined as Foo[] array, not Foo array[]"/>
-    </module>
-    <module name="AvoidStarImport">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="ConstantName">
-      <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log([A-Z][a-zA-Z0-9]*)?$|^[a-z][a-zA-Z0-9]*Log$"/>
-    </module>
-    <module name="CovariantEquals"/>
-    <module name="DefaultComesLast">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="MissingDeprecated" />
+    <module name="MissingOverride"/>
+    <module name="PackageAnnotation"/>
+
+    <!-- Block checks -->
     <module name="EmptyBlock">
       <property name="option" value="text"/>
       <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,STATIC_INIT"/>
     </module>
-    <!--  Module EmptyLineSeparator does not work well with comments https://github.com/checkstyle/checkstyle/issues/4763 -->
+    <module name="LeftCurly"/>
+    <module name="NeedBraces"/>
+    <module name="RightCurly"/>
+
+    <!-- Class design -->
+    <module name="MutableException">
+      <message key="mutable.exception" value="Fields in an exception class must be final"/>
+    </module>
+    <module name="OneTopLevelClass"/>
+    <module name="VisibilityModifier"/>
+
+    <!-- Coding -->
+    <module name="AvoidDoubleBraceInitialization"/>
+    <module name="CovariantEquals"/>
+    <module name="DefaultComesLast"/>
     <module name="EqualsHashCode"/>
-    <module name="ExplicitInitialization">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="FallThrough">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="GenericWhitespace"/>
-    <module name="IllegalImport"/><!-- other imports disallowed by regex below -->
+    <module name="ExplicitInitialization"/>
+    <module name="FallThrough"/>
     <module name="IllegalInstantiation">
-      <property name="classes" value="Boolean"/>
-      <property name="severity" value="error"/>
+      <property name="classes" value="java.lang.Boolean,java.lang.Integer"/>
+    </module>
+    <module name="IllegalTokenText">
+      <property name="tokens" value="NUM_INT,NUM_LONG"/>
+      <property name="format" value="^0[^lx]"/>
+      <property name="ignoreCase" value="true"/>
+    </module>
+    <module name="InnerAssignment"/>
+    <module name="MissingSwitchDefault"/>
+    <module name="NoFinalizer"/>
+    <module name="OneStatementPerLine"/>
+    <module name="ParameterAssignment"/>
+    <module name="StringLiteralEquality"/>
+
+    <!-- Imports -->
+    <module name="AvoidStarImport"/>
+    <module name="IllegalImport"/><!-- other imports disallowed by regex below -->
+    <module name="ImportOrder">
+      <property name="groups" value="/^java\./,javax,org,com"/>
+      <property name="ordered" value="true"/>
+      <property name="separated" value="true"/>
+      <property name="separatedStaticGroups" value="true"/>
+      <property name="option" value="top"/>
+      <property name="sortStaticImportsAlphabetically" value="true"/>
+    </module>
+
+    <!-- Misc -->
+    <module name="ArrayTypeStyle">
+      <message key="array.type.style" value="Array must be defined as Foo[] array, not Foo array[]"/>
     </module>
     <module name="Indentation">
       <property name="basicOffset" value="2"/>
       <property name="caseIndent" value="2"/>
     </module>
-    <module name="InnerAssignment"/>
-    <module name="InterfaceIsType"/>
+    <module name="UpperEll"/>
+
+    <!-- Modifiers -->
+    <module name="ModifierOrder"/>
     <module name="InterfaceMemberImpliedModifier">
       <property name="violateImpliedStaticNested" value="false"/>
-      <property name="severity" value="error"/>
     </module>
-    <module name="JavadocMethod">
-      <property name="scope" value="public"/>
-      <property name="validateThrows" value="true"/>
+
+    <!-- Naming -->
+    <module name="CatchParameterName">
+      <property name="format" value="^(e|ex|ex2|ignored)$"/>
     </module>
-    <module name="JavadocMethod">
-      <property name="scope" value="protected"/>
+    <module name="ClassTypeParameterName">
+      <property name="format" value="^[A-Z]+$"/>
     </module>
-    <module name="JavadocStyle">
-      <property name="scope" value="public"/>
-      <property name="checkFirstSentence" value="true"/>
-      <property name="checkEmptyJavadoc" value="false"/>
-      <property name="checkHtml" value="false"/>
-      <property name="tokens" value="ANNOTATION_DEF, CLASS_DEF, CTOR_DEF, ENUM_DEF, INTERFACE_DEF, METHOD_DEF"/>
+    <module name="ConstantName">
+      <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log([A-Z][a-zA-Z0-9]*)?$|^[a-z][a-zA-Z0-9]*Log$"/>
     </module>
-    <module name="JavadocTagContinuationIndentation">
-      <property name="offset" value="2"/>
+    <module name="InterfaceTypeParameterName">
+      <property name="format" value="^[A-Z]+$"/>
     </module>
-    <module name="JavadocType">
-      <property name="scope" value="protected"/>
-    </module>
-    <module name="JavadocVariable">
-      <property name="scope" value="protected"/>
-    </module>
-    <module name="LeftCurly">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="LambdaParameterName" />
     <module name="LocalFinalVariableName"/>
     <module name="LocalVariableName"/>
     <module name="MemberName">
       <property name="format" value="^_?[a-z][a-zA-Z0-9$]*$"/>
     </module>
-    <module name="MethodLength">
-      <property name="max" value="300"/>
+    <module name="MethodName">
+      <property name="format" value="^[a-z][a-zA-Z0-9_]*$"/>
     </module>
-    <module name="MethodName"/>
-    <module name="MethodParamPad">
-      <property name="severity" value="error"/>
+    <module name="MethodTypeParameterName">
+      <property name="format" value="^[A-Z]+$"/>
     </module>
-    <module name="MissingDeprecated"/>
-    <module name="MissingJavadocMethod">
-      <property name="scope" value="public"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
+    <module name="PackageName">
+      <property name="format" value="^com\.opengamma(\.[a-z][a-z0-9]*)*$"/>
     </module>
-    <module name="MissingOverride"/>
-    <module name="ModifierOrder">
-      <property name="severity" value="error"/>
+    <module name="ParameterName"/>
+    <module name="StaticVariableName">
+      <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log$"/>
     </module>
-    <module name="MutableException">
-      <property name="severity" value="error"/>
-      <message key="mutable.exception" value="Fields in an exception class must be final"/>
-    </module>
-    <module name="NeedBraces">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="NoFinalizer"/>
-    <module name="NonEmptyAtclauseDescription"/>
-    <module name="NoWhitespaceAfter">
-      <property name="severity" value="error"/>
-    </module>
+    <module name="TypeName"/>
+
+    <!-- Whitespace -->
+    <module name="GenericWhitespace"/>
+    <module name="InterfaceIsType"/>
+    <module name="MethodParamPad"/>
+    <module name="NoWhitespaceAfter"/>
     <module name="NoWhitespaceBefore">
       <property name="allowLineBreaks" value="true"/>
-      <property name="tokens" value="SEMI,DOT,POST_DEC,POST_INC"/>
-      <property name="severity" value="error"/>
+      <property name="tokens" value="ELLIPSIS,SEMI,DOT,POST_DEC,POST_INC"/>
     </module>
-    <module name="OneTopLevelClass"/>
     <module name="OperatorWrap">
       <property name="option" value="eol"/>
       <property name="tokens" value="ASSIGN, DIV_ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, STAR_ASSIGN, MOD_ASSIGN, SR_ASSIGN, BSR_ASSIGN, SL_ASSIGN, BXOR_ASSIGN, BOR_ASSIGN, BAND_ASSIGN"/>
     </module>
-    <module name="PackageAnnotation"/>
-    <module name="PackageName"/>
-    <module name="ParameterName"/>
-    <module name="ParameterNumber">
-      <property name="max" value="20"/>
-    </module>
     <module name="ParenPad">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="RightCurly">
-      <property name="severity" value="error"/>
+      <property name="option" value="nospace"/>
     </module>
     <module name="SeparatorWrap">
       <property name="tokens" value="DOT"/>
       <property name="option" value="nl"/>
-      <property name="severity" value="error"/>
     </module>
     <module name="SeparatorWrap">
       <property name="tokens" value="COMMA"/>
       <property name="option" value="eol"/>
-      <property name="severity" value="error"/>
     </module>
-    <module name="StaticVariableName">
-      <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log$"/>
-    </module>
-    <module name="StringLiteralEquality"/>
-    <module name="TypeName"/>
-    <module name="TypecastParenPad">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="UpperEll">
-      <property name="severity" value="error"/>
-    </module>
-    <module name="VisibilityModifier"/>
+    <module name="TypecastParenPad"/>
+    <!-- don't check whitespace after comma to avoid issues at end of array initialization -->
     <module name="WhitespaceAfter">
-      <property name="severity" value="error"/>
+      <property name="tokens" value="SEMI, TYPECAST, LITERAL_IF, LITERAL_ELSE, LITERAL_WHILE, LITERAL_DO, LITERAL_FOR, DO_WHILE"/>
     </module>
     <module name="WhitespaceAround">
       <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,TYPE_EXTENSION_AND"/>
@@ -191,8 +168,31 @@
       <property name="allowEmptyMethods" value="true"/>
       <property name="allowEmptyLambdas" value="true"/>
       <property name="allowEmptyTypes" value="true"/>
-      <property name="severity" value="error"/>
     </module>
+
+    <!-- Regexp -->
+    <module name="Regexp">
+      <property name="format" value="^ \*\/(\n|\r\n){2,4}package [^\n]*"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="No blank line is allowed between license and package statement"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="(\n|\r\n){3}"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="Only a single blank line is allowed, but found two blank lines"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="^[ ]*\);[ ]*$"/>
+      <property name="message" value="Closing parenthesis should be on the same line as the last argument"/>
+      <property name="illegalPattern" value="true"/>
+    </module>
+    <module name="Regexp">
+      <property name="format" value="^[ ]*\)[ ]*\{[ ]*$"/>
+      <property name="message" value="Closing parenthesis should be on the same line as the last parameter"/>
+      <property name="illegalPattern" value="true"/>
+    </module>
+
+    <!-- Filters -->
     <module name="SuppressWithNearbyCommentFilter">
       <property name="commentFormat" value="CSIGNORE"/>
       <property name="checkFormat" value=".*"/>
@@ -204,31 +204,21 @@
   <module name="RegexpHeader">
     <property name="header" value="^/\*\n^ \* Copyright \(C\) (2009|20[12][0-9]) - present by OpenGamma Inc\. and the OpenGamma group of companies\n^ \*\n^ \* Please see distribution for license\.\n^ \*\/"/>
     <property name="fileExtensions" value="java"/>
-    <property name="severity" value="error"/>
-  </module>
-  <module name="RegexpSingleline">
-    <property name="format" value="^(?! *[\*/]+).*\s+$"/>
-    <property name="message" value="No whitespace at end of line"/>
-    <property name="fileExtensions" value="java"/>
-    <property name="severity" value="error"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="import org.testng.collections."/>
     <property name="message" value="Invalid import, maybe you want com.google.common.collect"/>
     <property name="fileExtensions" value="java"/>
-    <property name="severity" value="error"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="import org.testng.internal."/>
     <property name="message" value="Invalid import, internal testng classes not allowed"/>
     <property name="fileExtensions" value="java"/>
-    <property name="severity" value="error"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="import com.beust.jcommander.internal."/>
     <property name="message" value="Invalid import, maybe you want com.google.common.collect"/>
     <property name="fileExtensions" value="java"/>
-    <property name="severity" value="error"/>
   </module>
   <module name="RegexpSingleline">
     <property name="format" value="UnsupportedEncodingException "/>
@@ -244,18 +234,22 @@
     <property name="onCommentFormat" value="CSON\: ([\w\|]+)"/>
     <property name="checkFormat" value="$1"/>
   </module>
+  <!-- Have to use plan text filter to catch LineLength -->
+  <module name="SuppressWithPlainTextCommentFilter">
+    <!-- Joda-Beans does not conform to these rules so just ignore generated code -->
+    <property name="offCommentFormat" value=" AUTOGENERATED START "/>
+    <property name="onCommentFormat" value=" AUTOGENERATED END "/>
+  </module>
 
   <module name="BeforeExecutionExclusionFileFilter">
     <property name="fileNamePattern" value="module\-info\.java$"/>
   </module>
-  <module name="FileLength"/>
   <module name="FileTabCharacter">
     <property name="eachLine" value="true"/>
-    <property name="severity" value="error"/>
   </module>
   <module name="LineLength">
     <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
-    <property name="max" value="130"/>
+    <property name="max" value="200"/>
     <property name="tabWidth" value="2"/>
   </module>
   <module name="NewlineAtEndOfFile"/>
