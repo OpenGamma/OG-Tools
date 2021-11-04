@@ -8,11 +8,11 @@
   <parent>
     <groupId>com.opengamma</groupId>
     <artifactId>corporate-parent</artifactId>
-    <version>2.6.5</version>
+    <version>2.7.6</version>
     <relativePath></relativePath>
   </parent>  
   <artifactId>build-config</artifactId>
-  <version>2.6.4-SNAPSHOT</version>
+  <version>2.7.0</version>
   <packaging>jar</packaging>
   <name>Build-Config</name>
   <description>OpenGamma build configuration (checkstyle)</description>
