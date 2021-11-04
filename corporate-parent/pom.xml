@@ -381,6 +381,11 @@
             </dependency>
           </dependencies>
         </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>${sonar-maven-plugin.version}</version>
+        </plugin>
 
         <!-- Additional controlled maven plugins -->
         <plugin>
@@ -725,24 +730,24 @@
     <!-- Plugin version numbers -->
     <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
     <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
-    <maven-checkstyle-plugin.version>3.1.1</maven-checkstyle-plugin.version>
+    <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
-    <!-- maven-dependency-plugin v3.1.2 is broken -->
+    <!-- maven-dependency-plugin v3.1.2 and v3.2.0 are broken https://issues.apache.org/jira/browse/MDEP-757 -->
     <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <maven-enforcer-plugin.version>3.0.0</maven-enforcer-plugin.version>
     <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <maven-help-plugin.version>3.2.0</maven-help-plugin.version>
     <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
-    <maven-invoker-plugin.version>3.2.1</maven-invoker-plugin.version>
+    <maven-invoker-plugin.version>3.2.2</maven-invoker-plugin.version>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
-    <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
-    <maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
-    <maven-plugin-plugin.version>3.6.0</maven-plugin-plugin.version>
-    <maven-pmd-plugin.version>3.13.0</maven-pmd-plugin.version>
-    <maven-project-info-reports-plugin.version>3.1.1</maven-project-info-reports-plugin.version>
+    <maven-javadoc-plugin.version>3.3.1</maven-javadoc-plugin.version>
+    <maven-jxr-plugin.version>3.1.1</maven-jxr-plugin.version>
+    <maven-plugin-plugin.version>3.6.1</maven-plugin-plugin.version>
+    <maven-pmd-plugin.version>3.15.0</maven-pmd-plugin.version>
+    <maven-project-info-reports-plugin.version>3.1.2</maven-project-info-reports-plugin.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     <maven-remote-resources-plugin.version>1.7.0</maven-remote-resources-plugin.version>
     <maven-repository-plugin.version>2.4</maven-repository-plugin.version>
@@ -753,26 +758,27 @@
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     <maven-surefire-report-plugin.version>3.0.0-M5</maven-surefire-report-plugin.version>
     <maven-verifier-plugin.version>1.1</maven-verifier-plugin.version>
-    <maven-war-plugin.version>3.3.1</maven-war-plugin.version>
+    <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
     <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
     <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
     <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
     <extra-enforcer-rules.version>1.4</extra-enforcer-rules.version>
-    <forbiddenapis-maven-plugin.version>3.1</forbiddenapis-maven-plugin.version>
-    <github-release-plugin.version>1.3.0</github-release-plugin.version><!-- 1.2.1-OG -->
-    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
-    <jib-maven-plugin.version>1.7.0</jib-maven-plugin.version>
-    <joda-beans-maven-plugin.version>1.3.0</joda-beans-maven-plugin.version>
-    <japicmp-maven-plugin.version>0.14.3</japicmp-maven-plugin.version>
-    <kotlin-maven-plugin.version>1.4.10</kotlin-maven-plugin.version>
+    <forbiddenapis-maven-plugin.version>3.2</forbiddenapis-maven-plugin.version>
+    <github-release-plugin.version>1.4.0</github-release-plugin.version>
+    <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+    <jib-maven-plugin.version>3.1.4</jib-maven-plugin.version>
+    <joda-beans-maven-plugin.version>1.3.2</joda-beans-maven-plugin.version>
+    <japicmp-maven-plugin.version>0.15.4</japicmp-maven-plugin.version>
+    <kotlin-maven-plugin.version>1.5.31</kotlin-maven-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-    <s3-upload-plugin.version>1.4</s3-upload-plugin.version>
+    <s3-upload-plugin.version>1.5</s3-upload-plugin.version>
+    <sonar-maven-plugin.version>3.9.0.2155</sonar-maven-plugin.version>
     <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
     <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
 
     <!-- Versions -->
     <jakarta.xml.bind-api.version>2.3.2</jakarta.xml.bind-api.version>
-    <joda-beans.version>2.8.0</joda-beans.version>
+    <joda-beans.version>2.8.1</joda-beans.version>
     <joda-convert.version>2.2.1</joda-convert.version>
 
     <!-- Properties for maven-compiler-plugin -->
