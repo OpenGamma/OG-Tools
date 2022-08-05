@@ -89,15 +89,8 @@
 
     <!-- Javadoc -->
     <module name="JavadocMethod">
-      <property name="scope" value="protected"/>
-      <!--property name="accessModifiers" value="public, protected"/--><!-- checkstyle 8.42 onwards -->
+      <property name="accessModifiers" value="public, protected"/>
     </module>
-<!--    The below *should* work but is currently broken: https://github.com/checkstyle/checkstyle/issues/6192 -->
-<!--    <module name="JavadocParagraph">-->
-<!--      &lt;!&ndash; This rule ensures a new line before parameters. &ndash;&gt;-->
-<!--      &lt;!&ndash; And this means <p> elements can appear on a line of their own. &ndash;&gt;-->
-<!--      <property name="allowNewlineParagraph" value="true"/>-->
-<!--    </module>-->
     <module name="JavadocTagContinuationIndentation">
       <property name="offset" value="1"/>
     </module>
