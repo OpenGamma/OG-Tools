@@ -154,6 +154,13 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
           <version>${maven-dependency-plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.shared</groupId>
+              <artifactId>maven-dependency-analyzer</artifactId>
+              <version>${maven-dependency-analyzer.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -735,7 +742,8 @@
     <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
     <!-- maven-dependency-plugin v3.1.2 and v3.2.0 are broken https://issues.apache.org/jira/browse/MDEP-757 -->
-    <maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
+    <!-- maven-dependency-plugin v3.3.0 also seems to break for us -->
+    <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <maven-enforcer-plugin.version>3.0.0</maven-enforcer-plugin.version>
     <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
@@ -770,6 +778,9 @@
     <joda-beans-maven-plugin.version>1.3.2</joda-beans-maven-plugin.version>
     <japicmp-maven-plugin.version>0.15.7</japicmp-maven-plugin.version>
     <kotlin-maven-plugin.version>1.5.31</kotlin-maven-plugin.version>
+    <!-- maven-dependecy-plugin is fussy, this version seems to work OK, https://issues.apache.org/jira/browse/MDEP-613 -->
+    <!-- Note that v1.12.0 did not work -->
+    <maven-dependency-analyzer.version>1.11.3</maven-dependency-analyzer.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <s3-upload-plugin.version>1.5</s3-upload-plugin.version>
     <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
