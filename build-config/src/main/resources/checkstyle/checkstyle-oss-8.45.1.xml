@@ -24,20 +24,17 @@
 
     <!-- Grouped as per checkstyle home page -->
     <!-- Annotations -->
-    <module name="AnnotationLocation">
+    <module name="AnnotationLocation"><!-- warn -->
       <property name="allowSamelineMultipleAnnotations" value="false"/>
       <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
       <property name="allowSamelineParameterizedAnnotation" value="false"/>
     </module>
-    <module name="MissingDeprecated" />
-    <module name="MissingOverride"/>
-    <module name="PackageAnnotation"/>
+    <module name="MissingDeprecated" /><!-- warn -->
+    <module name="MissingOverride"/><!-- warn -->
+    <module name="PackageAnnotation"/><!-- warn -->
 
     <!-- Block checks -->
-    <module name="AvoidNestedBlocks">
-      <property name="allowInSwitchCase" value="true"/>
-    </module>
-    <module name="EmptyBlock">
+    <module name="EmptyBlock"><!-- warn -->
       <property name="option" value="text"/>
       <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,STATIC_INIT"/>
     </module>
@@ -46,39 +43,39 @@
     <module name="RightCurly"/>
 
     <!-- Class design -->
-    <module name="HideUtilityClassConstructor"/>
+    <module name="HideUtilityClassConstructor"/><!-- new -->
     <module name="MutableException">
       <message key="mutable.exception" value="Fields in an exception class must be final"/>
     </module>
-    <module name="OneTopLevelClass"/>
-    <module name="VisibilityModifier"/>
+    <module name="OneTopLevelClass"/><!-- warn -->
+    <module name="VisibilityModifier"/><!-- warn -->
 
     <!-- Coding -->
-    <module name="AvoidDoubleBraceInitialization"/>
-    <module name="CovariantEquals"/>
+    <module name="AvoidDoubleBraceInitialization"/><!-- new -->
+    <module name="CovariantEquals"/><!-- warn -->
     <module name="DefaultComesLast"/>
-    <module name="EqualsHashCode"/>
+    <module name="EqualsHashCode"/><!-- warn -->
     <module name="ExplicitInitialization"/>
     <module name="FallThrough"/>
     <module name="IllegalInstantiation">
       <property name="classes" value="java.lang.Boolean,java.lang.Integer"/>
     </module>
-    <module name="IllegalTokenText">
+    <module name="IllegalTokenText"><!-- new -->
       <property name="tokens" value="NUM_INT,NUM_LONG"/>
       <property name="format" value="^0[^lx]"/>
       <property name="ignoreCase" value="true"/>
     </module>
-    <module name="InnerAssignment"/>
-    <module name="MissingSwitchDefault"/>
-    <module name="NoFinalizer"/>
-    <module name="OneStatementPerLine"/>
-    <module name="ParameterAssignment"/>
-    <module name="StringLiteralEquality"/>
+    <module name="InnerAssignment"/><!-- warn -->
+    <module name="MissingSwitchDefault"/><!-- new -->
+    <module name="NoFinalizer"/><!-- warn -->
+    <module name="OneStatementPerLine"/><!-- mew -->
+    <module name="ParameterAssignment"/><!-- new -->
+    <module name="StringLiteralEquality"/><!-- warn -->
 
     <!-- Imports -->
     <module name="AvoidStarImport"/>
     <module name="IllegalImport"/><!-- other imports disallowed by regex below -->
-    <module name="ImportOrder">
+    <module name="ImportOrder"><!-- new -->
       <property name="groups" value="/^java\./,javax,org,com"/>
       <property name="ordered" value="true"/>
       <property name="separated" value="true"/>
@@ -89,10 +86,22 @@
 
     <!-- Javadoc -->
     <module name="JavadocMethod">
-      <property name="accessModifiers" value="public, protected"/>
+      <property name="accessModifiers" value="public"/>
+      <property name="validateThrows" value="true"/>
+    </module>
+    <module name="JavadocMethod">
+      <property name="accessModifiers" value="protected"/>
+      <property name="validateThrows" value="false"/>
+    </module>
+    <module name="JavadocStyle">
+      <property name="scope" value="public"/>
+      <property name="checkFirstSentence" value="true"/>
+      <property name="checkEmptyJavadoc" value="false"/>
+      <property name="checkHtml" value="false"/>
+      <property name="tokens" value="ANNOTATION_DEF, CLASS_DEF, CTOR_DEF, ENUM_DEF, INTERFACE_DEF, METHOD_DEF"/>
     </module>
     <module name="JavadocTagContinuationIndentation">
-      <property name="offset" value="1"/>
+      <property name="offset" value="2"/>
     </module>
     <module name="JavadocType">
       <property name="scope" value="protected"/>
@@ -126,14 +135,18 @@
 
     <!-- Naming -->
     <module name="AbbreviationAsWordInName">
+      <property name="allowedAbbreviationLength" value="1"/>
       <property name="ignoreFinal" value="false"/>
-      <property name="tokens" value="ANNOTATION_FIELD_DEF,PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
+      <property name="ignoreStatic" value="true"/>
+      <property name="ignoreOverriddenMethods" value="true"/>
+      <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF"/>
     </module>
-    <module name="CatchParameterName">
-      <property name="format" value="^(e|ex|ex2|ignored)$"/>
-    </module>
-    <module name="ClassTypeParameterName">
-      <property name="format" value="^[A-Z]+$"/>
+    <module name="AbbreviationAsWordInName">
+      <property name="allowedAbbreviationLength" value="3"/>
+      <property name="ignoreFinal" value="false"/>
+      <property name="ignoreStatic" value="true"/>
+      <property name="ignoreOverriddenMethods" value="true"/>
+      <property name="tokens" value="PARAMETER_DEF, VARIABLE_DEF"/>
     </module>
     <module name="ConstantName">
       <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log([A-Z][a-zA-Z0-9]*)?$|^[a-z][a-zA-Z0-9]*Log$"/>
@@ -151,6 +164,11 @@
     <module name="MethodTypeParameterName">
       <property name="format" value="^[A-Z]+$"/>
     </module>
+    <module name="MissingJavadocMethod">
+      <property name="scope" value="public"/>
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+    </module>
+    <module name="NonEmptyAtclauseDescription"/>
     <module name="PackageName">
       <property name="format" value="^com\.opengamma(\.[a-z][a-z0-9]*)*$"/>
     </module>
@@ -234,12 +252,6 @@
       <property name="message" value="Closing parenthesis should be on the same line as the last parameter"/>
       <property name="illegalPattern" value="true"/>
     </module>
-    <!-- This would cause major problems in some projects -->
-    <!--module name="Regexp">
-      <property name="format" value="@PropertyDefinition(?!(.*validate = |.*get = \&quot;optional&quot;))[\S ]*(\n|\r\n)(?![\S ]* (byte|char|short|int|long|float|double|boolean) [\S ]*$)"/>
-      <property name="message" value="Properties should either be declared 'validate = &quot;notNull&quot;' or 'get = &quot;optional&quot;'"/>
-      <property name="illegalPattern" value="true"/>
-    </module-->
 
     <!-- Filters -->
     <module name="SuppressWithNearbyCommentFilter">
@@ -261,15 +273,14 @@
     <property name="message" value="Javadoc has illegal ''author'' tag."/>
     <property name="fileExtensions" value="java"/>
   </module>
-  <!-- Tried this, but blast radius too high -->
-  <!--module name="RegexpSingleline">
-    <property name="format" value="Collectors\.toList"/>
-    <property name="message" value="Use toImmutableList() instead of toList()"/>
-    <property name="fileExtensions" value="java"/>
-  </module-->
   <module name="RegexpSingleline">
     <property name="format" value="ListUtils.union"/>
     <property name="message" value="Prefer Guavate.concatToList over ListUtils.union"/>
+    <property name="fileExtensions" value="java"/>
+  </module>
+  <module name="RegexpSingleline">
+    <property name="format" value="^(?! *[\*/]+).*\s+$"/>
+    <property name="message" value="No whitespace at end of line"/>
     <property name="fileExtensions" value="java"/>
   </module>
   <module name="RegexpSingleline">
