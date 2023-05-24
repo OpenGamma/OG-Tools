@@ -29,7 +29,12 @@ commands:
           command: |
             mvn --version
             mkdir -p ./.mvn
-            echo '-e -B -DtrimStackTrace=false --settings ../.circleci/maven-settings.xml' > ./.mvn/maven.config
+            echo "-e" >> ./.mvn/maven.config
+            echo "-B" >> ./.mvn/maven.config
+            echo "-DtrimStackTrace=false" >> ./.mvn/maven.config
+            echo "--settings" >> ./.mvn/maven.config
+            echo "../.circleci/maven-settings.xml" >> ./.mvn/maven.config
+            mvn --version
 
 #----------------------------------------------------------------------------
   maven_install_test:
