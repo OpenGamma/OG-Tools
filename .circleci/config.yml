@@ -6,9 +6,9 @@ executors:
 
 #----------------------------------------------------------------------------
 # vital to set the MaxRAM parameter as cgroups settings are not passed to the JVM
-  jdk11:
+  jdk21:
     docker:
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:21.0
     working_directory: ~/repo
     environment:
       JAVA_TOOL_OPTIONS: -XX:MaxRAM=3572m
@@ -115,7 +115,7 @@ jobs:
     parameters:
       working_directory:
         type: string
-    executor: jdk11
+    executor: jdk21
     working_directory: << parameters.working_directory >>
     steps:
       - perform_build:
@@ -128,7 +128,7 @@ jobs:
     parameters:
       working_directory:
         type: string
-    executor: jdk11
+    executor: jdk21
     working_directory: << parameters.working_directory >>
     steps:
       - perform_build:
