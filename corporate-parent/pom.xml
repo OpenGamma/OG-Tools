@@ -720,6 +720,13 @@
               <autoReleaseAfterClose>${nexus.staging.autoRelease}</autoReleaseAfterClose>
               <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
             </configuration>
+            <dependencies>
+              <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>1.4.15</version><!-- avoid issues with reflection -->
+              </dependency>
+            </dependencies>
           </plugin>
         </plugins>
       </build>
