@@ -9,7 +9,7 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>2.8.7</version>
+  <version>2.8.8</version>
   <description>OpenGamma maven corporate parent project</description>
 
   <!-- ==================================================================== -->
@@ -789,7 +789,7 @@
 
     <!-- Versions -->
     <jakarta.xml.bind-api.version>2.3.2</jakarta.xml.bind-api.version>
-    <joda-beans.version>2.10.0</joda-beans.version>
+    <joda-beans.version>2.11.0</joda-beans.version>
     <joda-convert.version>2.2.3</joda-convert.version>
 
     <!-- Properties for maven-compiler-plugin -->
