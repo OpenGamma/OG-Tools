@@ -342,6 +342,11 @@
           <version>${exec-maven-plugin.version}</version>
         </plugin>
         <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>${flatten-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
           <groupId>de.thetaphi</groupId>
           <artifactId>forbiddenapis</artifactId>
           <version>${forbiddenapis-maven-plugin.version}</version>
@@ -392,6 +397,11 @@
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
           <version>${sonar-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>io.github.gitflow-incremental-builder</groupId>
+          <artifactId>gitflow-incremental-builder</artifactId>
+          <version>${gitflow-incremental-builder.version}</version>
         </plugin>
 
         <!-- Additional controlled maven plugins -->
@@ -778,7 +788,9 @@
     <buildnumber-maven-plugin.version>3.0.0</buildnumber-maven-plugin.version>
     <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
     <extra-enforcer-rules.version>1.4</extra-enforcer-rules.version>
+    <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     <forbiddenapis-maven-plugin.version>3.3</forbiddenapis-maven-plugin.version>
+    <gitflow-incremental-builder.version>4.5.4</gitflow-incremental-builder.version>
     <github-release-plugin.version>1.4.0</github-release-plugin.version>
     <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
     <jib-maven-plugin.version>3.3.2</jib-maven-plugin.version>
