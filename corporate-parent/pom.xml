@@ -9,8 +9,8 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>2.9.1</version>
-  <description>OpenGamma maven corporate parent project</description>
+  <version>3.0.0</version>
+  <description>OpenGamma maven corporate parent project, for Java 21</description>
 
   <!-- ==================================================================== -->
   <organization>
@@ -161,6 +161,12 @@
               <version>${maven-dependency-analyzer.version}</version>
             </dependency>
           </dependencies>
+          <!-- fix to work with Java 17+ https://issues.apache.org/jira/browse/MDEP-757 -->
+          <configuration>
+            <ignoredNonTestScopedDependencies>
+              <ignoredNonTestScopedDependency>*</ignoredNonTestScopedDependency>
+            </ignoredNonTestScopedDependencies>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -198,12 +204,16 @@
           <version>${maven-jar-plugin.version}</version>
           <!-- add standard entries to jar manifest -->
           <configuration>
-            <skipIfEmpty>true</skipIfEmpty>
             <archive>
               <manifest>
                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                 <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               </manifest>
+              <manifestEntries>
+                <Implementation-Build>${buildNumber}</Implementation-Build>
+                <Implementation-Date>${maven.build.timestamp}</Implementation-Date>
+                <Implementation-Build-Id>${ci.build}</Implementation-Build-Id>
+              </manifestEntries>
             </archive>
           </configuration>
         </plugin>
@@ -213,7 +223,6 @@
           <version>${maven-javadoc-plugin.version}</version>
           <!-- add standard entries to jar manifest -->
           <configuration>
-            <skipIfEmpty>true</skipIfEmpty>
             <archive>
               <manifest>
                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -283,6 +292,11 @@
                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                 <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               </manifest>
+              <manifestEntries>
+                <Implementation-Build>${buildNumber}</Implementation-Build>
+                <Implementation-Date>${maven.build.timestamp}</Implementation-Date>
+                <Implementation-Build-Id>${ci.build}</Implementation-Build-Id>
+              </manifestEntries>
             </archive>
           </configuration>
         </plugin>
@@ -565,6 +579,40 @@
 
   <!-- ==================================================================== -->
   <profiles>
+    <!-- run faster for local dev work -->
+    <profile>
+      <id>fast</id>
+      <activation>
+        <property>
+          <name>fast</name>
+        </property>
+      </activation>
+      <properties>
+        <checkstyle.skip>true</checkstyle.skip>
+        <enforcer.skip>true</enforcer.skip>
+        <maven.buildNumber.skip>true</maven.buildNumber.skip>
+        <mdep.analyze.skip>true</mdep.analyze.skip>
+        <forbiddenapis.skip>true</forbiddenapis.skip>
+      </properties>
+    </profile>
+    <!-- only changed modules -->
+    <profile>
+      <id>only-changed</id>
+      <activation>
+        <property>
+          <name>only-changed</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>io.github.gitflow-incremental-builder</groupId>
+            <artifactId>gitflow-incremental-builder</artifactId>
+            <extensions>true</extensions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <!-- setup to run tests with code coverage, activated with -Dcoverage -->
     <profile>
       <id>coverage</id>
@@ -753,68 +801,64 @@
   <properties>
     <!-- Plugin version numbers -->
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
-    <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
-    <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
-    <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
-    <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-    <maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
-    <!-- maven-dependency-plugin v3.1.2 and v3.2.0 are broken https://issues.apache.org/jira/browse/MDEP-757 -->
-    <!-- maven-dependency-plugin v3.3.0 also seems to break for us -->
-    <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
-    <maven-enforcer-plugin.version>3.0.0</maven-enforcer-plugin.version>
-    <maven-failsafe-plugin.version>3.0.0-M5</maven-failsafe-plugin.version>
-    <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
-    <maven-help-plugin.version>3.3.0</maven-help-plugin.version>
-    <maven-install-plugin.version>3.0.1</maven-install-plugin.version>
-    <maven-invoker-plugin.version>3.3.0</maven-invoker-plugin.version>
-    <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
-    <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
-    <maven-jxr-plugin.version>3.2.0</maven-jxr-plugin.version>
-    <maven-plugin-plugin.version>3.6.4</maven-plugin-plugin.version>
-    <maven-pmd-plugin.version>3.17.0</maven-pmd-plugin.version>
-    <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
+    <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
+    <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+    <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
+    <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+    <maven-deploy-plugin.version>3.1.3</maven-deploy-plugin.version>
+    <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
+    <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+    <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
+    <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+    <maven-help-plugin.version>3.5.1</maven-help-plugin.version>
+    <maven-install-plugin.version>3.1.3</maven-install-plugin.version>
+    <maven-invoker-plugin.version>3.8.1</maven-invoker-plugin.version>
+    <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+    <maven-javadoc-plugin.version>3.11.1</maven-javadoc-plugin.version>
+    <maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
+    <maven-plugin-plugin.version>3.15.1</maven-plugin-plugin.version>
+    <maven-pmd-plugin.version>3.26.0</maven-pmd-plugin.version>
+    <maven-project-info-reports-plugin.version>3.8.0</maven-project-info-reports-plugin.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-    <maven-remote-resources-plugin.version>3.0.0</maven-remote-resources-plugin.version>
+    <maven-remote-resources-plugin.version>3.2.0</maven-remote-resources-plugin.version>
     <maven-repository-plugin.version>2.4</maven-repository-plugin.version>
-    <maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
-    <maven-shade-plugin.version>3.3.0</maven-shade-plugin.version>
-    <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
-    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-    <maven-surefire-report-plugin.version>3.0.0-M5</maven-surefire-report-plugin.version>
+    <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+    <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
+    <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
+    <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+    <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+    <maven-surefire-report-plugin.version>3.5.2</maven-surefire-report-plugin.version>
     <maven-verifier-plugin.version>1.1</maven-verifier-plugin.version>
-    <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
-    <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
-    <buildnumber-maven-plugin.version>3.0.0</buildnumber-maven-plugin.version>
-    <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
-    <extra-enforcer-rules.version>1.4</extra-enforcer-rules.version>
+    <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+    <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+    <buildnumber-maven-plugin.version>3.2.1</buildnumber-maven-plugin.version>
+    <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
+    <extra-enforcer-rules.version>1.9.0</extra-enforcer-rules.version>
     <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-    <forbiddenapis-maven-plugin.version>3.3</forbiddenapis-maven-plugin.version>
+    <forbiddenapis-maven-plugin.version>3.8</forbiddenapis-maven-plugin.version>
     <gitflow-incremental-builder.version>4.5.4</gitflow-incremental-builder.version>
-    <github-release-plugin.version>1.4.0</github-release-plugin.version>
-    <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
-    <jib-maven-plugin.version>3.3.2</jib-maven-plugin.version>
+    <github-release-plugin.version>1.6.0</github-release-plugin.version>
+    <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+    <jib-maven-plugin.version>3.4.4</jib-maven-plugin.version>
     <joda-beans-maven-plugin.version>1.3.2</joda-beans-maven-plugin.version>
-    <japicmp-maven-plugin.version>0.15.7</japicmp-maven-plugin.version>
+    <japicmp-maven-plugin.version>0.23.0</japicmp-maven-plugin.version>
     <kotlin-maven-plugin.version>1.5.31</kotlin-maven-plugin.version>
-    <!-- maven-dependecy-plugin is fussy, this version seems to work OK, https://issues.apache.org/jira/browse/MDEP-613 -->
-    <!-- Note that v1.12.0 did not work -->
-    <maven-dependency-analyzer.version>1.11.3</maven-dependency-analyzer.version>
+    <maven-dependency-analyzer.version>1.15.1</maven-dependency-analyzer.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <s3-upload-plugin.version>1.5</s3-upload-plugin.version>
-    <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+    <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
     <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
-    <versions-maven-plugin.version>2.11.0</versions-maven-plugin.version>
+    <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
 
     <!-- Versions -->
-    <jakarta.xml.bind-api.version>2.3.2</jakarta.xml.bind-api.version>
+    <jakarta.xml.bind-api.version>2.3.3</jakarta.xml.bind-api.version>
     <joda-beans.version>2.11.1</joda-beans.version>
-    <joda-convert.version>2.2.3</joda-convert.version>
+    <joda-convert.version>3.0.1</joda-convert.version>
 
     <!-- Properties for maven-compiler-plugin -->
-    <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.release>21</maven.compiler.release>
     <maven.compiler.fork>true</maven.compiler.fork>
     <maven.compiler.verbose>false</maven.compiler.verbose>
     <!-- Properties for maven-javadoc-plugin -->
@@ -823,9 +867,9 @@
     <author>false</author>
     <notimestamp>true</notimestamp>
     <!-- Properties for maven-checkstyle-plugin -->
-    <build-config.version>2.8.0</build-config.version>
-    <checkstyle.version>8.45.1</checkstyle.version>
-    <checkstyle.config.suffix>-v${checkstyle.version}</checkstyle.config.suffix>
+    <build-config.version>2.8.1</build-config.version>
+    <checkstyle.version>10.17.0</checkstyle.version>
+    <checkstyle.config.suffix>-v8.45.1</checkstyle.config.suffix>
     <checkstyle.excludes>module-info.java</checkstyle.excludes>
     <checkstyle.config.main>checkstyle/checkstyle-main${checkstyle.config.suffix}.xml</checkstyle.config.main>
     <checkstyle.config.test>checkstyle/checkstyle-test${checkstyle.config.suffix}.xml</checkstyle.config.test>
@@ -855,6 +899,14 @@
     <nexus.staging.autoRelease>true</nexus.staging.autoRelease>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- GIB - https://github.com/gitflow-incremental-builder/gitflow-incremental-builder -->
+    <gib.referenceBranch>main</gib.referenceBranch>
+    <gib.disableIfBranchMatches>main</gib.disableIfBranchMatches>
+    <gib.uncommitted>false</gib.uncommitted>
+    <gib.untracked>false</gib.untracked>
+    <gib.disableSelectedProjectsHandling>true</gib.disableSelectedProjectsHandling>
+    <gib.logImpactedTo>target/changed-modules.txt</gib.logImpactedTo>
   </properties>
 
 </project>
