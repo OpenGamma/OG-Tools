@@ -782,7 +782,7 @@
               <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
                 <artifactId>xstream</artifactId>
-                <version>1.4.15</version><!-- avoid issues with reflection -->
+                <version>1.4.21</version><!-- avoid issues with reflection -->
               </dependency>
             </dependencies>
           </plugin>
