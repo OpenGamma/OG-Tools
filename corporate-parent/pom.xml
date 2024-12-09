@@ -9,7 +9,7 @@
   <artifactId>corporate-parent</artifactId>
   <packaging>pom</packaging>
   <name>Corporate-Parent</name>
-  <version>3.0.0</version>
+  <version>3.0.1</version>
   <description>OpenGamma maven corporate parent project, for Java 21</description>
 
   <!-- ==================================================================== -->
@@ -204,6 +204,7 @@
           <version>${maven-jar-plugin.version}</version>
           <!-- add standard entries to jar manifest -->
           <configuration>
+            <skipIfEmpty>true</skipIfEmpty>
             <archive>
               <manifest>
                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -286,7 +287,6 @@
           <version>${maven-source-plugin.version}</version>
           <!-- add standard entries to jar manifest -->
           <configuration>
-            <skipIfEmpty>true</skipIfEmpty>
             <archive>
               <manifest>
                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
