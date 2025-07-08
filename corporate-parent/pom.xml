@@ -767,33 +767,16 @@
           </plugin>
           <!-- Use nexus plugin to directly release -->
           <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>${nexus-staging-maven-plugin.version}</version>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.8.0</version>
             <extensions>true</extensions>
             <configuration>
-              <serverId>oss-sonatype</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <description>Releasing ${project.groupId}:${project.artifactId}:${project.version}</description>
-              <autoReleaseAfterClose>${nexus.staging.autoRelease}</autoReleaseAfterClose>
-              <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
+              <publishingServerId>central</publishingServerId>
             </configuration>
-            <dependencies>
-              <dependency>
-                <groupId>com.thoughtworks.xstream</groupId>
-                <artifactId>xstream</artifactId>
-                <version>1.4.15</version><!-- avoid issues with reflection -->
-              </dependency>
-            </dependencies>
           </plugin>
         </plugins>
       </build>
-      <distributionManagement>
-        <repository>
-          <id>oss-sonatype</id>
-          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-      </distributionManagement>
     </profile>
   </profiles>
 
