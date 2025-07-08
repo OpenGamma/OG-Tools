@@ -767,33 +767,16 @@
           </plugin>
           <!-- Use nexus plugin to directly release -->
           <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>${nexus-staging-maven-plugin.version}</version>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>${sonatype-maven-plugin.version}</version>
             <extensions>true</extensions>
             <configuration>
-              <serverId>oss-sonatype</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <description>Releasing ${project.groupId}:${project.artifactId}:${project.version}</description>
-              <autoReleaseAfterClose>${nexus.staging.autoRelease}</autoReleaseAfterClose>
-              <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
+              <publishingServerId>central</publishingServerId>
             </configuration>
-            <dependencies>
-              <dependency>
-                <groupId>com.thoughtworks.xstream</groupId>
-                <artifactId>xstream</artifactId>
-                <version>1.4.15</version><!-- avoid issues with reflection -->
-              </dependency>
-            </dependencies>
           </plugin>
         </plugins>
       </build>
-      <distributionManagement>
-        <repository>
-          <id>oss-sonatype</id>
-          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-      </distributionManagement>
     </profile>
   </profiles>
 
@@ -844,9 +827,9 @@
     <japicmp-maven-plugin.version>0.23.0</japicmp-maven-plugin.version>
     <kotlin-maven-plugin.version>1.5.31</kotlin-maven-plugin.version>
     <maven-dependency-analyzer.version>1.15.1</maven-dependency-analyzer.version>
-    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <s3-upload-plugin.version>1.5</s3-upload-plugin.version>
     <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
+    <sonatype-maven-plugin.version>0.8.0</sonatype-maven-plugin.version>
     <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
     <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
 
