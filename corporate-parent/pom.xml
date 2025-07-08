@@ -769,7 +769,7 @@
           <plugin>
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.8.0</version>
+            <version>${sonatype-maven-plugin.version}</version>
             <extensions>true</extensions>
             <configuration>
               <publishingServerId>central</publishingServerId>
@@ -827,9 +827,9 @@
     <japicmp-maven-plugin.version>0.23.0</japicmp-maven-plugin.version>
     <kotlin-maven-plugin.version>1.5.31</kotlin-maven-plugin.version>
     <maven-dependency-analyzer.version>1.15.1</maven-dependency-analyzer.version>
-    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <s3-upload-plugin.version>1.5</s3-upload-plugin.version>
     <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
+    <sonatype-maven-plugin.version>0.8.0</sonatype-maven-plugin.version>
     <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
     <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
 
