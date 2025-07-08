@@ -33,7 +33,6 @@ commands:
             echo "-B" >> ./.mvn/maven.config
             echo "-DtrimStackTrace=false" >> ./.mvn/maven.config
             echo "--settings" >> ./.mvn/maven.config
-            echo "../.circleci/maven-settings.xml" >> ./.mvn/maven.config
             mvn --version
 
 #----------------------------------------------------------------------------
