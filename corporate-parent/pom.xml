@@ -719,33 +719,17 @@
           </plugin>
           <!-- Use nexus plugin to directly release -->
           <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>${nexus-staging-maven-plugin.version}</version>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>${sonatype-maven-plugin.version}</version>
             <extensions>true</extensions>
             <configuration>
-              <serverId>oss-sonatype</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <description>Releasing ${project.groupId}:${project.artifactId}:${project.version}</description>
-              <autoReleaseAfterClose>${nexus.staging.autoRelease}</autoReleaseAfterClose>
-              <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>true</autoPublish>
             </configuration>
-            <dependencies>
-              <dependency>
-                <groupId>com.thoughtworks.xstream</groupId>
-                <artifactId>xstream</artifactId>
-                <version>1.4.15</version><!-- avoid issues with reflection -->
-              </dependency>
-            </dependencies>
           </plugin>
         </plugins>
       </build>
-      <distributionManagement>
-        <repository>
-          <id>oss-sonatype</id>
-          <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-      </distributionManagement>
     </profile>
   </profiles>
 
@@ -800,9 +784,9 @@
     <!-- maven-dependecy-plugin is fussy, this version seems to work OK, https://issues.apache.org/jira/browse/MDEP-613 -->
     <!-- Note that v1.12.0 did not work -->
     <maven-dependency-analyzer.version>1.11.3</maven-dependency-analyzer.version>
-    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <s3-upload-plugin.version>1.5</s3-upload-plugin.version>
     <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+    <sonatype-maven-plugin.version>0.8.0</sonatype-maven-plugin.version>
     <spotbugs-maven-plugin.version>3.1.12.2</spotbugs-maven-plugin.version>
     <versions-maven-plugin.version>2.11.0</versions-maven-plugin.version>
 
